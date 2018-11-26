@@ -13,7 +13,6 @@ namespace MyCMDBApp
     {
         private string InitialPath { get; set; } 
         //private Stream Db_Stream { get; set; }
-        private static int Contacts_Count;
         List<Contact> List_All_Contacts = new List<Contact>();
         List<Databases> List_All_Databases = new List<Databases>();
 
@@ -74,6 +73,7 @@ namespace MyCMDBApp
 
             //Enable finish button after adding contacts
             Btn_Finish.Enabled = true;
+            Btn_Add_Contacts.Enabled = false;
         }
 
         private void Btn_Create_Alert_Click(object sender, EventArgs e)
@@ -85,52 +85,59 @@ namespace MyCMDBApp
 
         }
 
-        private void Btn_Finish_Click(object sender, EventArgs e)
+        private void Btn_Add_Click(object sender, EventArgs e)
         {
-            //reset contact count
-            Contacts_Count = 0;
+            //call contact constructor to add the appropriate text boxes
+            Contact contactObj = new Contact(Txt_Database_Name.Text, Txt_Name.Text, Txt_Email.Text, Txt_Mobile.Text, Txt_Alt_Mobile.Text, Txt_Address.Text, Txt_Notes.Text, Rtb_Show_Location.Text);
+            
+            //open up the xml for writing
+            DB_Handler _Handler = new DB_Handler();
+            _Handler.SaveContact(contactObj);
+
+            //add to List to keep count
+            List_All_Contacts.Add(contactObj);
+
+            //Clear after adding
+            foreach (Control ctrl in GrBox_Contact_Form.Controls)
+            {
+                if(ctrl is TextBox)
+                {
+                    (ctrl as TextBox).Text = "";
+                    
+                }
+            }
+
+            if(List_All_Contacts.Count > 0)
+            {
+                Btn_View_Contacts.Enabled = true;
+                Btn_Finish.Enabled = true;
+            }
+        }
+
+        private void Btn_View_Contacts_Click(object sender, EventArgs e)
+        {
+            //Display a message box, total number of contacts added
+            MessageBox.Show($"{List_All_Contacts.Count} Contact(s) have been added Succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
+
+            //Disabled by default, enabled after one contact is added
+            //pass in the contact list, database name and path as parameter
+            ContactsViewForm viewContact = new ContactsViewForm(List_All_Contacts);
+            viewContact.ShowDialog();
+        }
+
+        private void Btn_Finish_Click_1(object sender, EventArgs e)
+        {
+            //clear list
+            List_All_Contacts.Clear();
+
             //Disable group box controls
             GrBox_Contact_Form.Enabled = false;
             Btn_View_Contacts.Enabled = true;
         }
 
-        private void Btn_Add_Click(object sender, EventArgs e)
-        {
-            //call contact constructor to add the appropriate text boxes
-            Contact contactObj = new Contact(Txt_Database_Name.Text, Txt_Name.Text, Txt_Email.Text, Txt_Mobile.Text, Txt_Alt_Mobile.Text, Txt_Address.Text, Txt_Notes.Text, Rtb_Show_Location.Text);
-                
-            DB_Handler _Handler = new DB_Handler();
-            //opens up the xml for writing
-            _Handler.SaveContact(contactObj);
-
-            //add to List
-            List_All_Contacts.Add(contactObj);
-
-            foreach (Control ctrl in GrBox_Contact_Form.Controls)
-            {
-                if (ctrl is TextBox )
-                {
-                    //update count
-                    Contacts_Count++;
-                }
-            }
-            
-            //Display a message box, contact added
-            MessageBox.Show($"{Contacts_Count} Contact(s) have been added Succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
-
-            //Clear after adding
-            foreach (Control ctrl in GrBox_Contact_Form.Controls)
-            {
-                
-            }
-            if(Contacts_Count > 0)
-            {
-                Btn_View_Contacts.Enabled = true;
-            }
-        }
-
-        //Validation For name
-        private bool Txt_First_Name_Validated()
+        //FIELDS VALIDATION
+        //Name
+        private bool Txt_Name_Validated()
         {
             bool valid = true;
 
@@ -138,13 +145,13 @@ namespace MyCMDBApp
             {
                 valid = false;
             }
-
+            
             return valid;
         }
 
-        private void Txt_First_Name_Validating(object sender, CancelEventArgs e)
+        private void Txt_Name_Validating(object sender, CancelEventArgs e)
         {
-            if (!Txt_First_Name_Validated())
+            if (!Txt_Name_Validated())
             {
                 errorProvider.SetError(Txt_Name, $"You must Enter a Name");
                 e.Cancel = true;
@@ -154,17 +161,36 @@ namespace MyCMDBApp
                 errorProvider.SetError(Txt_Name, "");
             }
         }
-
-        private void Btn_View_Contacts_Click(object sender, EventArgs e)
-        {
-            //Disabled by default, enabled after one contact is added
-            ContactsViewForm viewContact = new ContactsViewForm(List_All_Contacts);
-            viewContact.ShowDialog();
-        }
     }
 }
 
 /*
+        //add to List to keep count
+        List_All_Contacts.Add(contactObj);
+
+        //Display a message box, contact added
+        MessageBox.Show($"{List_All_Contacts.Count} Contact(s) have been added Succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
+
+ foreach (Control c in GrBox_Contact_Form.Controls)
+            {
+                if (c is TextBox)
+                {
+                    TextBox textBox = c as TextBox;
+                    if (textBox.Text == string.Empty)
+                    {
+                        MessageBox.Show($"{List_All_Contacts.Count} Contact(s) have been added Succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
+                    }
+                    else
+                    {
+                        //add to List to keep count
+                        List_All_Contacts.Add(contactObj);
+
+                        //Display a message box, contact added
+                        MessageBox.Show($"{List_All_Contacts.Count} Contact(s) have been added Succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
+                    }
+                }
+            }
+
             SaveFileDialog saveFile = new SaveFileDialog();
             saveFile.InitialDirectory = InitialPath;
             saveFile.Filter = "XML File | *.xml";

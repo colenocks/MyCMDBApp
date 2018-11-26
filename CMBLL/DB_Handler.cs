@@ -9,7 +9,7 @@ namespace CMBLL
 {
     public class DB_Handler
     {
-        public void SaveDatabase(CMEntities.Databases database)
+        public void SaveDatabase(Databases database)
         {
             //write to xml
             XmlWriterSettings settings = new XmlWriterSettings
@@ -27,7 +27,7 @@ namespace CMBLL
             xmlwriter.Close();
         }
         
-        public void SaveContact(CMEntities.Contact contact)
+        public void SaveContact(Contact contact)
         {
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(contact.Full_Path.ToString());
@@ -62,40 +62,32 @@ namespace CMBLL
 
         }
 
-        //Takes in two parameters: List of Contact class type(CMENtities) and List of ContactInfo Class type
-        public void CloneContact(List<Contact> contactList, List<ContactInfo> contactViewList)
-        {
-            ContactInfo contactInfoObj =new ContactInfo();
+        ////Takes in three parameters
+        //public List<ContactInfo> CloneContact(List<Contact> contactList , List<ContactInfo> contactInfoList)
+        //{
+        //    ContactInfo contactInfoObj = new ContactInfo();
+        //    XmlDocument xmlDocument = new XmlDocument();
+        //    //Note: all contacts in contactList have common database name and path; contactList[0].Full_Path == contactList[1].Full_Path
+        //    xmlDocument.Load(contactList[0].Full_Path.ToString());
 
-            int counter = contactList.Count;
-            XmlDocument xmlDocument = new XmlDocument();
+        //    for(int numberOfContacts = 0; numberOfContacts < contactList.Count; numberOfContacts++)
+        //    {
+        //        foreach (XmlNode node in xmlDocument.SelectNodes($"{contactList[0].Contact_Database}/contact"))
+        //        {
+        //            //Set ContactInfo Properties via contactInfoObj
+        //            contactInfoObj.Name_View = node.SelectSingleNode("name").InnerText;
+        //            contactInfoObj.Email_View = node.SelectSingleNode("email").InnerText;
+        //            contactInfoObj.Mobile_View = node.SelectSingleNode("mobile").InnerText;
+        //            contactInfoObj.Alternative_Mobile_View = node.SelectSingleNode("alternative").InnerText;
+        //            contactInfoObj.Address_View = node.SelectSingleNode("address").InnerText;
+        //            contactInfoObj.Note_View = node.SelectSingleNode("information").InnerText;
+        //            //Add objects to list(GridViewList)
+        //            contactInfoList.Add(contactInfoObj);
+        //        } 
+        //    }
+        //    xmlDocument.Save(contactList[0].Full_Path.ToString());
+        //    return contactInfoList;
+        //}
 
-            //contactList[0]/[1]/[..] all have common database name and path
-            xmlDocument.Load(contactList[0].Full_Path.ToString());
-            for (int i = 0; i < counter; i++)
-            {
-                foreach (XmlNode node in xmlDocument.SelectNodes($"{contactList[i].Contact_Database}/contact"))
-                {
-                    //Set ContactInfo Properties via contactInfoObj
-                    contactInfoObj.Name_View = node.SelectSingleNode("name").InnerText;
-                    contactInfoObj.Email_View = node.SelectSingleNode("email").InnerText;
-                    contactInfoObj.Mobile_View = node.SelectSingleNode("mobile").InnerText;
-                    contactInfoObj.Alternative_Mobile_View = node.SelectSingleNode("alternative").InnerText;
-                    contactInfoObj.Address_View = node.SelectSingleNode("address").InnerText;
-                    contactInfoObj.Note_View = node.SelectSingleNode("information").InnerText;
-                }
-                //Add object to list(GridViewList)
-                contactViewList.Add(contactInfoObj);
-            }
-            
-        }
     }
 }
-        //string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            //if(!Directory.Exists(path + "\\TestCMDBApp"))
-            //    //create the folder
-            //Directory.CreateDirectory(path + "\\TestCMDBApp");
-            //if (!File.Exists(path + "\\TestCMDBApp\\firstDatabase.xml"))
-            //    //Create the file
-            //File.Create(path + "\\TestCMDBApp- cole\\firstDatabase.xml");
-            
