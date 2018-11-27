@@ -14,13 +14,13 @@ namespace MyCMDBApp
             InitializeComponent();
         }
 
-        public ContactsViewForm(List<Contact> contactList)
-        { 
+        public ContactsViewForm(string path, string dbName)
+        {
             XmlDocument xmlDocument = new XmlDocument();
             //Note: all contacts in contactList have common database name and path; contactList[0].Full_Path == contactList[1].Full_Path
-            xmlDocument.Load(contactList[0].Full_Path.ToString());
+            xmlDocument.Load(path.ToString());
             int n = 0;
-            foreach (XmlNode node in xmlDocument.SelectNodes($"{contactList[0].Contact_Database}/contact"))
+            foreach (XmlNode node in xmlDocument.SelectNodes($"{dbName}/contact"))
             {
                 n = dataGridView1.Rows.Add();//gets the number of rows already in the table
 
@@ -31,14 +31,14 @@ namespace MyCMDBApp
                 dataGridView1.Rows[n].Cells[4].Value = node.SelectSingleNode("information").InnerText;
             }
             
-            xmlDocument.Save(contactList[0].Full_Path.ToString());
+            xmlDocument.Save(path.ToString());
         }
 
         private void Btn_Home_Click(object sender, EventArgs e)
         {
-            this.Close();
             StartupForm parentForm = new StartupForm();
             parentForm.ShowDialog();
+            Close();
         }
     }
 }

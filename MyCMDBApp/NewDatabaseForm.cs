@@ -12,7 +12,7 @@ namespace MyCMDBApp
     public partial class NewDatabaseForm : Form
     {
         //private string InitialPath { get; set; }
-        //private Stream Db_Stream { get; set; }
+        public List<Contact> List_All_Contacts = new List<Contact>();
 
         public NewDatabaseForm()
         {
@@ -74,10 +74,9 @@ namespace MyCMDBApp
         {
             //Enables the contact Form Group box
             GrBox_Contact_Form.Enabled = true;
-
-            //Enable finish button after adding contacts
-            Btn_Finish.Enabled = true;
+            
             Btn_Add_Contacts.Enabled = false;
+            
         }
 
         private void Btn_Create_Alert_Click(object sender, EventArgs e)
@@ -91,12 +90,15 @@ namespace MyCMDBApp
 
         private void Btn_Add_Click(object sender, EventArgs e)
         {
+            //empty the list
             //call contact constructor to add the appropriate text boxes
             Contact contactObj = new Contact(Txt_Database_Name.Text, Txt_Name.Text, Txt_Email.Text, Txt_Mobile.Text, Txt_Alt_Mobile.Text, Txt_Address.Text, Txt_Notes.Text, Rtb_Database_Directory.Text);
             
             //open up the xml for writing
             DB_Handler _Handler = new DB_Handler();
             _Handler.AddContact(contactObj);
+            //add to list
+            List_All_Contacts.Add(contactObj);
 
             //Clear after adding
             foreach (Control ctrl in GrBox_Contact_Form.Controls)
@@ -108,22 +110,23 @@ namespace MyCMDBApp
                 }
             }
 
-            if(_Handler.List_All_Contacts.Count > 0)
+            if(List_All_Contacts.Count > 0)
             {
-                Btn_View_Contacts.Enabled = true;
+                //Enable buttons after adding 1 or more contacts
                 Btn_Finish.Enabled = true;
+                Btn_View_Contacts.Enabled = true;
+                Btn_New_Database.Enabled = true;
             }
         }
 
         private void Btn_View_Contacts_Click(object sender, EventArgs e)
         {
-            DB_Handler _Handler = new DB_Handler();
             //Display a message box, total number of contacts added
-            MessageBox.Show($"{_Handler.List_All_Contacts.Count} Contact(s) have been added Succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
+            MessageBox.Show($"{List_All_Contacts.Count} Contact(s) have been added Succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
 
             //Disabled by default, enabled after one contact is added
             //pass in the contact list, database name and path as parameter
-            ContactsViewForm viewContact = new ContactsViewForm(_Handler.List_All_Contacts);
+            ContactsViewForm viewContact = new ContactsViewForm(Rtb_Database_Directory.Text, Txt_Database_Name.Text);
             viewContact.ShowDialog();
         }
 
@@ -178,9 +181,18 @@ namespace MyCMDBApp
 
         private void Btn_Home_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
             StartupForm parentForm = new StartupForm();
             parentForm.ShowDialog();  
+        }
+
+        private void Btn_New_Database_Click(object sender, EventArgs e)
+        {
+            //clear contacts list
+            List_All_Contacts.Clear();
+            Txt_Database_Name.Enabled = true;
+            Txt_Database_Name.Focus();
+            Btn_Create.Enabled = true;
         }
     }
 }

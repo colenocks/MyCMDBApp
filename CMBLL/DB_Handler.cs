@@ -9,7 +9,7 @@ namespace CMBLL
 {
     public class DB_Handler
     {
-        public List<Contact> List_All_Contacts = new List<Contact>();
+        
         public List<Database> List_All_Databases = new List<Database>();
 
         public void CreateDatabase(Database database)
@@ -63,10 +63,9 @@ namespace CMBLL
 
             //append to db contact element
             xmlDocument.DocumentElement.AppendChild(XTop);
-            //add to list
-            List_All_Contacts.Add(contact);
 
             xmlDocument.Save(Path.GetFullPath(contact.Full_Path));
+           
         }
 
         //this method is called on sign in button click
