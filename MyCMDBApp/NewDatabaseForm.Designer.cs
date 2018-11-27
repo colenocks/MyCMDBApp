@@ -32,7 +32,7 @@
             this.Lbl_Database_Name = new System.Windows.Forms.Label();
             this.Btn_Create_Alert = new System.Windows.Forms.Button();
             this.Txt_Database_Name = new System.Windows.Forms.TextBox();
-            this.Rtb_Show_Location = new System.Windows.Forms.RichTextBox();
+            this.Rtb_Database_Directory = new System.Windows.Forms.RichTextBox();
             this.Btn_Create = new System.Windows.Forms.Button();
             this.Btn_Add_Contacts = new System.Windows.Forms.Button();
             this.Lbl_Directory = new System.Windows.Forms.Label();
@@ -92,18 +92,18 @@
             this.Txt_Database_Name.Size = new System.Drawing.Size(199, 24);
             this.Txt_Database_Name.TabIndex = 1;
             // 
-            // Rtb_Show_Location
+            // Rtb_Database_Directory
             // 
-            this.Rtb_Show_Location.AutoWordSelection = true;
-            this.Rtb_Show_Location.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.Rtb_Show_Location.Location = new System.Drawing.Point(60, 100);
-            this.Rtb_Show_Location.Multiline = false;
-            this.Rtb_Show_Location.Name = "Rtb_Show_Location";
-            this.Rtb_Show_Location.ReadOnly = true;
-            this.Rtb_Show_Location.Size = new System.Drawing.Size(336, 35);
-            this.Rtb_Show_Location.TabIndex = 6;
-            this.Rtb_Show_Location.Text = "";
-            this.Rtb_Show_Location.WordWrap = false;
+            this.Rtb_Database_Directory.AutoWordSelection = true;
+            this.Rtb_Database_Directory.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.Rtb_Database_Directory.Location = new System.Drawing.Point(91, 100);
+            this.Rtb_Database_Directory.Multiline = false;
+            this.Rtb_Database_Directory.Name = "Rtb_Database_Directory";
+            this.Rtb_Database_Directory.ReadOnly = true;
+            this.Rtb_Database_Directory.Size = new System.Drawing.Size(336, 35);
+            this.Rtb_Database_Directory.TabIndex = 6;
+            this.Rtb_Database_Directory.Text = "";
+            this.Rtb_Database_Directory.WordWrap = false;
             // 
             // Btn_Create
             // 
@@ -135,9 +135,9 @@
             this.Lbl_Directory.AutoSize = true;
             this.Lbl_Directory.Location = new System.Drawing.Point(19, 100);
             this.Lbl_Directory.Name = "Lbl_Directory";
-            this.Lbl_Directory.Size = new System.Drawing.Size(35, 17);
+            this.Lbl_Directory.Size = new System.Drawing.Size(70, 17);
             this.Lbl_Directory.TabIndex = 10;
-            this.Lbl_Directory.Text = "Dir.:";
+            this.Lbl_Directory.Text = "Directory:";
             // 
             // GrBox_Contact_Form
             // 
@@ -158,7 +158,7 @@
             this.GrBox_Contact_Form.Controls.Add(this.Lbl_Email);
             this.GrBox_Contact_Form.Controls.Add(this.Lbl_Name);
             this.GrBox_Contact_Form.Enabled = false;
-            this.GrBox_Contact_Form.Location = new System.Drawing.Point(19, 139);
+            this.GrBox_Contact_Form.Location = new System.Drawing.Point(18, 137);
             this.GrBox_Contact_Form.Name = "GrBox_Contact_Form";
             this.GrBox_Contact_Form.Size = new System.Drawing.Size(459, 402);
             this.GrBox_Contact_Form.TabIndex = 11;
@@ -198,7 +198,7 @@
             this.Btn_Finish.TabIndex = 24;
             this.Btn_Finish.Text = "Finish";
             this.Btn_Finish.UseVisualStyleBackColor = true;
-            this.Btn_Finish.Click += new System.EventHandler(this.Btn_Finish_Click_1);
+            this.Btn_Finish.Click += new System.EventHandler(this.Btn_Finish_Click);
             // 
             // Txt_Notes
             // 
@@ -346,6 +346,7 @@
             this.Btn_Home.TabIndex = 30;
             this.Btn_Home.Text = "Home";
             this.Btn_Home.UseVisualStyleBackColor = true;
+            this.Btn_Home.Click += new System.EventHandler(this.Btn_Home_Click);
             // 
             // NewDatabaseForm
             // 
@@ -356,7 +357,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.GrBox_Contact_Form);
             this.Controls.Add(this.Lbl_Directory);
-            this.Controls.Add(this.Rtb_Show_Location);
+            this.Controls.Add(this.Rtb_Database_Directory);
             this.Controls.Add(this.Txt_Database_Name);
             this.Controls.Add(this.Btn_Create);
             this.Controls.Add(this.Btn_Add_Contacts);
@@ -381,7 +382,7 @@
         private System.Windows.Forms.Label Lbl_Database_Name;
         private System.Windows.Forms.Button Btn_Create_Alert;
         private System.Windows.Forms.TextBox Txt_Database_Name;
-        private System.Windows.Forms.RichTextBox Rtb_Show_Location;
+        private System.Windows.Forms.RichTextBox Rtb_Database_Directory;
         private System.Windows.Forms.Button Btn_Create;
         private System.Windows.Forms.Button Btn_Add_Contacts;
         private System.Windows.Forms.Label Lbl_Directory;

@@ -1,12 +1,15 @@
-﻿using System;
+﻿using CMBLL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace MyCMDBApp
 {
@@ -16,6 +19,10 @@ namespace MyCMDBApp
         {
             InitializeComponent();
         }
+        //public void RetrieveDatabase(List<string> Retrieved_Database_List)
+        //{
+        //    DatabaseList = Retrieved_Database_List;
+        //}
 
         private void Btn_Create_Database_Click(object sender, EventArgs e)
         {
@@ -23,11 +30,14 @@ namespace MyCMDBApp
             NewDatabaseForm newDatabaseForm = new NewDatabaseForm();
             //open the form
             newDatabaseForm.ShowDialog();
+            
+            //close current form
+            this.Close();
         }
 
         private void Btn_Search_Click(object sender, EventArgs e)
         {   
-            string command = Rtb_Search.Text.Trim();
+            string command = Rtb_Search.Text.Trim(); //As so- "Key:Value" = command
             if (!(command.Contains(":")) || (command.Contains("$")) || (command.Contains("+")) || (command.Contains("-")))
             {
                 MessageBox.Show("Invalid Command Language");
@@ -35,23 +45,61 @@ namespace MyCMDBApp
                 Rtb_Search.Focus();
             }
             else
-            {
-                //get length
-                int searchContentLength = command.Length;
-                char[] commandArray = new char[searchContentLength];
-                int colonIndex = command.IndexOf(":");
-                int afterColon = colonIndex + 1;
-                string Key1 = command.Substring(0, colonIndex);
-                string [] NodesArray = new string []{ "name", "email", "mobile", "alternative", "address", "information" };
-                string key1_Value;
-                foreach (string node in NodesArray)
+            { 
+                int searchContentLength = command.Length; //get the length
+                int colonIndex = command.IndexOf(":"); // Key ":" Value
+                int afterColon = colonIndex + 1; // move cursor to next character. key: "V"alue
+                string Key = command.Substring(0, colonIndex); //"key" : Value
+                DB_Handler _Handler = new DB_Handler();
+  
+                int numberOfDatabase = _Handler.List_All_Databases.Count;
+                XmlDocument xmlDocument = new XmlDocument();
+                if(numberOfDatabase > 0) // if List is not empty
                 {
-                    if(node == Key1)
+                    int dbListIndex; //represents each string "Dbase directory" in list
+                    string[] NodesArray = new string []{ "name", "email", "mobile", "alternative", "address", "information" }; //an array of contact elements
+                    string key_Value;
+                    foreach (string keyString in NodesArray)
                     {
-                       key1_Value = command.Substring(afterColon, searchContentLength - afterColon);
+                        if(keyString == Key)
+                        {
+                           key_Value = command.Substring(afterColon, searchContentLength - afterColon); // key: "value"
+                            for (dbListIndex = 0; dbListIndex < numberOfDatabase; dbListIndex++)
+                            {
+                                xmlDocument.Load(_Handler.List_All_Databases[dbListIndex].Database_File_Path); //load all databases in the system
+                                foreach (XmlNode node in xmlDocument.SelectNodes($"{Path.GetFileNameWithoutExtension(_Handler.List_All_Databases[dbListIndex].Database_File_Path)}/contact"))
+                                {
+                                    if(node.SelectSingleNode(keyString).InnerText == key_Value)
+                                    {
+                                        MessageBox.Show("Found You!");
+                                    }
+                                    
+                                }
+                                xmlDocument.Load(_Handler.List_All_Databases[dbListIndex].Database_File_Path);
+                            }
+                        }
                     }
                 }
+                
             }
+        }
+
+        private void Btn_Open_Database_Click(object sender, EventArgs e)
+        {
+           /*   //  openDatabase form
+            *   in openDatatabase form
+            *   populate gridview with paths of all databases in user
+                if(_Handler.List_All_Databases.Count <= 0)
+                {
+                    MessageBox.Show("No Database has been created");
+                }
+                else
+                {
+                    MessageBox.Show($"{_Handler.List_All_Databases.Count} database(s) found");
+                    //open Open_Database form to select database
+                    //coming soon...
+                 }
+             */
         }
 
         //public void NameCommand()

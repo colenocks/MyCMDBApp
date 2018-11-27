@@ -11,10 +11,8 @@ namespace MyCMDBApp
 {
     public partial class NewDatabaseForm : Form
     {
-        private string InitialPath { get; set; } 
+        //private string InitialPath { get; set; }
         //private Stream Db_Stream { get; set; }
-        List<Contact> List_All_Contacts = new List<Contact>();
-        List<Databases> List_All_Databases = new List<Databases>();
 
         public NewDatabaseForm()
         {
@@ -23,46 +21,52 @@ namespace MyCMDBApp
 
         private void NewDatabaseForm_Load(object sender, EventArgs e)
         {
-            //Set initial directory
-            InitialPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            if (!Directory.Exists(InitialPath += "\\testCMDB"))
-            {
-                Directory.CreateDirectory(InitialPath += "\\testCMDB");
-            }
+            ////Set initial directory
+            //InitialPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            //if (!Directory.Exists(InitialPath += "\\testCMDB"))
+            //{
+            //    Directory.CreateDirectory(InitialPath += "\\testCMDB");
+            //}
         }
 
         private void Btn_Create_Click(object sender, EventArgs e)
         {
-            // Saving empty file in directory chosen already)
-            SaveFileDialog saveFile = new SaveFileDialog();
-            saveFile.InitialDirectory = InitialPath;
-            saveFile.Filter = "XML File | *.xml";
-            saveFile.Title = "Create Empty Xml File";
-            saveFile.FileName = Txt_Database_Name.Text; //automatically adds the name to the dialog
-            if (saveFile.ShowDialog() == DialogResult.OK)
+            FolderBrowserDialog folderChoice = new FolderBrowserDialog
             {
-                Rtb_Show_Location.Text = saveFile.FileName;
-                if(Txt_Database_Name.Text == "" || Txt_Database_Name.Text != Path.GetFileNameWithoutExtension(saveFile.FileName))
+                ShowNewFolderButton = true,
+                Description = "Select Directory to save database xml files",
+                RootFolder = Environment.SpecialFolder.DesktopDirectory
+            };
+            if (folderChoice.ShowDialog() == DialogResult.OK)
+            {
+                //set default root folder
+                string userPath = folderChoice.SelectedPath;
+                string fullPath = userPath + "\\" + Txt_Database_Name.Text + ".xml";
+                //create the file
+                if (!File.Exists(fullPath))
                 {
-                    Txt_Database_Name.Text = Path.GetFileNameWithoutExtension(saveFile.FileName);
+                    MessageBox.Show("Database file created succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
+                    //display directory
+                    Rtb_Database_Directory.Text = Path.GetFullPath(fullPath);
+                    Txt_Database_Name.Enabled = false;
+                    Btn_Create.Enabled = false;
+                    //Enable the add Contacts and Create Alert Button
+                    Btn_Add_Contacts.Enabled = true;
+                    Btn_Create_Alert.Enabled = true;
+
+                    //instantiate database constructor
+                    Database databaseObj = new Database(Txt_Database_Name.Text, Path.GetFullPath(fullPath));
+
+                    DB_Handler _Handler = new DB_Handler();
+                    _Handler.CreateDatabase(databaseObj);
                 }
-
-                MessageBox.Show("Empty File saved succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
-                Txt_Database_Name.Enabled = false;
-                Btn_Create.Enabled = false;
-                //Enable the add Contacts and Create Alert Button
-                Btn_Add_Contacts.Enabled = true;
-                Btn_Create_Alert.Enabled = true;
-
-                //instantiate database constructor
-                Databases databaseObj = new Databases(Path.GetFileNameWithoutExtension(saveFile.FileName), Rtb_Show_Location.Text);
-
-                DB_Handler _Handler = new DB_Handler();
-                _Handler.SaveDatabase(databaseObj);
-            }
-            else
-            {
-                MessageBox.Show("File not saved", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                else
+                {
+                    MessageBox.Show("File Name exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    Txt_Database_Name.Clear();
+                    Txt_Database_Name.Focus();
+                }
+                
             }
         }
 
@@ -88,14 +92,11 @@ namespace MyCMDBApp
         private void Btn_Add_Click(object sender, EventArgs e)
         {
             //call contact constructor to add the appropriate text boxes
-            Contact contactObj = new Contact(Txt_Database_Name.Text, Txt_Name.Text, Txt_Email.Text, Txt_Mobile.Text, Txt_Alt_Mobile.Text, Txt_Address.Text, Txt_Notes.Text, Rtb_Show_Location.Text);
+            Contact contactObj = new Contact(Txt_Database_Name.Text, Txt_Name.Text, Txt_Email.Text, Txt_Mobile.Text, Txt_Alt_Mobile.Text, Txt_Address.Text, Txt_Notes.Text, Rtb_Database_Directory.Text);
             
             //open up the xml for writing
             DB_Handler _Handler = new DB_Handler();
-            _Handler.SaveContact(contactObj);
-
-            //add to List to keep count
-            List_All_Contacts.Add(contactObj);
+            _Handler.AddContact(contactObj);
 
             //Clear after adding
             foreach (Control ctrl in GrBox_Contact_Form.Controls)
@@ -107,7 +108,7 @@ namespace MyCMDBApp
                 }
             }
 
-            if(List_All_Contacts.Count > 0)
+            if(_Handler.List_All_Contacts.Count > 0)
             {
                 Btn_View_Contacts.Enabled = true;
                 Btn_Finish.Enabled = true;
@@ -116,23 +117,36 @@ namespace MyCMDBApp
 
         private void Btn_View_Contacts_Click(object sender, EventArgs e)
         {
+            DB_Handler _Handler = new DB_Handler();
             //Display a message box, total number of contacts added
-            MessageBox.Show($"{List_All_Contacts.Count} Contact(s) have been added Succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
+            MessageBox.Show($"{_Handler.List_All_Contacts.Count} Contact(s) have been added Succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
 
             //Disabled by default, enabled after one contact is added
             //pass in the contact list, database name and path as parameter
-            ContactsViewForm viewContact = new ContactsViewForm(List_All_Contacts);
+            ContactsViewForm viewContact = new ContactsViewForm(_Handler.List_All_Contacts);
             viewContact.ShowDialog();
         }
 
-        private void Btn_Finish_Click_1(object sender, EventArgs e)
+        private void Btn_Finish_Click(object sender, EventArgs e)
         {
-            //clear list
-            List_All_Contacts.Clear();
+            /*
+            DB_Handler _Handler = new DB_Handler();
+            User userObj = new User(Txt_Database_Name.Text, Rtb_Database_Directory.Text);
+            _Handler.AddUserFiles(userObj);
+            */
+
+            ////pass the list on to startUpForm
+            //StartupForm startupForm = new StartupForm();
+            ////call the method and pass in the list
+            //startupForm.RetrieveDatabase(List_All_Databases);
+
+            ////clear list
+            //List_All_Contacts.Clear();
 
             //Disable group box controls
             GrBox_Contact_Form.Enabled = false;
             Btn_View_Contacts.Enabled = true;
+            MessageBox.Show("Press the home key to return!");
         }
 
         //FIELDS VALIDATION
@@ -160,6 +174,13 @@ namespace MyCMDBApp
             {
                 errorProvider.SetError(Txt_Name, "");
             }
+        }
+
+        private void Btn_Home_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            StartupForm parentForm = new StartupForm();
+            parentForm.ShowDialog();  
         }
     }
 }

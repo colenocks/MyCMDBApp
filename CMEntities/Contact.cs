@@ -15,7 +15,7 @@ namespace CMEntities
         public string Note { get; }
         public string Full_Path { get; }
 
-        public Contact(string database, string name, string mobile, string email, string altMobile, string address, string note, string path)
+        public Contact(string database, string name, string email, string mobile, string altMobile, string address, string note, string path)
         {
             Contact_Database = database;
             Name = name;

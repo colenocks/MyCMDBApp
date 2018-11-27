@@ -4,11 +4,11 @@ using System.Text;
 
 namespace CMEntities
 {
-    public class Databases
+    public class Database
     {
         public string Database_File { get; }
         public string Database_File_Path { get; }
-        public Databases(string name, string path)
+        public Database(string name, string path)
         {
             Database_File = name;
             Database_File_Path = path;

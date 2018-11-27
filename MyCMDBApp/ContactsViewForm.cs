@@ -9,17 +9,21 @@ namespace MyCMDBApp
 {
     public partial class ContactsViewForm : Form
     {
-        public ContactsViewForm(List<Contact> contactList)
+        public ContactsViewForm()
         {
             InitializeComponent();
+        }
+
+        public ContactsViewForm(List<Contact> contactList)
+        { 
             XmlDocument xmlDocument = new XmlDocument();
             //Note: all contacts in contactList have common database name and path; contactList[0].Full_Path == contactList[1].Full_Path
             xmlDocument.Load(contactList[0].Full_Path.ToString());
             int n = 0;
             foreach (XmlNode node in xmlDocument.SelectNodes($"{contactList[0].Contact_Database}/contact"))
             {
-                n = dataGridView1.Rows.Add();
-                //Set ContactInfo Properties via contactInfoObj
+                n = dataGridView1.Rows.Add();//gets the number of rows already in the table
+
                 dataGridView1.Rows[n].Cells[0].Value = node.SelectSingleNode("name").InnerText;
                 dataGridView1.Rows[n].Cells[1].Value = node.SelectSingleNode("email").InnerText;
                 dataGridView1.Rows[n].Cells[2].Value = node.SelectSingleNode("mobile").InnerText;
@@ -28,7 +32,18 @@ namespace MyCMDBApp
             }
             
             xmlDocument.Save(contactList[0].Full_Path.ToString());
-            
+        }
+
+        private void Btn_Home_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            StartupForm parentForm = new StartupForm();
+            parentForm.ShowDialog();
+        }
+    }
+}
+
+/*   
 
             ////this shows the list is successfully brought into the form
             //MessageBox.Show($"contacts: {contactList.Count}");
@@ -40,13 +55,7 @@ namespace MyCMDBApp
             //for (int i = 0; i < contactViewList.Count; i++)
             //{
             //    contactInfoBindingSource.Add(contactViewList[i]);
-            //}
-        }
-        
-    }
-}
-
-/*      for (int row = 1; row < contactList.Count; row++)
+            //}   for (int row = 1; row < contactList.Count; row++)
         {
             dataGridView1.Rows[row].Cells[1].Value = contactViewList[row].Name_View;
             dataGridView1.Rows[row].Cells[2].Value = contactViewList[row].Mobile_View;
