@@ -29,10 +29,10 @@ namespace MyCMDBApp
             //Create an instance of the new database form
             NewDatabaseForm newDatabaseForm = new NewDatabaseForm();
             //open the form
-            newDatabaseForm.ShowDialog();
+            newDatabaseForm.Show();
             
             //close current form
-            this.Close();
+            Hide();
         }
 
         private void Btn_Search_Click(object sender, EventArgs e)
