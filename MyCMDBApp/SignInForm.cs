@@ -21,20 +21,39 @@ namespace MyCMDBApp
             InitializeComponent();
         }
 
+        private void Btn_Sign_In_Click(object sender, EventArgs e)
+        {
+            
+            //    //if user exist simply load the database file
+            //    XmlDocument xmlDocument = new XmlDocument();
+            ////Load the xml file that contains the list of users
+            //    xmlDocument.Load(/*users.xml saved with their "username" and password" filepath */);
+
+            //    //Open the Start up form
+            //    StartupForm dashboard = new StartupForm();
+            //    dashboard.ShowDialog();
+
+            //    //close this form
+            //    Hide();
+            //    MessageBox.Show("User does not exist!");
+            //    //clear fields
+            
+        }
+
         private void Btn_Browse_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog browserDialog = new FolderBrowserDialog
             {
-                ShowNewFolderButton = true,
+                ShowNewFolderButton = false,
                 Description = "Select Folder for your Database files",
-                RootFolder = Environment.SpecialFolder.MyDocuments
+                RootFolder = Environment.SpecialFolder.ApplicationData
             };
             if (browserDialog.ShowDialog() == DialogResult.OK)
             {
                 //set default root folder
                 string userPath = browserDialog.SelectedPath;
-                userPath += "\\" + Txt_Username.Text + ".xml"; //update variable
-                Rtb_User_Directory.Text = Path.GetFullPath(userPath);    
+                userPath += "\\MyDatabases"; //Custom folder in application Data
+                Rtb_User_Directory.Text = userPath; //User.User_Directory
             }
             else
             {
@@ -43,41 +62,18 @@ namespace MyCMDBApp
             }
         }
 
-        private void Btn_Sign_In_Click(object sender, EventArgs e)
-        {
-            if (!File.Exists(Rtb_User_Directory.Text))
-            {
-                MessageBox.Show("Sign in Successful", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
-                //instantiate User constructor
-                User user = new User(Txt_Username.Text, Rtb_User_Directory.Text);
+        private void Btn_Register_Click(object sender, EventArgs e)
+        {   
+            //instantiate User constructor
+            User userObj = new User(Txt_Username.Text, Txt_Password.Text, Rtb_User_Directory.Text +"\\"+Txt_Username.Text + ".xml");//pass in auto-generated xml empty file as "username.xml", 
 
-                DB_Handler _Handler = new DB_Handler();
-                _Handler.CreateUser(user);
+            DB_Handler _Handler = new DB_Handler();
+            _Handler.CreateUser(userObj);
 
-                //close this form
-                Hide();
-            }
-            else
-            {
-                MessageBox.Show("User Does not Exist");
-            }
-            //if user exist simply load the database file
-            XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(Rtb_User_Directory.Text);
-            //Open the Start up form
-            StartupForm dashboard = new StartupForm();
-            dashboard.ShowDialog();
+            MessageBox.Show("Your User Account has been ceated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
 
-            //close this form
-            Hide();
-
-            //Load users xml document
-            XmlDocument xmlDoc = new XmlDocument();
-            //xmlDoc.Load(path of users xml file)
-            //if (user == saved user)
-            {
-
-            }
+            GrB_Register_Form.Enabled = false;
+            GrB_Sign_In_Form.Enabled = true;
         }
     }
 }

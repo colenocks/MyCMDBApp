@@ -17,6 +17,7 @@ namespace MyCMDBApp
         public ContactsViewForm(string path, string dbName)
         {
             InitializeComponent();
+
             XmlDocument xmlDocument = new XmlDocument();
             //Note: all contacts in contactList have common database name and path; contactList[0].Full_Path == contactList[1].Full_Path
             xmlDocument.Load(path.ToString());
@@ -29,7 +30,6 @@ namespace MyCMDBApp
                 dataGridView1.Rows[n].Cells[1].Value = node.SelectSingleNode("email").InnerText;
                 dataGridView1.Rows[n].Cells[2].Value = node.SelectSingleNode("mobile").InnerText;
                 dataGridView1.Rows[n].Cells[3].Value = node.SelectSingleNode("address").InnerText;
-                dataGridView1.Rows[n].Cells[4].Value = node.SelectSingleNode("information").InnerText;
             }
             
             xmlDocument.Save(path.ToString());

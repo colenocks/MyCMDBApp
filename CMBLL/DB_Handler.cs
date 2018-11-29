@@ -71,7 +71,7 @@ namespace CMBLL
         //this method is called on sign in button click
         public void CreateUser(User user)
         {
-            //on click of signin button
+            //on click of Register button
             //create a directory once user signs in, and create an xml file with username as root element
             //initialize xml
             XmlWriterSettings settings = new XmlWriterSettings
@@ -81,14 +81,12 @@ namespace CMBLL
             };
 
             XmlWriter xmlwriter;
-            xmlwriter = XmlWriter.Create(user.Directory, settings);
+            xmlwriter = XmlWriter.Create(user.User_Directory, settings);
             xmlwriter.WriteStartDocument();
-            xmlwriter.WriteStartElement("User");//root element
-            xmlwriter.WriteStartElement(user.Username);
+            xmlwriter.WriteStartElement(user.Username);//root element
+            xmlwriter.WriteAttributeString("Password", user.Password);
             xmlwriter.WriteEndElement();
-            xmlwriter.WriteStartElement(user.Password);
-            xmlwriter.WriteEndElement();
-            xmlwriter.WriteComment("------------------------");
+            xmlwriter.WriteComment("----------Database List--------------");
             xmlwriter.Close();
         }
 
@@ -97,7 +95,7 @@ namespace CMBLL
         {
             //load the xml file and add all created databases and alerts
             XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(user.Directory);
+            xmlDocument.Load(user.User_Directory);
             XmlNode XTop = xmlDocument.CreateElement("Files");
             XmlNode Xname = xmlDocument.CreateElement("database_name");
             XmlNode XDpath = xmlDocument.CreateElement("database_path");
@@ -116,7 +114,7 @@ namespace CMBLL
         {
             //load the xml file and display all created databases and alerts
             XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(user.Directory);
+            xmlDocument.Load(user.User_Directory);
         }
         ////Takes in three parameters
         //public List<ContactInfo> CloneContact(List<Contact> contactList , List<ContactInfo> contactInfoList)
