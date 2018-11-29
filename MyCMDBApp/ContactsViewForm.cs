@@ -2,7 +2,6 @@
 using CMEntities;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -12,10 +11,8 @@ namespace MyCMDBApp
     {
         public ContactsViewForm()
         {
-            //InitializeComponent(); i moved this method to the parameterised constructor
+            
         }
-
-        DataTable table = new DataTable();
 
         public ContactsViewForm(string path, string dbName)
         {
@@ -23,18 +20,18 @@ namespace MyCMDBApp
             XmlDocument xmlDocument = new XmlDocument();
             //Note: all contacts in contactList have common database name and path; contactList[0].Full_Path == contactList[1].Full_Path
             xmlDocument.Load(path.ToString());
-            
-            int rowIndex = 0;
-            
+            int n = 0;
             foreach (XmlNode node in xmlDocument.SelectNodes($"{dbName}/contact"))
             {
-                    rowIndex = dataGridView1.Rows.Add();//gets the number of rows already in the table
-                    dataGridView1.Rows[rowIndex].Cells[0].Value = node.SelectSingleNode("name").InnerText.ToString();
-                    dataGridView1.Rows[rowIndex].Cells[1].Value = node.SelectSingleNode("email").InnerText;
-                    dataGridView1.Rows[rowIndex].Cells[2].Value = node.SelectSingleNode("mobile").InnerText;
-                    dataGridView1.Rows[rowIndex].Cells[3].Value = node.SelectSingleNode("address").InnerText;
-                    dataGridView1.Rows[rowIndex].Cells[4].Value = node.SelectSingleNode("information").InnerText;
+                n = dataGridView1.Rows.Add();//gets the number of rows already in the table
+
+                dataGridView1.Rows[n].Cells[0].Value = node.SelectSingleNode("name").InnerText;
+                dataGridView1.Rows[n].Cells[1].Value = node.SelectSingleNode("email").InnerText;
+                dataGridView1.Rows[n].Cells[2].Value = node.SelectSingleNode("mobile").InnerText;
+                dataGridView1.Rows[n].Cells[3].Value = node.SelectSingleNode("address").InnerText;
+                dataGridView1.Rows[n].Cells[4].Value = node.SelectSingleNode("information").InnerText;
             }
+            
             xmlDocument.Save(path.ToString());
         }
 
@@ -43,11 +40,6 @@ namespace MyCMDBApp
             StartupForm parentForm = new StartupForm();
             parentForm.ShowDialog();
             Close();
-        }
-
-        private void ContactsViewForm_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

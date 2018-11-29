@@ -15,6 +15,7 @@ namespace MyCMDBApp
 {
     public partial class StartupForm : Form
     {
+        private string Username { get; set; }
         public StartupForm()
         {
             InitializeComponent();
@@ -29,7 +30,7 @@ namespace MyCMDBApp
             //Create an instance of the new database form
             NewDatabaseForm newDatabaseForm = new NewDatabaseForm();
             //open the form
-            newDatabaseForm.Show();
+            newDatabaseForm.ShowDialog();
             
             //close current form
             Hide();
@@ -38,14 +39,8 @@ namespace MyCMDBApp
         private void Btn_Search_Click(object sender, EventArgs e)
         {   
             string command = Rtb_Search.Text.Trim(); //As so- "Key:Value" = command
-            if (!(command.Contains(":")) || (command.Contains("$")) || (command.Contains("+")) || (command.Contains("-")))
+            if (command.Contains(":") || command.Contains("$") || command.Contains("+") || command.Contains("-"))
             {
-                MessageBox.Show("Invalid Command Language");
-                Rtb_Search.Text = "";
-                Rtb_Search.Focus();
-            }
-            else
-            { 
                 int searchContentLength = command.Length; //get the length
                 int colonIndex = command.IndexOf(":"); // Key ":" Value
                 int afterColon = colonIndex + 1; // move cursor to next character. key: "V"alue
@@ -66,7 +61,7 @@ namespace MyCMDBApp
                            key_Value = command.Substring(afterColon, searchContentLength - afterColon); // key: "value"
                             for (dbListIndex = 0; dbListIndex < numberOfDatabase; dbListIndex++)
                             {
-                                xmlDocument.Load(_Handler.List_All_Databases[dbListIndex].Database_File_Path); //load all databases in the system
+                                xmlDocument.Load(_Handler.List_All_Databases[dbListIndex].Database_File_Path); //load all user's databases
                                 foreach (XmlNode node in xmlDocument.SelectNodes($"{Path.GetFileNameWithoutExtension(_Handler.List_All_Databases[dbListIndex].Database_File_Path)}/contact"))
                                 {
                                     if(node.SelectSingleNode(keyString).InnerText == key_Value)
@@ -80,7 +75,12 @@ namespace MyCMDBApp
                         }
                     }
                 }
-                
+            }
+            else
+            {
+                MessageBox.Show("Invalid Command Language");
+                Rtb_Search.Text = "";
+                Rtb_Search.Focus();
             }
         }
 

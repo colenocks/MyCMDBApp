@@ -90,32 +90,41 @@ namespace MyCMDBApp
 
         private void Btn_Add_Click(object sender, EventArgs e)
         {
-            //empty the list
-            //call contact constructor to add the appropriate text boxes
-            Contact contactObj = new Contact(Txt_Database_Name.Text, Txt_Name.Text, Txt_Email.Text, Txt_Mobile.Text, Txt_Alt_Mobile.Text, Txt_Address.Text, Txt_Notes.Text, Rtb_Database_Directory.Text);
-            
-            //open up the xml for writing
-            DB_Handler _Handler = new DB_Handler();
-            _Handler.AddContact(contactObj);
-            //add to list
-            List_All_Contacts.Add(contactObj);
-
-            //Clear after adding
-            foreach (Control ctrl in GrBox_Contact_Form.Controls)
+           foreach(Control txtControls in GrBox_Contact_Form.Controls)
             {
-                if(ctrl is TextBox)
+                if((txtControls is TextBox) && (string.IsNullOrEmpty(txtControls.Text)))
                 {
-                    (ctrl as TextBox).Text = "";
-                    
+                    MessageBox.Show("Fill in the required contact fields");
+                    Txt_Name.Focus();
                 }
-            }
+                else
+                {
+                    //call contact constructor to add the appropriate text boxes
+                    Contact contactObj = new Contact(Txt_Database_Name.Text, Txt_Name.Text, Txt_Email.Text, Txt_Mobile.Text, Txt_Alt_Mobile.Text, Txt_Address.Text, Txt_Notes.Text, Rtb_Database_Directory.Text);
 
-            if(List_All_Contacts.Count > 0)
-            {
-                //Enable buttons after adding 1 or more contacts
-                Btn_Finish.Enabled = true;
-                Btn_View_Contacts.Enabled = true;
-                Btn_New_Database.Enabled = true;
+                    //open up the xml for writing
+                    DB_Handler _Handler = new DB_Handler();
+                    _Handler.AddContact(contactObj);
+                    //add to list
+                    List_All_Contacts.Add(contactObj);
+
+                    //Clear after adding
+                    foreach (Control ctrl in GrBox_Contact_Form.Controls)
+                    {
+                        if (ctrl is TextBox)
+                        {
+                            ctrl.Text = "";
+                        }
+                    }
+
+                    if (List_All_Contacts.Count > 0)
+                    {
+                        //Enable buttons after adding 1 or more contacts
+                        Btn_Finish.Enabled = true;
+                        Btn_View_Contacts.Enabled = true;
+                        Btn_New_Database.Enabled = true;
+                    }
+                }
             }
         }
 
