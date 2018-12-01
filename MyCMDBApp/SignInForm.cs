@@ -69,7 +69,7 @@ namespace MyCMDBApp
                     {
                         //set the user session property
                         CurrentUserPath = userRetrievedPath;
-                        //pass in the CurrentUserPath 
+                         
                         //Open the Start up form
                         StartupForm dashboard = new StartupForm();
                         dashboard.Show();

@@ -16,7 +16,7 @@ namespace CMBLL
             }
         }
 
-        public List<Database> List_All_Databases = new List<Database>();
+        //public List<Database> List_All_Databases = new List<Database>();
 
         public void CreateDatabase(Database database)
         {
@@ -34,9 +34,6 @@ namespace CMBLL
             xmlwriter.WriteComment("Contacts here");
             xmlwriter.WriteEndElement();
             xmlwriter.Close();
-
-            //add to list
-            List_All_Databases.Add(database);
         }
         
         public void AddContact(Contact contact)
@@ -167,6 +164,8 @@ namespace CMBLL
             XTop.AppendChild(Xname);
             XTop.AppendChild(XDpath);
             xmlDocument.AppendChild(XTop);
+
+            xmlDocument.Save(user.User_Full_Path);
         }
 
         public void ShowUserFiles(User user)

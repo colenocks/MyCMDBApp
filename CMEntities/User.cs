@@ -14,13 +14,13 @@ namespace CMEntities
         public string Database_Path { get; }
         public string Database_Name { get; }// the database name here corresponds with the contact/Database classes database names
 
-        public User(string name, string path)
+        public User(string name, string path) //Constructor A
         {
             Database_Path = path;
             Database_Name = name;
         }
 
-        public User(string username, string password, string directory)
+        public User(string username, string password, string directory) //Constructor B
         {
             Username = username;
             Password = password;

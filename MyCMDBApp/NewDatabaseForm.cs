@@ -31,23 +31,30 @@ namespace MyCMDBApp
 
         private void Btn_Create_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog folderChoice = new FolderBrowserDialog
+            //get path from currentUserPath session Property
+            SignInForm signInForm = new SignInForm();
+            
+            //move back one directory, create new folder, and save file
+            string userPath = Path.Combine(Path.GetDirectoryName(signInForm.CurrentUserPath), "My Databases");
+            //trim name for white spaces
+            string databaseName = Txt_Database_Name.Text.Trim().ToLower();
+
+            SaveFileDialog savefile = new SaveFileDialog
             {
-                ShowNewFolderButton = true,
-                Description = "Select Directory to save database xml files",
-                RootFolder = Environment.SpecialFolder.DesktopDirectory
+                Filter = "XML File|.xml",
+                FileName = databaseName,
+                Title = "Save Database File",
+                InitialDirectory = userPath
             };
-            if (folderChoice.ShowDialog() == DialogResult.OK)
+
+            if (savefile.ShowDialog() == DialogResult.OK)
             {
-                //set default root folder
-                string userPath = folderChoice.SelectedPath;
-                string fullPath = userPath + "\\" + Txt_Database_Name.Text + ".xml";
-                //create the file
-                if (!File.Exists(fullPath))
+                //check if the file exists
+                if (!File.Exists(savefile.FileName))
                 {
                     MessageBox.Show("Database file created succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
                     //display directory
-                    Rtb_Database_Directory.Text = Path.GetFullPath(fullPath);
+                    Rtb_Database_Directory.Text = savefile.FileName;
                     Txt_Database_Name.Enabled = false;
                     Btn_Create.Enabled = false;
                     //Enable the add Contacts and Create Alert Button
@@ -55,10 +62,15 @@ namespace MyCMDBApp
                     Btn_Create_Alert.Enabled = true;
 
                     //instantiate database constructor
-                    Database databaseObj = new Database(Txt_Database_Name.Text, Path.GetFullPath(fullPath));
+                    Database databaseObj = new Database(databaseName, Rtb_Database_Directory.Text);
 
                     DB_Handler _Handler = new DB_Handler();
                     _Handler.CreateDatabase(databaseObj);
+
+                    //instantiate user constructor A
+                    User userObj = new User(databaseName, Rtb_Database_Directory.Text);
+                    //Add database details to the user xml file
+                    _Handler.AddUserFiles(userObj);
                 }
                 else
                 {
@@ -66,7 +78,7 @@ namespace MyCMDBApp
                     Txt_Database_Name.Clear();
                     Txt_Database_Name.Focus();
                 }
-                
+
             }
         }
 
@@ -90,6 +102,9 @@ namespace MyCMDBApp
 
         private void Btn_Add_Click(object sender, EventArgs e)
         {
+            //clear list contact
+            List_All_Contacts.Clear();
+
            foreach(Control txtControls in GrBox_Contact_Form.Controls)
             {
                 if((txtControls is TextBox) && (string.IsNullOrEmpty(txtControls.Text)))
@@ -105,7 +120,8 @@ namespace MyCMDBApp
                     //open up the xml for writing
                     DB_Handler _Handler = new DB_Handler();
                     _Handler.AddContact(contactObj);
-                    //add to list
+
+                    //add contact object to list
                     List_All_Contacts.Add(contactObj);
 
                     //Clear after adding
@@ -122,7 +138,6 @@ namespace MyCMDBApp
                         //Enable buttons after adding 1 or more contacts
                         Btn_Finish.Enabled = true;
                         Btn_View_Contacts.Enabled = true;
-                        Btn_New_Database.Enabled = true;
                     }
                 }
             }
@@ -141,8 +156,32 @@ namespace MyCMDBApp
 
         private void Btn_Finish_Click(object sender, EventArgs e)
         {
-            
+            //loops through the list and adds the contact details to the user file xml
+            //if all contact list is not empty
+            if(List_All_Contacts.Count != 0)
+            {
+                for(int i = 0; i < List_All_Contacts.Count; i++)
+                {
+                    DB_Handler _Handler = new DB_Handler();
+                    User userObj = new User(List_All_Contacts[i].Contact_Database, List_All_Contacts[i].Full_Path);
+                    _Handler.AddUserFiles(userObj);
+                }
+                //clear contacts list
+                List_All_Contacts.Clear();
 
+                Btn_New_Database.Enabled = true;
+            }
+        }
+
+        private void Btn_Home_Click(object sender, EventArgs e)
+        {
+            StartupForm parentForm = new StartupForm();
+            parentForm.Show();
+            Close();  
+        }
+
+        private void Btn_New_Database_Click(object sender, EventArgs e)
+        {
             ////pass the list on to startUpForm
             //StartupForm startupForm = new StartupForm();
             ////call the method and pass in the list
@@ -155,24 +194,7 @@ namespace MyCMDBApp
             GrBox_Contact_Form.Enabled = false;
             Btn_View_Contacts.Enabled = true;
             MessageBox.Show("Press the home key to return!");
-        }
 
-        private void Btn_Home_Click(object sender, EventArgs e)
-        {
-            StartupForm parentForm = new StartupForm();
-            parentForm.Show();
-            Close();  
-        }
-
-        private void Btn_New_Database_Click(object sender, EventArgs e)
-        {
-            /*
-            DB_Handler _Handler = new DB_Handler();
-            User userObj = new User(Txt_Database_Name.Text, Rtb_Database_Directory.Text);
-            _Handler.AddUserFiles(userObj);
-            */
-            //clear contacts list
-            List_All_Contacts.Clear();
             Txt_Database_Name.Enabled = true;
             Txt_Database_Name.Focus();
             Btn_Create.Enabled = true;

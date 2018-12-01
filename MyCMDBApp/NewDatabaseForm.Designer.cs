@@ -57,6 +57,7 @@
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.Btn_Home = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.GrBox_Contact_Form.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
@@ -182,7 +183,7 @@
             // 
             this.Btn_New_Database.Enabled = false;
             this.Btn_New_Database.Font = new System.Drawing.Font("Constantia", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_New_Database.Location = new System.Drawing.Point(154, 349);
+            this.Btn_New_Database.Location = new System.Drawing.Point(12, 349);
             this.Btn_New_Database.Name = "Btn_New_Database";
             this.Btn_New_Database.Size = new System.Drawing.Size(125, 38);
             this.Btn_New_Database.TabIndex = 25;
@@ -206,7 +207,7 @@
             // 
             this.Btn_Finish.Enabled = false;
             this.Btn_Finish.Font = new System.Drawing.Font("Constantia", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_Finish.Location = new System.Drawing.Point(12, 348);
+            this.Btn_Finish.Location = new System.Drawing.Point(169, 348);
             this.Btn_Finish.Name = "Btn_Finish";
             this.Btn_Finish.Size = new System.Drawing.Size(92, 39);
             this.Btn_Finish.TabIndex = 24;
@@ -362,11 +363,22 @@
             this.Btn_Home.UseVisualStyleBackColor = true;
             this.Btn_Home.Click += new System.EventHandler(this.Btn_Home_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.Olive;
+            this.label2.Location = new System.Drawing.Point(99, 542);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(319, 17);
+            this.label2.TabIndex = 31;
+            this.label2.Text = "Note: Click on finish so you can add new database";
+            // 
             // NewDatabaseForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(568, 553);
+            this.ClientSize = new System.Drawing.Size(568, 566);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.Btn_Home);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.GrBox_Contact_Form);
@@ -421,5 +433,6 @@
         private System.Windows.Forms.Button Btn_Home;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button Btn_New_Database;
+        private System.Windows.Forms.Label label2;
     }
 }
