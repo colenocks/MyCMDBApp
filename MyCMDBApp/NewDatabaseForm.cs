@@ -141,11 +141,7 @@ namespace MyCMDBApp
 
         private void Btn_Finish_Click(object sender, EventArgs e)
         {
-            /*
-            DB_Handler _Handler = new DB_Handler();
-            User userObj = new User(Txt_Database_Name.Text, Rtb_Database_Directory.Text);
-            _Handler.AddUserFiles(userObj);
-            */
+            
 
             ////pass the list on to startUpForm
             //StartupForm startupForm = new StartupForm();
@@ -161,6 +157,27 @@ namespace MyCMDBApp
             MessageBox.Show("Press the home key to return!");
         }
 
+        private void Btn_Home_Click(object sender, EventArgs e)
+        {
+            StartupForm parentForm = new StartupForm();
+            parentForm.Show();
+            Close();  
+        }
+
+        private void Btn_New_Database_Click(object sender, EventArgs e)
+        {
+            /*
+            DB_Handler _Handler = new DB_Handler();
+            User userObj = new User(Txt_Database_Name.Text, Rtb_Database_Directory.Text);
+            _Handler.AddUserFiles(userObj);
+            */
+            //clear contacts list
+            List_All_Contacts.Clear();
+            Txt_Database_Name.Enabled = true;
+            Txt_Database_Name.Focus();
+            Btn_Create.Enabled = true;
+        }
+        
         //FIELDS VALIDATION
         //Name
         private bool Txt_Name_Validated()
@@ -188,21 +205,10 @@ namespace MyCMDBApp
             }
         }
 
-        private void Btn_Home_Click(object sender, EventArgs e)
-        {
-            Close();
-            StartupForm parentForm = new StartupForm();
-            parentForm.ShowDialog();  
-        }
+        //Email
 
-        private void Btn_New_Database_Click(object sender, EventArgs e)
-        {
-            //clear contacts list
-            List_All_Contacts.Clear();
-            Txt_Database_Name.Enabled = true;
-            Txt_Database_Name.Focus();
-            Btn_Create.Enabled = true;
-        }
+        //Phone
+
     }
 }
 

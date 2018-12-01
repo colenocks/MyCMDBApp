@@ -38,6 +38,7 @@
             this.Lbl_Directory = new System.Windows.Forms.Label();
             this.GrBox_Contact_Form = new System.Windows.Forms.GroupBox();
             this.Btn_Add = new System.Windows.Forms.Button();
+            this.Btn_New_Database = new System.Windows.Forms.Button();
             this.Btn_View_Contacts = new System.Windows.Forms.Button();
             this.Btn_Finish = new System.Windows.Forms.Button();
             this.Txt_Notes = new System.Windows.Forms.TextBox();
@@ -56,7 +57,6 @@
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.Btn_Home = new System.Windows.Forms.Button();
-            this.Btn_New_Database = new System.Windows.Forms.Button();
             this.GrBox_Contact_Form.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
@@ -178,6 +178,18 @@
             this.Btn_Add.UseVisualStyleBackColor = true;
             this.Btn_Add.Click += new System.EventHandler(this.Btn_Add_Click);
             // 
+            // Btn_New_Database
+            // 
+            this.Btn_New_Database.Enabled = false;
+            this.Btn_New_Database.Font = new System.Drawing.Font("Constantia", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_New_Database.Location = new System.Drawing.Point(154, 349);
+            this.Btn_New_Database.Name = "Btn_New_Database";
+            this.Btn_New_Database.Size = new System.Drawing.Size(125, 38);
+            this.Btn_New_Database.TabIndex = 25;
+            this.Btn_New_Database.Text = "New Database";
+            this.Btn_New_Database.UseVisualStyleBackColor = true;
+            this.Btn_New_Database.Click += new System.EventHandler(this.Btn_New_Database_Click);
+            // 
             // Btn_View_Contacts
             // 
             this.Btn_View_Contacts.Enabled = false;
@@ -194,7 +206,7 @@
             // 
             this.Btn_Finish.Enabled = false;
             this.Btn_Finish.Font = new System.Drawing.Font("Constantia", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_Finish.Location = new System.Drawing.Point(6, 357);
+            this.Btn_Finish.Location = new System.Drawing.Point(12, 348);
             this.Btn_Finish.Name = "Btn_Finish";
             this.Btn_Finish.Size = new System.Drawing.Size(92, 39);
             this.Btn_Finish.TabIndex = 24;
@@ -349,18 +361,6 @@
             this.Btn_Home.Text = "Home";
             this.Btn_Home.UseVisualStyleBackColor = true;
             this.Btn_Home.Click += new System.EventHandler(this.Btn_Home_Click);
-            // 
-            // Btn_New_Database
-            // 
-            this.Btn_New_Database.Enabled = false;
-            this.Btn_New_Database.Font = new System.Drawing.Font("Constantia", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_New_Database.Location = new System.Drawing.Point(154, 349);
-            this.Btn_New_Database.Name = "Btn_New_Database";
-            this.Btn_New_Database.Size = new System.Drawing.Size(125, 38);
-            this.Btn_New_Database.TabIndex = 25;
-            this.Btn_New_Database.Text = "New Database";
-            this.Btn_New_Database.UseVisualStyleBackColor = true;
-            this.Btn_New_Database.Click += new System.EventHandler(this.Btn_New_Database_Click);
             // 
             // NewDatabaseForm
             // 

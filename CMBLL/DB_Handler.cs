@@ -9,7 +9,13 @@ namespace CMBLL
 {
     public class DB_Handler
     {
-        
+        public string UsersFolderPath {
+            get
+            {
+                return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\users lists";
+            }
+        }
+
         public List<Database> List_All_Databases = new List<Database>();
 
         public void CreateDatabase(Database database)
@@ -61,7 +67,7 @@ namespace CMBLL
             XTop.AppendChild(XAddress);
             XTop.AppendChild(XNote);
 
-            //append to db contact element
+            //append contact element to db 
             xmlDocument.DocumentElement.AppendChild(XTop);
 
             xmlDocument.Save(Path.GetFullPath(contact.Full_Path));
@@ -73,21 +79,74 @@ namespace CMBLL
         {
             //on click of Register button
             //create a directory once user signs in, and create an xml file with username as root element
-            //initialize xml
             XmlWriterSettings settings = new XmlWriterSettings
             {
                 Indent = true,
                 Encoding = Encoding.UTF8
             };
-
             XmlWriter xmlwriter;
-            xmlwriter = XmlWriter.Create(user.User_Directory, settings);
+            xmlwriter = XmlWriter.Create(user.User_Full_Path, settings);
             xmlwriter.WriteStartDocument();
-            xmlwriter.WriteStartElement(user.Username);//root element
-            xmlwriter.WriteAttributeString("Password", user.Password);
-            xmlwriter.WriteEndElement();
+            //root element
+            xmlwriter.WriteStartElement(user.Username);
+            xmlwriter.WriteAttributeString("password", user.Password);
             xmlwriter.WriteComment("----------Database List--------------");
+            //close root element
+            xmlwriter.WriteEndElement();
             xmlwriter.Close();
+            
+        }
+
+        //add to list of users folder
+        public void SaveUsersAccount(string username, string userpath)
+        {
+            string usersFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (!Directory.Exists(usersFolderPath + "\\users lists"))
+            {
+                Directory.CreateDirectory(usersFolderPath + "\\users lists");
+            }
+            if(!File.Exists(usersFolderPath + "\\users lists\\users.xml"))
+            {
+                XmlWriterSettings settings = new XmlWriterSettings
+                {
+                    Indent = true,
+                    Encoding = Encoding.UTF8
+                };
+
+                XmlWriter xmlwriter;//create and write to the file
+                xmlwriter = XmlWriter.Create(usersFolderPath+ "\\users lists\\users.xml", settings);
+                xmlwriter.WriteStartDocument();
+                //
+                xmlwriter.WriteStartElement("user");
+                xmlwriter.WriteStartElement("username");
+                xmlwriter.WriteString(username);
+                xmlwriter.WriteEndElement();
+                xmlwriter.WriteStartElement("path");
+                xmlwriter.WriteString(userpath);
+                xmlwriter.WriteEndElement();
+                //end root element
+                xmlwriter.WriteEndElement();
+                //
+                xmlwriter.Close();
+            }
+            else
+            {
+                XmlDocument xmlDocument = new XmlDocument();
+                xmlDocument.Load(usersFolderPath + "\\users lists\\users.xml");
+                XmlNode XTop = xmlDocument.CreateElement("user");
+                XmlNode Xusername = xmlDocument.CreateElement("username");
+                XmlNode XUpath = xmlDocument.CreateElement("path");
+
+                Xusername.InnerText = userpath;
+                XUpath.InnerText = userpath;
+
+                XTop.AppendChild(Xusername);
+                XTop.AppendChild(XUpath);
+
+                xmlDocument.DocumentElement.AppendChild(XTop);
+
+                xmlDocument.Save(usersFolderPath + "\\users lists\\users.xml");
+            }
         }
 
         //this method is called on finish button in the create database form
@@ -95,7 +154,7 @@ namespace CMBLL
         {
             //load the xml file and add all created databases and alerts
             XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(user.User_Directory);
+            xmlDocument.Load(user.User_Full_Path);
             XmlNode XTop = xmlDocument.CreateElement("Files");
             XmlNode Xname = xmlDocument.CreateElement("database_name");
             XmlNode XDpath = xmlDocument.CreateElement("database_path");
@@ -114,7 +173,7 @@ namespace CMBLL
         {
             //load the xml file and display all created databases and alerts
             XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(user.User_Directory);
+            xmlDocument.Load(user.User_Full_Path);
         }
         ////Takes in three parameters
         //public List<ContactInfo> CloneContact(List<Contact> contactList , List<ContactInfo> contactInfoList)

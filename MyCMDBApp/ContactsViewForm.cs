@@ -26,7 +26,7 @@ namespace MyCMDBApp
             {
                 n = dataGridView1.Rows.Add();//gets the number of rows already in the table
 
-                dataGridView1.Rows[n].Cells[0].Value = node.SelectSingleNode("name").InnerText;
+                dataGridView1.Rows[n].Cells[0].Value = node.SelectSingleNode("username").InnerText;
                 dataGridView1.Rows[n].Cells[1].Value = node.SelectSingleNode("email").InnerText;
                 dataGridView1.Rows[n].Cells[2].Value = node.SelectSingleNode("mobile").InnerText;
                 dataGridView1.Rows[n].Cells[3].Value = node.SelectSingleNode("address").InnerText;
