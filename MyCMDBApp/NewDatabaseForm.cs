@@ -14,9 +14,14 @@ namespace MyCMDBApp
         //private string InitialPath { get; set; }
         public List<Contact> List_All_Contacts = new List<Contact>();
 
+        public string RetrievedUserPath { get; set; }
+
         public NewDatabaseForm()
         {
             InitializeComponent();
+            //get path from currentUserPath session Property
+            SignInForm signInForm = new SignInForm();
+            RetrievedUserPath = signInForm.CurrentUserPath;
         }
 
         private void NewDatabaseForm_Load(object sender, EventArgs e)
@@ -31,11 +36,11 @@ namespace MyCMDBApp
 
         private void Btn_Create_Click(object sender, EventArgs e)
         {
-            //get path from currentUserPath session Property
-            SignInForm signInForm = new SignInForm();
             
             //move back one directory, create new folder, and save file
-            string userPath = Path.Combine(Path.GetDirectoryName(signInForm.CurrentUserPath), "My Databases");
+            string parentDir = Path.GetDirectoryName(RetrievedUserPath);
+
+            string userPath = Path.Combine(parentDir, "My Databases");
             //trim name for white spaces
             string databaseName = Txt_Database_Name.Text.Trim().ToLower();
 

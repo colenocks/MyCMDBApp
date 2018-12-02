@@ -16,7 +16,6 @@ namespace MyCMDBApp
 {
     public partial class SignInForm : Form
     {
-        //User Session property to work with
         public string CurrentUserPath { get; private set; }
 
         public SignInForm()
@@ -36,53 +35,47 @@ namespace MyCMDBApp
             {
                 //trim whitespaces out and convert to lowercases
                 string userId = Txt_User_ID.Text.Trim().ToLower();
-
+                
                 //get the users list folder path from handler class
                 DB_Handler _Handler = new DB_Handler();
                 string AllUsersFile = Path.Combine(_Handler.UsersFolderPath, "users.xml");
-                string userRetrievedPath = "";
-
                 XmlDocument xmlDocument = new XmlDocument();
+                
                 //Load the users xml file and check if username and path exists
                 xmlDocument.Load(Path.GetFullPath(AllUsersFile));
+                string userRetrievedPath ="";
                 foreach (XmlNode node in xmlDocument.SelectNodes("user"))
                 {
                     if (node.SelectSingleNode("username").InnerText == userId)
                     {
                         //retrieve the path
                         userRetrievedPath = node.SelectSingleNode("path").InnerText;
+                        
                     }
+                    //Load the xml using the path
+                    xmlDocument.Load(userRetrievedPath);
                 }
-
                 xmlDocument.Save(Path.GetFullPath(AllUsersFile));
-                //check if user file exists
-                if (!File.Exists(userRetrievedPath))
+                //match the xml password attribute with access code provided
+                if (xmlDocument.ChildNodes[1].Attributes["password"].Value.ToString() == Txt_Access_Code.Text)
                 {
-                    MessageBox.Show("User does not exist");
-                    ClearFields();
+                    //set the user session property
+                    CurrentUserPath = userRetrievedPath;
+                         
+                    //Open the Start up form
+                    StartupForm dashboard = new StartupForm();
+                    dashboard.Show();
+                    xmlDocument.Save(userRetrievedPath);
+                       
+                    //close this form
+                    Hide();
                 }
                 else
                 {
-                    //if user exist simply Load xml file
-                    xmlDocument.Load(userRetrievedPath);
-                    if (xmlDocument.ChildNodes[1].Attributes["password"].Value.ToString() == Txt_Access_Code.Text)//match the xml password attribute with access code provided
-                    {
-                        //set the user session property
-                        CurrentUserPath = userRetrievedPath;
-                         
-                        //Open the Start up form
-                        StartupForm dashboard = new StartupForm();
-                        dashboard.Show();
-                        //close this form
-                        Hide();
-                        xmlDocument.Save(userRetrievedPath);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Wrong Password!");
-                        ClearFields();
-                    }
+                    MessageBox.Show("Wrong Password!");
+                    ClearFields();
                 }
+                
             }
         }
 
@@ -133,13 +126,17 @@ namespace MyCMDBApp
 
                 //trim the username for white spaces
                 string username = Txt_Username.Text.Trim().ToLower();
-                string AllUsersFile = Path.Combine(_Handler.UsersFolderPath, "users.xml");
+                if (!Directory.Exists(_Handler.UsersFolderPath))
+                {
+                    Directory.CreateDirectory(_Handler.UsersFolderPath);
+                }
+                string AllUsersFile = Path.GetFullPath(Path.Combine(_Handler.UsersFolderPath, "users.xml"));//Empty users.xml File
 
                 //first check if the user file exists
-                if (File.Exists(AllUsersFile))
+                if (File.Exists("user.xml"))
                 {
                     //Load the users xml file and check if username and path exists
-                    xmlDocument.Load(Path.GetFullPath(AllUsersFile));
+                    xmlDocument.Load(AllUsersFile);
                     foreach (XmlNode node in xmlDocument.SelectNodes("user"))
                     {
                         if (node.SelectSingleNode("username").InnerText == username)
@@ -148,9 +145,8 @@ namespace MyCMDBApp
                             ClearFields();
                         }
                     }
-
-                 xmlDocument.Save(Path.GetFullPath(AllUsersFile));
-                }//endif -check for All users file existence
+                    xmlDocument.Save(AllUsersFile);
+                }
                 
                 else //else if All users file doesn't exists validate password
                 { 
@@ -163,26 +159,29 @@ namespace MyCMDBApp
                     //When validation succeeds
                     else
                     {
-                        //concatenate an xml extension to the username
-                        string autoCreatedUserFile = Path.Combine(Rtb_User_Directory.Text, username+".xml");
+                        //generate empty file with username + xml extension
+                        string generatedEmptyFilePath = Path.Combine(Rtb_User_Directory.Text, username+".xml");
 
-                        //instantiate User constructor
-                        User userObj = new User(username, Txt_Password.Text, autoCreatedUserFile);//pass in auto-generated xml empty file as "username.xml"
-                        //Create the user
+                        //instantiate User constructor B
+                        User userObj = new User(username, Txt_Password.Text, generatedEmptyFilePath);
+
+                        //Create the user, write xml to "users.xml" file
                         _Handler.CreateUser(userObj);
-
-                        //set the user session property
-                        CurrentUserPath = autoCreatedUserFile;
-
+                        
                         //saves user to autoGenerated All Users File
-                        _Handler.SaveUsersAccount(Txt_Username.Text, autoCreatedUserFile);
-                           
+                        _Handler.SaveUsersAccount(username, generatedEmptyFilePath);
+
+                        
+                        //set the user session property
+                        CurrentUserPath = generatedEmptyFilePath;
+                        
                         MessageBox.Show("Your User Account has been Created successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
                     ClearFields();
 
                         //Go to sign in form
                         GrB_Register_Form.Enabled = false;
                         GrB_Sign_In_Form.Enabled = true;
+                        RadioBtn_Returning_User.Checked = true;
                     }
                 }
             }

@@ -8,7 +8,7 @@ namespace CMEntities
     {
         public string Username { get; }
         public string Password { get; }
-        public string User_Full_Path { get; }
+        public string UserFilePath { get; }
         //public string Alert_Path { get; } //coming soon
         //public string Alert_Name { get; }
         public string Database_Path { get; }
@@ -16,15 +16,15 @@ namespace CMEntities
 
         public User(string name, string path) //Constructor A
         {
-            Database_Path = path;
             Database_Name = name;
+            Database_Path = path;
         }
 
-        public User(string username, string password, string directory) //Constructor B
+        public User(string username, string password, string path) //Constructor B
         {
             Username = username;
             Password = password;
-            User_Full_Path = directory;
+            UserFilePath = path;
         }
 
     }
