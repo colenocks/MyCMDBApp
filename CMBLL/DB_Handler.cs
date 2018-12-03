@@ -11,7 +11,7 @@ namespace CMBLL
     {
         public string UsersFolderPath => Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\users lists";
 
-        //public List<Database> List_All_Databases = new List<Database>();
+        public List<Database> List_All_Databases { get; private set; }
 
         public void CreateDatabaseXml(Database database)
         {
@@ -29,6 +29,9 @@ namespace CMBLL
             xmlwriter.WriteComment("Contacts here");
             xmlwriter.WriteEndElement();
             xmlwriter.Close();
+
+            //Add to list
+            List_All_Databases.Add(database);
         }
         
         public void AddContact(Contact contact)

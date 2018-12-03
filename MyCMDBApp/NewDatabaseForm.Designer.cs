@@ -395,7 +395,7 @@
             this.Name = "NewDatabaseForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "New Database";
-            this.Load += new System.EventHandler(this.NewDatabaseForm_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NewDatabaseForm_FormClosing);
             this.GrBox_Contact_Form.ResumeLayout(false);
             this.GrBox_Contact_Form.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();

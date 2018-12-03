@@ -31,7 +31,7 @@
             this.btn_Manage_Alerts = new System.Windows.Forms.Button();
             this.btn_Open_Database = new System.Windows.Forms.Button();
             this.Btn_Create_Database = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.Top_Label = new System.Windows.Forms.Label();
             this.Btn_SignOut = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -41,7 +41,7 @@
             this.btn_Manage_Alerts.Font = new System.Drawing.Font("Perpetua Titling MT", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Manage_Alerts.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btn_Manage_Alerts.Location = new System.Drawing.Point(68, 251);
-            this.btn_Manage_Alerts.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_Manage_Alerts.Margin = new System.Windows.Forms.Padding(4);
             this.btn_Manage_Alerts.Name = "btn_Manage_Alerts";
             this.btn_Manage_Alerts.Size = new System.Drawing.Size(245, 60);
             this.btn_Manage_Alerts.TabIndex = 3;
@@ -54,7 +54,7 @@
             this.btn_Open_Database.Font = new System.Drawing.Font("Perpetua Titling MT", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Open_Database.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btn_Open_Database.Location = new System.Drawing.Point(406, 135);
-            this.btn_Open_Database.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_Open_Database.Margin = new System.Windows.Forms.Padding(4);
             this.btn_Open_Database.Name = "btn_Open_Database";
             this.btn_Open_Database.Size = new System.Drawing.Size(245, 60);
             this.btn_Open_Database.TabIndex = 2;
@@ -68,7 +68,7 @@
             this.Btn_Create_Database.Font = new System.Drawing.Font("Perpetua Titling MT", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Create_Database.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.Btn_Create_Database.Location = new System.Drawing.Point(68, 135);
-            this.Btn_Create_Database.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Btn_Create_Database.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Create_Database.Name = "Btn_Create_Database";
             this.Btn_Create_Database.Size = new System.Drawing.Size(245, 60);
             this.Btn_Create_Database.TabIndex = 1;
@@ -76,19 +76,19 @@
             this.Btn_Create_Database.UseVisualStyleBackColor = true;
             this.Btn_Create_Database.Click += new System.EventHandler(this.Btn_Create_Database_Click);
             // 
-            // label1
+            // Top_Label
             // 
-            this.label1.BackColor = System.Drawing.SystemColors.HotTrack;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label1.Font = new System.Drawing.Font("Georgia", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(712, 68);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "  Welcome to My Contact Management";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.Top_Label.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.Top_Label.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Top_Label.Font = new System.Drawing.Font("Georgia", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Top_Label.ForeColor = System.Drawing.Color.White;
+            this.Top_Label.Location = new System.Drawing.Point(0, 0);
+            this.Top_Label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Top_Label.Name = "Top_Label";
+            this.Top_Label.Size = new System.Drawing.Size(712, 68);
+            this.Top_Label.TabIndex = 6;
+            this.Top_Label.Text = "  Welcome to My Contact Management";
+            this.Top_Label.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Btn_SignOut
             // 
@@ -111,14 +111,15 @@
             this.ClientSize = new System.Drawing.Size(712, 413);
             this.Controls.Add(this.Btn_SignOut);
             this.Controls.Add(this.btn_Manage_Alerts);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.Top_Label);
             this.Controls.Add(this.btn_Open_Database);
             this.Controls.Add(this.Btn_Create_Database);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "StartupForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "My Contact Management";
+            this.Text = "Welcome to My Contact Management";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.StartupForm_FormClosing);
             this.ResumeLayout(false);
 
         }
@@ -127,7 +128,7 @@
         private System.Windows.Forms.Button btn_Manage_Alerts;
         private System.Windows.Forms.Button btn_Open_Database;
         private System.Windows.Forms.Button Btn_Create_Database;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label Top_Label;
         private System.Windows.Forms.Button Btn_SignOut;
     }
 }

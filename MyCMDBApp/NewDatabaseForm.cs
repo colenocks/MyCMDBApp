@@ -14,24 +14,20 @@ namespace MyCMDBApp
         //private string InitialPath { get; set; }
         public List<Contact> List_All_Contacts = new List<Contact>();
 
-        public string RetrievedUserPath { get; private set; }
+        private string UserPath;
 
         public NewDatabaseForm()
         {
-            InitializeComponent();  
-        }
-
-        private void NewDatabaseForm_Load(object sender, EventArgs e)
-        {
-            //retrieved path from currentUserPath session Property in signIn Form
-            SignInForm signInForm = new SignInForm();
-            RetrievedUserPath = signInForm.CurrentUserFolderPath;
+            InitializeComponent();
         }
 
         private void Btn_Create_Click(object sender, EventArgs e)
         {
-            
-            string parentDirectory = Path.GetDirectoryName(RetrievedUserPath);
+            //retrieved path from currentUserPath session Property in signIn Form
+            UserDetails userDetails = new UserDetails();
+            UserPath = userDetails.RetrievedUserFilePath;
+            MessageBox.Show(UserPath);
+            string parentDirectory = Path.GetDirectoryName(UserPath);
 
             string userDatabasesDirectory = Path.Combine(parentDirectory, "My Databases");
             //create the Directory, if it doesn't exist
@@ -232,6 +228,12 @@ namespace MyCMDBApp
             {
                 errorProvider.SetError(Txt_Name, "");
             }
+        }
+
+        private void NewDatabaseForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            StartupForm dashboard = new StartupForm();
+            dashboard.Show();
         }
 
         //Email

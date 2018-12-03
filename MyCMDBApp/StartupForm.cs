@@ -1,4 +1,5 @@
 ﻿using CMBLL;
+using CMEntities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,18 +16,29 @@ namespace MyCMDBApp
 {
     public partial class StartupForm : Form
     {
-        private string Username { get; set; }
         public StartupForm()
         {
             InitializeComponent();
+
+            UserDetails userDetails = new UserDetails();
+            string username = userDetails.RetrievedUsername;
+            MessageBox.Show(username);
+            Top_Label.Text = $"Welcome {username}";
         }
+
         //public void RetrieveDatabase(List<string> Retrieved_Database_List)
         //{
         //    DatabaseList = Retrieved_Database_List;
         //}
 
+        private void StartupForm_Load(object sender, EventArgs e)
+        {
+           
+        }
+
         private void Btn_Create_Database_Click(object sender, EventArgs e)
         {
+            
             //Create an instance of the new database form
             NewDatabaseForm newDatabaseForm = new NewDatabaseForm();
             //open the form
@@ -36,34 +48,38 @@ namespace MyCMDBApp
             Hide();
         }
 
-        private void Btn_Search_Click(object sender, EventArgs e)
-        {   
-
-        }
-
         private void Btn_Open_Database_Click(object sender, EventArgs e)
         {
-           /*   //  openDatabase form
-            *   in openDatatabase form
-            *   populate gridview with paths of all databases in user
-                if(_Handler.List_All_Databases.Count <= 0)
-                {
-                    MessageBox.Show("No Database has been created");
-                }
-                else
-                {
-                    MessageBox.Show($"{_Handler.List_All_Databases.Count} database(s) found");
-                    //open Open_Database form to select database
-                    //coming soon...
+            //  ManageDatabase form
+            //*   in openDatatabase form
+            //*   populate gridview with paths of all databases in user
+            DB_Handler _Handler = new DB_Handler();
+                 if(_Handler.List_All_Databases == null)
+                 {
+                     MessageBox.Show("No Database has been created");
                  }
-             */
+                 else
+                 {
+                     MessageBox.Show($"{_Handler.List_All_Databases.Count} database(s) found");
+                //open ManageDatabase form to select database
+                    //ManageDatabasesForm databaseForm = new ManageDatabasesForm();
+                    //databaseForm.Show();
+                    //Hide();
+                  }
+              
         }
 
         private void Btn_SignOut_Click(object sender, EventArgs e)
         {
-            SignInForm homeForm = new SignInForm();
-            homeForm.Show();
-            Hide();
+            SignInForm signInForm = new SignInForm();
+            signInForm.Show();
+            Close();
+        }
+
+        private void StartupForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SignInForm signInForm = new SignInForm();
+            signInForm.Show();
         }
 
         //public void NameCommand()

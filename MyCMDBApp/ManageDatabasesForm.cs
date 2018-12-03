@@ -27,8 +27,8 @@ namespace MyCMDBApp
 
         public void LoadToList()
         {
-            SignInForm homeForm = new SignInForm();
-            string userPath = homeForm.CurrentUserFilePath;
+            UserDetails userDetails = new UserDetails();
+            string userPath = userDetails.RetrievedUserFilePath;
             string username = Path.GetFileNameWithoutExtension(userPath);
 
             //Load the users xml file and retrieve all database paths
