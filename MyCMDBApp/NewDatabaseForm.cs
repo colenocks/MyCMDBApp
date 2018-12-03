@@ -14,42 +14,40 @@ namespace MyCMDBApp
         //private string InitialPath { get; set; }
         public List<Contact> List_All_Contacts = new List<Contact>();
 
-        public string RetrievedUserPath { get; set; }
+        public string RetrievedUserPath { get; private set; }
 
         public NewDatabaseForm()
         {
-            InitializeComponent();
-            //get path from currentUserPath session Property
-            SignInForm signInForm = new SignInForm();
-            RetrievedUserPath = signInForm.CurrentUserPath;
+            InitializeComponent();  
         }
 
         private void NewDatabaseForm_Load(object sender, EventArgs e)
         {
-            ////Set initial directory
-            //InitialPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            //if (!Directory.Exists(InitialPath += "\\testCMDB"))
-            //{
-            //    Directory.CreateDirectory(InitialPath += "\\testCMDB");
-            //}
+            //retrieved path from currentUserPath session Property in signIn Form
+            SignInForm signInForm = new SignInForm();
+            RetrievedUserPath = signInForm.CurrentUserFolderPath;
         }
 
         private void Btn_Create_Click(object sender, EventArgs e)
         {
             
-            //move back one directory, create new folder, and save file
-            string parentDir = Path.GetDirectoryName(RetrievedUserPath);
+            string parentDirectory = Path.GetDirectoryName(RetrievedUserPath);
 
-            string userPath = Path.Combine(parentDir, "My Databases");
+            string userDatabasesDirectory = Path.Combine(parentDirectory, "My Databases");
+            //create the Directory, if it doesn't exist
+            if (!Directory.Exists(userDatabasesDirectory))
+            {
+                Directory.CreateDirectory(userDatabasesDirectory);
+            }
             //trim name for white spaces
             string databaseName = Txt_Database_Name.Text.Trim().ToLower();
 
             SaveFileDialog savefile = new SaveFileDialog
             {
+                Title = "Save Database File",
                 Filter = "XML File|.xml",
                 FileName = databaseName,
-                Title = "Save Database File",
-                InitialDirectory = userPath
+                InitialDirectory = userDatabasesDirectory
             };
 
             if (savefile.ShowDialog() == DialogResult.OK)
@@ -60,6 +58,10 @@ namespace MyCMDBApp
                     MessageBox.Show("Database file created succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
                     //display directory
                     Rtb_Database_Directory.Text = savefile.FileName;
+                    //if database name text field is empty
+                    Txt_Database_Name.Text = Path.GetFileNameWithoutExtension(savefile.FileName);
+
+                    //disable controls
                     Txt_Database_Name.Enabled = false;
                     Btn_Create.Enabled = false;
                     //Enable the add Contacts and Create Alert Button
@@ -67,15 +69,15 @@ namespace MyCMDBApp
                     Btn_Create_Alert.Enabled = true;
 
                     //instantiate database constructor
-                    Database databaseObj = new Database(databaseName, Rtb_Database_Directory.Text);
+                    Database databaseObj = new Database(Txt_Database_Name.Text, Rtb_Database_Directory.Text);
 
                     DB_Handler _Handler = new DB_Handler();
-                    _Handler.CreateDatabase(databaseObj);
+                    _Handler.CreateDatabaseXml(databaseObj);
 
                     //instantiate user constructor A
                     User userObj = new User(databaseName, Rtb_Database_Directory.Text);
                     //Add database details to the user xml file
-                    _Handler.AddUserFiles(userObj);
+                    _Handler.AddUserDatabaseXml(userObj);
                 }
                 else
                 {
@@ -169,7 +171,7 @@ namespace MyCMDBApp
                 {
                     DB_Handler _Handler = new DB_Handler();
                     User userObj = new User(List_All_Contacts[i].Contact_Database, List_All_Contacts[i].Full_Path);
-                    _Handler.AddUserFiles(userObj);
+                    _Handler.AddUserDatabaseXml(userObj);
                 }
                 //clear contacts list
                 List_All_Contacts.Clear();

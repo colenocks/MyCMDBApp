@@ -16,7 +16,11 @@ namespace MyCMDBApp
 {
     public partial class SignInForm : Form
     {
-        public string CurrentUserPath { get; private set; }
+        public string CurrentUserFilePath { get; private set; }
+
+        public string CurrentUserFolderPath { get; set; }
+
+        public string RetrievedUserFilePath { get; private set; }
 
         public SignInForm()
         {
@@ -26,7 +30,7 @@ namespace MyCMDBApp
         private void Btn_Sign_In_Click(object sender, EventArgs e)
         {
             //Fields have to be checked for empty
-            if(string.IsNullOrEmpty(Txt_User_ID.Text)|| string.IsNullOrEmpty(Txt_Access_Code.Text))
+            if (string.IsNullOrEmpty(Txt_User_ID.Text) || string.IsNullOrEmpty(Txt_Access_Code.Text))
             {
                 MessageBox.Show("username is empty or contains invalid characters");
                 ClearFields();
@@ -35,47 +39,63 @@ namespace MyCMDBApp
             {
                 //trim whitespaces out and convert to lowercases
                 string userId = Txt_User_ID.Text.Trim().ToLower();
-                
+
                 //get the users list folder path from handler class
                 DB_Handler _Handler = new DB_Handler();
-                string AllUsersFile = Path.Combine(_Handler.UsersFolderPath, "users.xml");
-                XmlDocument xmlDocument = new XmlDocument();
+                string AllUsersFile = Path.Combine(_Handler.UsersFolderPath, "users.xml"); 
                 
+
+                XmlDocument xmlDocument = new XmlDocument();
                 //Load the users xml file and check if username and path exists
-                xmlDocument.Load(Path.GetFullPath(AllUsersFile));
-                string userRetrievedPath ="";
-                foreach (XmlNode node in xmlDocument.SelectNodes("user"))
+                if (!File.Exists(AllUsersFile))
                 {
-                    if (node.SelectSingleNode("username").InnerText == userId)
-                    {
-                        //retrieve the path
-                        userRetrievedPath = node.SelectSingleNode("path").InnerText;
-                        
-                    }
-                    //Load the xml using the path
-                    xmlDocument.Load(userRetrievedPath);
-                }
-                xmlDocument.Save(Path.GetFullPath(AllUsersFile));
-                //match the xml password attribute with access code provided
-                if (xmlDocument.ChildNodes[1].Attributes["password"].Value.ToString() == Txt_Access_Code.Text)
-                {
-                    //set the user session property
-                    CurrentUserPath = userRetrievedPath;
-                         
-                    //Open the Start up form
-                    StartupForm dashboard = new StartupForm();
-                    dashboard.Show();
-                    xmlDocument.Save(userRetrievedPath);
-                       
-                    //close this form
-                    Hide();
+                   MessageBox.Show("No user have been created in this application yet");
+                    ClearFields();
                 }
                 else
                 {
-                    MessageBox.Show("Wrong Password!");
-                    ClearFields();
-                }
+                    xmlDocument.Load(Path.GetFullPath(AllUsersFile));
                 
+                    foreach (XmlNode node in xmlDocument.SelectNodes("allusers/user"))
+                    {
+                        if (node.SelectSingleNode("username").InnerText == userId)
+                        {
+                            //retrieve the path
+                            RetrievedUserFilePath = node.SelectSingleNode("path").InnerText;
+                        }
+                    }
+                    xmlDocument.Save(Path.GetFullPath(AllUsersFile));
+                    //load the xml file if path exists
+                    if (RetrievedUserFilePath == null)
+                    {
+                        MessageBox.Show("User Does not exist");
+                        ClearFields();
+                    }
+                    else
+                    {
+                        xmlDocument.Load(Path.GetFullPath(RetrievedUserFilePath));
+                //match the xml password attribute with access code provided, where ChildNodes[0] is the Xml Declaration node
+                        if (xmlDocument.ChildNodes[1].Attributes["password"].Value.ToString() != Txt_Access_Code.Text)
+                        {
+                           MessageBox.Show("Wrong Password!");
+                            ClearFields();
+                        }
+                        else
+                        {
+                            //set the user file path property
+                            CurrentUserFilePath = RetrievedUserFilePath;
+
+                            //Open the Start up form
+                            StartupForm dashboard = new StartupForm();
+                            dashboard.Show();
+                            xmlDocument.Save(Path.GetFullPath(RetrievedUserFilePath));
+
+                            //close this form
+                            Hide();
+                        }
+                    }
+
+                }
             }
         }
 
@@ -172,11 +192,11 @@ namespace MyCMDBApp
                         _Handler.SaveUsersAccount(username, generatedEmptyFilePath);
 
                         
-                        //set the user session property
-                        CurrentUserPath = generatedEmptyFilePath;
+                        //store the folder to be passed into the newDatabase form and to be used to create databases 
+                        CurrentUserFolderPath = Rtb_User_Directory.Text;
                         
                         MessageBox.Show("Your User Account has been Created successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
-                    ClearFields();
+                        ClearFields();
 
                         //Go to sign in form
                         GrB_Register_Form.Enabled = false;

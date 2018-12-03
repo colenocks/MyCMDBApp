@@ -13,7 +13,7 @@ namespace CMBLL
 
         //public List<Database> List_All_Databases = new List<Database>();
 
-        public void CreateDatabase(Database database)
+        public void CreateDatabaseXml(Database database)
         {
             //write to xml
             XmlWriterSettings settings = new XmlWriterSettings
@@ -71,7 +71,7 @@ namespace CMBLL
         {
             //on click of Register button
             //create a directory once user signs in, and create an xml file with username as root element
-            if (File.Exists(user.UserFilePath))
+            if (!File.Exists(user.UserFilePath))
             {
                 XmlWriterSettings settings = new XmlWriterSettings
                 {
@@ -81,12 +81,11 @@ namespace CMBLL
                 XmlWriter xmlwriter;
                 xmlwriter = XmlWriter.Create(user.UserFilePath, settings);
                 xmlwriter.WriteStartDocument();
-                //root element
-                xmlwriter.WriteStartElement(user.Username);
-                xmlwriter.WriteAttributeString("password", user.Password);
-                xmlwriter.WriteComment("---------Database List----------");
-                //close root element
+                    xmlwriter.WriteStartElement(user.Username);
+                        xmlwriter.WriteAttributeString("password", user.Password);
+                        xmlwriter.WriteComment("---------Database List----------");
                 xmlwriter.WriteEndElement();
+                xmlwriter.Flush();
                 xmlwriter.Close();
             }
         }
@@ -98,8 +97,8 @@ namespace CMBLL
             {
                 Directory.CreateDirectory(UsersFolderPath);
             }
-            string usersEmptyXmlFile = Path.Combine(UsersFolderPath, "users.xml");
-            if(!File.Exists(usersEmptyXmlFile))
+            string usersXmlFile = Path.Combine(UsersFolderPath, "users.xml");
+            if(!File.Exists(usersXmlFile))
             {
                 XmlWriterSettings settings = new XmlWriterSettings
                 {
@@ -108,44 +107,42 @@ namespace CMBLL
                 };
 
                 XmlWriter xmlwriter;//create and write to the file
-                xmlwriter = XmlWriter.Create(usersEmptyXmlFile, settings);
+                xmlwriter = XmlWriter.Create(usersXmlFile, settings);
                 xmlwriter.WriteStartDocument();
                 //
-                xmlwriter.WriteStartElement("user");
-                xmlwriter.WriteStartElement("username");
-                xmlwriter.WriteString(username);
-                xmlwriter.WriteEndElement();
-                xmlwriter.WriteStartElement("path");
-                xmlwriter.WriteString(userpath);
-                xmlwriter.WriteEndElement();
-                //end root element (user)
+                xmlwriter.WriteStartElement("allusers");
+                    xmlwriter.WriteStartElement("user");
+                        xmlwriter.WriteElementString("username", username);
+                        xmlwriter.WriteElementString("path", userpath);
+                    xmlwriter.WriteEndElement();
                 xmlwriter.WriteEndElement();
                 //
+                xmlwriter.Flush();
                 xmlwriter.Close();
             }
             else
             {
                 // if the users.xml file already exists, simply load it
                 XmlDocument xmlDocument = new XmlDocument();
-                xmlDocument.Load(Path.GetFullPath(usersEmptyXmlFile));
-                XmlNode XTop = xmlDocument.CreateElement("user");
-                XmlNode Xusername = xmlDocument.CreateElement("username");
-                XmlNode XUpath = xmlDocument.CreateElement("path");
+                xmlDocument.Load(Path.GetFullPath(usersXmlFile));
 
-                Xusername.InnerText = userpath;
+                XmlNode top = xmlDocument.CreateElement("user");
+                    XmlNode Xusername = xmlDocument.CreateElement("username");
+                    XmlNode XUpath = xmlDocument.CreateElement("path");
+
+                Xusername.InnerText = username;
                 XUpath.InnerText = userpath;
 
-                XTop.AppendChild(Xusername);
-                XTop.AppendChild(XUpath);
+                top.AppendChild(Xusername);
+                top.AppendChild(XUpath);
 
-                xmlDocument.DocumentElement.AppendChild(XTop);
-
-                xmlDocument.Save(Path.GetFullPath(usersEmptyXmlFile));
+                xmlDocument.DocumentElement.AppendChild(top);
+                xmlDocument.Save(Path.GetFullPath(usersXmlFile));
             }
         }
 
         //this method is called on finish button in the create database form
-        public void AddUserFiles(User user)
+        public void AddUserDatabaseXml(User user)
         {
             //load the xml file and add all created databases and alerts
             XmlDocument xmlDocument = new XmlDocument();
@@ -162,7 +159,7 @@ namespace CMBLL
             XTop.AppendChild(Xname);
             XTop.AppendChild(XDpath);
             //appends the nodes just under the comment "---Database list---"
-            xmlDocument.AppendChild(XTop);
+            xmlDocument.DocumentElement.AppendChild(XTop);
 
             xmlDocument.Save(user.UserFilePath);
         }
