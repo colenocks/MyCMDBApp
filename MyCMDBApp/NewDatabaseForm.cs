@@ -11,29 +11,29 @@ namespace MyCMDBApp
 {
     public partial class NewDatabaseForm : Form
     {
-        //private string InitialPath { get; set; }
+        private string _userFolder;
+        private string _userName;
+
         public List<Contact> List_All_Contacts = new List<Contact>();
 
-        private string UserPath;
+        public NewDatabaseForm(){}
 
-        public NewDatabaseForm()
+        public NewDatabaseForm(string name, string folder)
         {
             InitializeComponent();
+            _userName = name;
+            _userFolder = folder;
         }
 
         private void Btn_Create_Click(object sender, EventArgs e)
         {
-            //retrieved path from currentUserPath session Property in signIn Form
-            UserDetails userDetails = new UserDetails();
-            UserPath = userDetails.RetrievedUserFilePath;
-            MessageBox.Show(UserPath);
-            string parentDirectory = Path.GetDirectoryName(UserPath);
-
-            string userDatabasesDirectory = Path.Combine(parentDirectory, "My Databases");
+            MessageBox.Show(_userFolder);
+            
+            string userDatabasesFolder = Path.Combine(_userFolder, $"{_userName}_Databases");
             //create the Directory, if it doesn't exist
-            if (!Directory.Exists(userDatabasesDirectory))
+            if (!Directory.Exists(userDatabasesFolder))
             {
-                Directory.CreateDirectory(userDatabasesDirectory);
+                Directory.CreateDirectory(userDatabasesFolder);
             }
             //trim name for white spaces
             string databaseName = Txt_Database_Name.Text.Trim().ToLower();
@@ -43,7 +43,7 @@ namespace MyCMDBApp
                 Title = "Save Database File",
                 Filter = "XML File|.xml",
                 FileName = databaseName,
-                InitialDirectory = userDatabasesDirectory
+                InitialDirectory = userDatabasesFolder
             };
 
             if (savefile.ShowDialog() == DialogResult.OK)
@@ -70,10 +70,13 @@ namespace MyCMDBApp
                     DB_Handler _Handler = new DB_Handler();
                     _Handler.CreateDatabaseXml(databaseObj);
 
+                    //back up one directory, get database storage file.
+                    //instead of going into the file to retrieve
+                    string userDatabaseXmlFile = Path.Combine(_userFolder, _userName+".xml");
                     //instantiate user constructor A
                     User userObj = new User(databaseName, Rtb_Database_Directory.Text);
                     //Add database details to the user xml file
-                    _Handler.AddUserDatabaseXml(userObj);
+                    _Handler.AddToUserDatabaseXml(userObj, userDatabaseXmlFile);
                 }
                 else
                 {
@@ -99,23 +102,15 @@ namespace MyCMDBApp
             //Create instance of Alert Form
             NewAlertForm newAlert = new NewAlertForm();
             newAlert.ShowDialog();
-            //... coming soon
+            //... coming soon- Prajwal
 
         }
 
         private void Btn_Add_Click(object sender, EventArgs e)
         {
-            //clear list contact
-            List_All_Contacts.Clear();
-
-           foreach(Control txtControls in GrBox_Contact_Form.Controls)
+            if (!string.IsNullOrEmpty(Txt_Name.Text))
             {
-                if((txtControls is TextBox) && (string.IsNullOrEmpty(txtControls.Text)))
-                {
-                    MessageBox.Show("Fill in the required contact fields");
-                    Txt_Name.Focus();
-                }
-                else
+                foreach (Control txtControls in GrBox_Contact_Form.Controls)
                 {
                     //call contact constructor to add the appropriate text boxes
                     Contact contactObj = new Contact(Txt_Database_Name.Text, Txt_Name.Text, Txt_Email.Text, Txt_Mobile.Text, Txt_Alt_Mobile.Text, Txt_Address.Text, Txt_Notes.Text, Rtb_Database_Directory.Text);
@@ -144,6 +139,10 @@ namespace MyCMDBApp
                     }
                 }
             }
+            else
+            {
+                MessageBox.Show("Fill the required fields");
+            }
         }
 
         private void Btn_View_Contacts_Click(object sender, EventArgs e)
@@ -161,19 +160,21 @@ namespace MyCMDBApp
         {
             //loops through the list and adds the contact details to the user file xml
             //if all contact list is not empty
-            if(List_All_Contacts.Count != 0)
-            {
-                for(int i = 0; i < List_All_Contacts.Count; i++)
-                {
-                    DB_Handler _Handler = new DB_Handler();
-                    User userObj = new User(List_All_Contacts[i].Contact_Database, List_All_Contacts[i].Full_Path);
-                    _Handler.AddUserDatabaseXml(userObj);
-                }
-                //clear contacts list
-                List_All_Contacts.Clear();
+            //if(List_All_Contacts.Count != 0)
+            //{
+            //    for(int i = 0; i < List_All_Contacts.Count; i++)
+            //    {
+            //        DB_Handler _Handler = new DB_Handler();
+            //        User userObj = new User(List_All_Contacts[i].Contact_Database, List_All_Contacts[i].Full_Path);
+            //        _Handler.AddUserDatabaseXml(userObj);
+            //    }
 
-                Btn_New_Database.Enabled = true;
-            }
+            //clear contacts list
+            List_All_Contacts.Clear();
+            //diable the contact Form Group box
+            GrBox_Contact_Form.Enabled = false;
+            Btn_New_Database.Enabled = true;
+            Btn_Add_Contacts.Enabled = false;
         }
 
         private void Btn_Home_Click(object sender, EventArgs e)
@@ -259,52 +260,5 @@ namespace MyCMDBApp
                     {
                         MessageBox.Show($"{List_All_Contacts.Count} Contact(s) have been added Succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
                     }
-                    else
-                    {
-                        //add to List to keep count
-                        List_All_Contacts.Add(contactObj);
 
-                        //Display a message box, contact added
-                        MessageBox.Show($"{List_All_Contacts.Count} Contact(s) have been added Succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
-                    }
-                }
-            }
-
-            SaveFileDialog saveFile = new SaveFileDialog();
-            saveFile.InitialDirectory = InitialPath;
-            saveFile.Filter = "XML File | *.xml";
-            saveFile.Title = "Create Empty Xml File";
-            saveFile.FileName = Txt_Database_Name.Text; //automatically adds the name to the dialog
-            if (saveFile.ShowDialog() == DialogResult.OK)
-            {
-                //displays the 
-                Rtb_Show_Location.Text = saveFile.FileName;
-                Txt_Database_Name.Text = Path.GetFileNameWithoutExtension(saveFile.FileName);
-               
-            }
-            else
-            {
-            //clear fields
-                Txt_Database_Name.Clear();
-                Rtb_Show_Location.Clear();
-            }
-     */
-//DB_Handler _Handler = new DB_Handler();
-
-////convert name to lower case, use as xml root element
-//string convertedDbName = Txt_Database_Name.Text.ToLower();
-
-////Use the SaveFileDialog component's OpenFile method to save the file. This method gives me a Stream object (getStream) I can write to.
-//FileStream getStream = (FileStream)saveFile.OpenFile();
-
-////Set _handler properties
-//_Handler.Database_Stream = getStream; //opened stream
-//                _Handler.Database_FullPath = saveFile.FileName; //full path
-
-//                //pass in name and path for use in BLL class
-//                Databases databaseObj = new Databases(convertedDbName, _Handler.Database_FullPath);
-
-
-////flag the indicator
-//IsEmptyFileSaved = true;
-
+*/

@@ -28,39 +28,40 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btn_Manage_Alerts = new System.Windows.Forms.Button();
-            this.btn_Open_Database = new System.Windows.Forms.Button();
+            this.Btn_Manage_Alerts = new System.Windows.Forms.Button();
+            this.Btn_Open_Database = new System.Windows.Forms.Button();
             this.Btn_Create_Database = new System.Windows.Forms.Button();
             this.Top_Label = new System.Windows.Forms.Label();
             this.Btn_SignOut = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // btn_Manage_Alerts
+            // Btn_Manage_Alerts
             // 
-            this.btn_Manage_Alerts.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_Manage_Alerts.Font = new System.Drawing.Font("Perpetua Titling MT", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Manage_Alerts.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btn_Manage_Alerts.Location = new System.Drawing.Point(68, 251);
-            this.btn_Manage_Alerts.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_Manage_Alerts.Name = "btn_Manage_Alerts";
-            this.btn_Manage_Alerts.Size = new System.Drawing.Size(245, 60);
-            this.btn_Manage_Alerts.TabIndex = 3;
-            this.btn_Manage_Alerts.Text = "Manage Alerts";
-            this.btn_Manage_Alerts.UseVisualStyleBackColor = true;
+            this.Btn_Manage_Alerts.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.Btn_Manage_Alerts.Font = new System.Drawing.Font("Perpetua Titling MT", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Manage_Alerts.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Btn_Manage_Alerts.Location = new System.Drawing.Point(68, 251);
+            this.Btn_Manage_Alerts.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn_Manage_Alerts.Name = "Btn_Manage_Alerts";
+            this.Btn_Manage_Alerts.Size = new System.Drawing.Size(245, 60);
+            this.Btn_Manage_Alerts.TabIndex = 3;
+            this.Btn_Manage_Alerts.Text = "Manage Alerts";
+            this.Btn_Manage_Alerts.UseVisualStyleBackColor = true;
+            this.Btn_Manage_Alerts.Click += new System.EventHandler(this.Btn_Manage_Alerts_Click);
             // 
-            // btn_Open_Database
+            // Btn_Open_Database
             // 
-            this.btn_Open_Database.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_Open_Database.Font = new System.Drawing.Font("Perpetua Titling MT", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Open_Database.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btn_Open_Database.Location = new System.Drawing.Point(406, 135);
-            this.btn_Open_Database.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_Open_Database.Name = "btn_Open_Database";
-            this.btn_Open_Database.Size = new System.Drawing.Size(245, 60);
-            this.btn_Open_Database.TabIndex = 2;
-            this.btn_Open_Database.Text = "Open Database";
-            this.btn_Open_Database.UseVisualStyleBackColor = true;
-            this.btn_Open_Database.Click += new System.EventHandler(this.Btn_Open_Database_Click);
+            this.Btn_Open_Database.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.Btn_Open_Database.Font = new System.Drawing.Font("Perpetua Titling MT", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Open_Database.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Btn_Open_Database.Location = new System.Drawing.Point(406, 135);
+            this.Btn_Open_Database.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn_Open_Database.Name = "Btn_Open_Database";
+            this.Btn_Open_Database.Size = new System.Drawing.Size(245, 60);
+            this.Btn_Open_Database.TabIndex = 2;
+            this.Btn_Open_Database.Text = "Open Database";
+            this.Btn_Open_Database.UseVisualStyleBackColor = true;
+            this.Btn_Open_Database.Click += new System.EventHandler(this.Btn_Open_Database_Click);
             // 
             // Btn_Create_Database
             // 
@@ -110,23 +111,22 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(712, 413);
             this.Controls.Add(this.Btn_SignOut);
-            this.Controls.Add(this.btn_Manage_Alerts);
+            this.Controls.Add(this.Btn_Manage_Alerts);
             this.Controls.Add(this.Top_Label);
-            this.Controls.Add(this.btn_Open_Database);
+            this.Controls.Add(this.Btn_Open_Database);
             this.Controls.Add(this.Btn_Create_Database);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "StartupForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Welcome to My Contact Management";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.StartupForm_FormClosing);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.Button btn_Manage_Alerts;
-        private System.Windows.Forms.Button btn_Open_Database;
+        private System.Windows.Forms.Button Btn_Manage_Alerts;
+        private System.Windows.Forms.Button Btn_Open_Database;
         private System.Windows.Forms.Button Btn_Create_Database;
         private System.Windows.Forms.Label Top_Label;
         private System.Windows.Forms.Button Btn_SignOut;

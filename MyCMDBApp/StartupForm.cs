@@ -16,14 +16,23 @@ namespace MyCMDBApp
 {
     public partial class StartupForm : Form
     {
-        public StartupForm()
+        //Session Properties
+        public string UserFolderPath { get; private set; }
+        public string UserFilePath { get; private set; }
+        public string Username { get; private set; }
+        
+        public StartupForm(string username, string path, string folder)
         {
             InitializeComponent();
+            UserFolderPath = folder;
+            UserFilePath = path;
+            Username = username;
+            Top_Label.Text = $"Welcome {Username}";
+        }
 
-            UserDetails userDetails = new UserDetails();
-            string username = userDetails.RetrievedUsername;
-            MessageBox.Show(username);
-            Top_Label.Text = $"Welcome {username}";
+        public StartupForm()
+        {
+            
         }
 
         //public void RetrieveDatabase(List<string> Retrieved_Database_List)
@@ -33,17 +42,14 @@ namespace MyCMDBApp
 
         private void StartupForm_Load(object sender, EventArgs e)
         {
-           
+            MessageBox.Show(Username);
         }
 
         private void Btn_Create_Database_Click(object sender, EventArgs e)
         {
-            
             //Create an instance of the new database form
-            NewDatabaseForm newDatabaseForm = new NewDatabaseForm();
-            //open the form
+            NewDatabaseForm newDatabaseForm = new NewDatabaseForm(Username, UserFolderPath);
             newDatabaseForm.Show();
-            
             //close current form
             Hide();
         }
@@ -54,7 +60,7 @@ namespace MyCMDBApp
             //*   in openDatatabase form
             //*   populate gridview with paths of all databases in user
             DB_Handler _Handler = new DB_Handler();
-                 if(_Handler.List_All_Databases == null)
+                 if(_Handler.List_All_Databases == null || _Handler.List_All_Databases.Count == 0)
                  {
                      MessageBox.Show("No Database has been created");
                  }
@@ -62,25 +68,26 @@ namespace MyCMDBApp
                  {
                      MessageBox.Show($"{_Handler.List_All_Databases.Count} database(s) found");
                 //open ManageDatabase form to select database
-                    //ManageDatabasesForm databaseForm = new ManageDatabasesForm();
-                    //databaseForm.Show();
-                    //Hide();
-                  }
+                    ManageDatabasesForm databaseForm = new ManageDatabasesForm(UserFilePath);
+                databaseForm.Show();
+                Hide();
+            }
               
         }
 
         private void Btn_SignOut_Click(object sender, EventArgs e)
         {
+            MessageBox.Show($"See You Later, {Username}");
             SignInForm signInForm = new SignInForm();
             signInForm.Show();
             Close();
         }
 
-        private void StartupForm_FormClosing(object sender, FormClosingEventArgs e)
+        private void Btn_Manage_Alerts_Click(object sender, EventArgs e)
         {
-            SignInForm signInForm = new SignInForm();
-            signInForm.Show();
+            MessageBox.Show("Alerts Coming Soon");
         }
+
 
         //public void NameCommand()
         //{

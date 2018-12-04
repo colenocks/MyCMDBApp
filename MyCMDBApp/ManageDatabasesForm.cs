@@ -16,35 +16,18 @@ namespace MyCMDBApp
 {
     public partial class ManageDatabasesForm : Form
     {
-        public ManageDatabasesForm()
+        private string _userPath;
+        public ManageDatabasesForm() { }
+        public ManageDatabasesForm(string path)
         {   
             InitializeComponent();
+
+            _userPath = path;
             
             ComboBox_Databases.DataSource = AllDatabases;
         }
 
         public List<Database> AllDatabases { get; private set; } = new List<Database>();
-
-        public void LoadToList()
-        {
-            UserDetails userDetails = new UserDetails();
-            string userPath = userDetails.RetrievedUserFilePath;
-            string username = Path.GetFileNameWithoutExtension(userPath);
-
-            //Load the users xml file and retrieve all database paths
-            XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(Path.GetFullPath(userPath));
-            Database databaseObj = null;
-            string databaseName, databasePath;
-            foreach (XmlNode node in xmlDocument.SelectNodes($"{username}/Files"))
-            {
-                databaseName = node.SelectSingleNode("database_name").InnerText;
-                databasePath = node.SelectSingleNode("database_path").InnerText;
-                databaseObj = new Database(databaseName, databasePath);
-                AllDatabases.Add(databaseObj);
-            }
-            xmlDocument.Save(Path.GetFullPath(userPath));
-        }
 
         private void Btn_Search_Click(object sender, EventArgs e)
         {
@@ -59,6 +42,7 @@ namespace MyCMDBApp
                 
                 //Load lists
                 LoadToList();
+
                 int numberOfDatabases = AllDatabases.Count;
                 XmlDocument xmlDocument = new XmlDocument();
                 if (numberOfDatabases > 0) // if List is not empty
@@ -105,6 +89,27 @@ namespace MyCMDBApp
             //{
 
             //}
+        }
+
+        //Method load databases to list
+        public void LoadToList()
+        {
+            string username = Path.GetFileNameWithoutExtension(_userPath);
+
+            //Load the users xml file and retrieve all database paths
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.Load(Path.GetFullPath(_userPath));
+            Database databaseObj = null;
+            string databaseName, databasePath;
+            foreach (XmlNode node in xmlDocument.SelectNodes($"{username}/Files"))
+            {
+                databaseName = node.SelectSingleNode("database_name").InnerText;
+                databasePath = node.SelectSingleNode("database_path").InnerText;
+                databaseObj = new Database(databaseName, databasePath);
+
+                AllDatabases.Add(databaseObj);
+            }
+            xmlDocument.Save(Path.GetFullPath(_userPath));
         }
     }
 }

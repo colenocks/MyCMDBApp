@@ -16,6 +16,11 @@ namespace MyCMDBApp
 {
     public partial class SignInForm : Form
     {
+        //Session Properties
+        public string CurrentUserFolderPath;
+        public string RetrievedUserFilePath;
+        public string RetrievedUsername;
+
         public SignInForm()
         {
             InitializeComponent();
@@ -23,7 +28,6 @@ namespace MyCMDBApp
         
         private void Btn_Sign_In_Click(object sender, EventArgs e)
         {
-            UserDetails userDetails = new UserDetails();
             //Fields have to be checked for empty
             if (string.IsNullOrEmpty(Txt_User_ID.Text) || string.IsNullOrEmpty(Txt_Access_Code.Text))
             {
@@ -34,8 +38,6 @@ namespace MyCMDBApp
             {
                 //trim whitespaces out and convert to lowercases
                 string userId = Txt_User_ID.Text.Trim().ToLower();
-                
-                userDetails.RetrievedUsername = userId;
                 //get the users list folder path from handler class
                 DB_Handler _Handler = new DB_Handler();
                 string AllUsersFile = Path.Combine(_Handler.UsersFolderPath, "users.xml"); 
@@ -57,19 +59,23 @@ namespace MyCMDBApp
                         if (node.SelectSingleNode("username").InnerText == userId)
                         {
                             //retrieve the path and username
-                            userDetails.RetrievedUserFilePath = node.SelectSingleNode("path").InnerText;
+                            RetrievedUsername = userId;
+                            RetrievedUserFilePath = node.SelectSingleNode("path").InnerText;
+                            //store the folder to be passed into the newDatabase form and to be used to create databases 
+                            CurrentUserFolderPath = Path.GetDirectoryName(RetrievedUserFilePath);
                         }
                     }
                     xmlDocument.Save(Path.GetFullPath(AllUsersFile));
-                    //load the xml file if path exists
-                    if (userDetails.RetrievedUserFilePath == null)
+                    
+                    if (string.IsNullOrEmpty(RetrievedUserFilePath))
                     {
                         MessageBox.Show("User Does not exist");
                         ClearFields();
                     }
                     else
                     {
-                        xmlDocument.Load(Path.GetFullPath(userDetails.RetrievedUserFilePath));
+                        //load the xml file if path exists
+                        xmlDocument.Load(Path.GetFullPath(RetrievedUserFilePath));
                 //match the xml password attribute with access code provided, where ChildNodes[0] is the Xml Declaration node
                         if (xmlDocument.ChildNodes[1].Attributes["password"].Value.ToString() != Txt_Access_Code.Text)
                         {
@@ -78,12 +84,11 @@ namespace MyCMDBApp
                         }
                         else
                         {
-                            //Open the Start up form
-                            StartupForm dashboard = new StartupForm();
+                            //Open the Start up form and pass properties
+                            StartupForm dashboard = new StartupForm(RetrievedUsername, RetrievedUserFilePath, CurrentUserFolderPath);
                             dashboard.Show();
                             
-
-                            xmlDocument.Save(Path.GetFullPath(userDetails.RetrievedUserFilePath));
+                            xmlDocument.Save(Path.GetFullPath(RetrievedUserFilePath));
 
                             //close this form
                             Hide();
@@ -122,7 +127,6 @@ namespace MyCMDBApp
 
         private void Btn_Register_Click(object sender, EventArgs e)
         {
-            UserDetails userDetails = new UserDetails();
             //Fields have to be checked if empty
             if (string.IsNullOrEmpty(Txt_Username.Text) || string.IsNullOrEmpty(Txt_Password.Text)/* || Txt_Username.Text.All(c => !char.IsLetterOrDigit(c) || c != '_')*/)
                 {
@@ -146,12 +150,12 @@ namespace MyCMDBApp
                 {
                     Directory.CreateDirectory(_Handler.UsersFolderPath);
                 }
-                string AllUsersFile = Path.GetFullPath(Path.Combine(_Handler.UsersFolderPath, "users.xml"));//Empty users.xml File
+                string AllUsersFile = Path.GetFullPath(Path.Combine(_Handler.UsersFolderPath, "users.xml"));//create users.xml (empty) File
 
-                //first check if the user file exists
+                //first check if the users.xml file has been created
                 if (File.Exists("user.xml"))
                 {
-                    //Load the users xml file and check if username and path exists
+                    //Load the users.xml file and check if username and path exists
                     xmlDocument.Load(AllUsersFile);
                     foreach (XmlNode node in xmlDocument.SelectNodes("user"))
                     {
@@ -163,8 +167,8 @@ namespace MyCMDBApp
                     }
                     xmlDocument.Save(AllUsersFile);
                 }
-                
-                else //else if All users file doesn't exists validate password
+                //else if username/file doesn't exists validate password
+                else 
                 { 
                     if (Txt_Password.Text != Txt_Repeat_Password.Text)
                     {
@@ -186,10 +190,6 @@ namespace MyCMDBApp
                         
                         //saves user to autoGenerated All Users File
                         _Handler.SaveUsersAccount(username, generatedEmptyFilePath);
-
-
-                        //store the folder to be passed into the newDatabase form and to be used to create databases 
-                        userDetails.CurrentUserFolderPath = Rtb_User_Directory.Text;
                         
                         MessageBox.Show("Your User Account has been Created successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
                         ClearFields();

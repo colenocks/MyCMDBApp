@@ -11,7 +11,7 @@ namespace CMBLL
     {
         public string UsersFolderPath => Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\users lists";
 
-        public List<Database> List_All_Databases { get; private set; }
+        public List<Database> List_All_Databases = new List<Database>();
 
         public void CreateDatabaseXml(Database database)
         {
@@ -145,11 +145,11 @@ namespace CMBLL
         }
 
         //this method is called on finish button in the create database form
-        public void AddUserDatabaseXml(User user)
+        public void AddToUserDatabaseXml(User user, string databasesXml)
         {
             //load the xml file and add all created databases and alerts
             XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(user.UserFilePath);
+            xmlDocument.Load(Path.GetFullPath(databasesXml));
             XmlNode XTop = xmlDocument.CreateElement("Files");
             XmlNode Xname = xmlDocument.CreateElement("database_name");
             XmlNode XDpath = xmlDocument.CreateElement("database_path");
@@ -164,7 +164,7 @@ namespace CMBLL
             //appends the nodes just under the comment "---Database list---"
             xmlDocument.DocumentElement.AppendChild(XTop);
 
-            xmlDocument.Save(user.UserFilePath);
+            xmlDocument.Save(Path.GetFullPath(databasesXml));
         }
 
         public void ShowUserFiles(User user)
