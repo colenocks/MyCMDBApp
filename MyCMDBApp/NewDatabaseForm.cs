@@ -27,8 +27,6 @@ namespace MyCMDBApp
 
         private void Btn_Create_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(_userFolder);
-            
             string userDatabasesFolder = Path.Combine(_userFolder, $"{_userName}_Databases");
             //create the Directory, if it doesn't exist
             if (!Directory.Exists(userDatabasesFolder))
@@ -77,6 +75,10 @@ namespace MyCMDBApp
                     User userObj = new User(databaseName, Rtb_Database_Directory.Text);
                     //Add database details to the user xml file
                     _Handler.AddToUserDatabaseXml(userObj, userDatabaseXmlFile);
+
+                    ///clear the contact list
+                    List_All_Contacts.Clear();
+                    
                 }
                 else
                 {
@@ -92,7 +94,6 @@ namespace MyCMDBApp
         {
             //Enables the contact Form Group box
             GrBox_Contact_Form.Enabled = true;
-            
             Btn_Add_Contacts.Enabled = false;
             
         }
@@ -108,40 +109,37 @@ namespace MyCMDBApp
 
         private void Btn_Add_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(Txt_Name.Text))
+            if (string.IsNullOrEmpty(Txt_Name.Text))
             {
-                foreach (Control txtControls in GrBox_Contact_Form.Controls)
-                {
-                    //call contact constructor to add the appropriate text boxes
-                    Contact contactObj = new Contact(Txt_Database_Name.Text, Txt_Name.Text, Txt_Email.Text, Txt_Mobile.Text, Txt_Alt_Mobile.Text, Txt_Address.Text, Txt_Notes.Text, Rtb_Database_Directory.Text);
-
-                    //open up the xml for writing
-                    DB_Handler _Handler = new DB_Handler();
-                    _Handler.AddContact(contactObj);
-
-                    //add contact object to list
-                    List_All_Contacts.Add(contactObj);
-
-                    //Clear after adding
-                    foreach (Control ctrl in GrBox_Contact_Form.Controls)
-                    {
-                        if (ctrl is TextBox)
-                        {
-                            ctrl.Text = "";
-                        }
-                    }
-
-                    if (List_All_Contacts.Count > 0)
-                    {
-                        //Enable buttons after adding 1 or more contacts
-                        Btn_Finish.Enabled = true;
-                        Btn_View_Contacts.Enabled = true;
-                    }
-                }
+                MessageBox.Show("Fill the required fields"); 
             }
             else
             {
-                MessageBox.Show("Fill the required fields");
+                //call contact constructor to add the appropriate text boxes
+                Contact contactObj = new Contact(Txt_Database_Name.Text, Txt_Name.Text, Txt_Email.Text, Txt_Mobile.Text, Txt_Alt_Mobile.Text, Txt_Address.Text, Txt_Notes.Text, Rtb_Database_Directory.Text);
+
+                //open up the xml for writing
+                DB_Handler _Handler = new DB_Handler();
+                _Handler.AddContact(contactObj);
+
+                //add contact object to list
+                List_All_Contacts.Add(contactObj);
+
+                //Clear after adding
+                foreach (Control ctrl in GrBox_Contact_Form.Controls)
+                {
+                    if (ctrl is TextBox)
+                    {
+                        ctrl.Text = "";
+                    }
+                }
+
+                if (List_All_Contacts.Count > 0)
+                {
+                    //Enable buttons after adding 1 or more contacts
+                    Btn_Finish.Enabled = true;
+                    Btn_View_Contacts.Enabled = true;
+                }
             }
         }
 
@@ -158,30 +156,18 @@ namespace MyCMDBApp
 
         private void Btn_Finish_Click(object sender, EventArgs e)
         {
-            //loops through the list and adds the contact details to the user file xml
-            //if all contact list is not empty
-            //if(List_All_Contacts.Count != 0)
-            //{
-            //    for(int i = 0; i < List_All_Contacts.Count; i++)
-            //    {
-            //        DB_Handler _Handler = new DB_Handler();
-            //        User userObj = new User(List_All_Contacts[i].Contact_Database, List_All_Contacts[i].Full_Path);
-            //        _Handler.AddUserDatabaseXml(userObj);
-            //    }
-
             //clear contacts list
             List_All_Contacts.Clear();
-            //diable the contact Form Group box
-            GrBox_Contact_Form.Enabled = false;
             Btn_New_Database.Enabled = true;
-            Btn_Add_Contacts.Enabled = false;
+
+            Btn_Add.Enabled = false;
+            Btn_View_Contacts.Enabled = false;
+            Btn_Finish.Enabled = false;
         }
 
         private void Btn_Home_Click(object sender, EventArgs e)
         {
-            StartupForm parentForm = new StartupForm();
-            parentForm.Show();
-            Close();  
+            Close();
         }
 
         private void Btn_New_Database_Click(object sender, EventArgs e)
@@ -206,35 +192,29 @@ namespace MyCMDBApp
         
         //FIELDS VALIDATION
         //Name
-        private bool Txt_Name_Validated()
-        {
-            bool valid = true;
+        //private bool Txt_Name_Validated()
+        //{
+            //bool valid = true;
 
-            if (string.IsNullOrEmpty(Txt_Name.Text))
-            {
-                valid = false;
-            }
+            //if (string.IsNullOrEmpty(Txt_Name.Text))
+            //{
+            //    valid = false;
+            //}
             
-            return valid;
-        }
+            //return valid;
+        //}
 
         private void Txt_Name_Validating(object sender, CancelEventArgs e)
         {
-            if (!Txt_Name_Validated())
-            {
-                errorProvider.SetError(Txt_Name, $"You must Enter a Name");
-                e.Cancel = true;
-            }
-            else
-            {
-                errorProvider.SetError(Txt_Name, "");
-            }
-        }
-
-        private void NewDatabaseForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            StartupForm dashboard = new StartupForm();
-            dashboard.Show();
+            //if (!Txt_Name_Validated())
+            //{
+            //    errorProvider.SetError(Txt_Name, $"You must Enter a Name");
+            //    e.Cancel = true;
+            //}
+            //else
+            //{
+            //    errorProvider.SetError(Txt_Name, "");
+            //}
         }
 
         //Email
@@ -243,22 +223,3 @@ namespace MyCMDBApp
 
     }
 }
-
-/*
-        //add to List to keep count
-        List_All_Contacts.Add(contactObj);
-
-        //Display a message box, contact added
-        MessageBox.Show($"{List_All_Contacts.Count} Contact(s) have been added Succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
-
- foreach (Control c in GrBox_Contact_Form.Controls)
-            {
-                if (c is TextBox)
-                {
-                    TextBox textBox = c as TextBox;
-                    if (textBox.Text == string.Empty)
-                    {
-                        MessageBox.Show($"{List_All_Contacts.Count} Contact(s) have been added Succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
-                    }
-
-*/

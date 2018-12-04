@@ -8,6 +8,7 @@ namespace MyCMDBApp
 {
     static class Program
     {
+        //public static bool OpenStartupFormOnClose { get; set; }
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -16,7 +17,15 @@ namespace MyCMDBApp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            //OpenStartupFormOnClose = false;
+
             Application.Run(new SignInForm());
+
+            //if (OpenStartupFormOnClose)
+            //{
+            //    Application.Run(new StartupForm());
+            //}
         }
     }
 }

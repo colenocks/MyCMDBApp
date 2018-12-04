@@ -36,6 +36,8 @@ namespace CMBLL
         
         public void AddContact(Contact contact)
         {
+            //add non empty nodes
+            
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(contact.Full_Path.ToString());
             XmlNode XTop = xmlDocument.CreateElement("contact");

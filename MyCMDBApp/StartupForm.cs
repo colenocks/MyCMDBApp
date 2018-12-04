@@ -20,6 +20,8 @@ namespace MyCMDBApp
         public string UserFolderPath { get; private set; }
         public string UserFilePath { get; private set; }
         public string Username { get; private set; }
+
+        public StartupForm() {}
         
         public StartupForm(string username, string path, string folder)
         {
@@ -28,21 +30,6 @@ namespace MyCMDBApp
             UserFilePath = path;
             Username = username;
             Top_Label.Text = $"Welcome {Username}";
-        }
-
-        public StartupForm()
-        {
-            
-        }
-
-        //public void RetrieveDatabase(List<string> Retrieved_Database_List)
-        //{
-        //    DatabaseList = Retrieved_Database_List;
-        //}
-
-        private void StartupForm_Load(object sender, EventArgs e)
-        {
-            MessageBox.Show(Username);
         }
 
         private void Btn_Create_Database_Click(object sender, EventArgs e)
@@ -56,23 +43,20 @@ namespace MyCMDBApp
 
         private void Btn_Open_Database_Click(object sender, EventArgs e)
         {
-            //  ManageDatabase form
-            //*   in openDatatabase form
-            //*   populate gridview with paths of all databases in user
-            DB_Handler _Handler = new DB_Handler();
-                 if(_Handler.List_All_Databases == null || _Handler.List_All_Databases.Count == 0)
-                 {
-                     MessageBox.Show("No Database has been created");
-                 }
-                 else
-                 {
-                     MessageBox.Show($"{_Handler.List_All_Databases.Count} database(s) found");
-                //open ManageDatabase form to select database
-                    ManageDatabasesForm databaseForm = new ManageDatabasesForm(UserFilePath);
-                databaseForm.Show();
-                Hide();
-            }
-              
+            ////   populate gridview with paths of all databases in user
+            //DB_Handler _Handler = new DB_Handler();
+            //if (_Handler.List_All_Databases == null || _Handler.List_All_Databases.Count == 0)
+            //{
+            //    MessageBox.Show("No Database has been created");
+            //}
+            //else
+            //{
+            //}
+             //MessageBox.Show($"{_Handler.List_All_Databases.Count} database(s) found");
+            //open ManageDatabase form to select database
+            ManageDatabasesForm databaseForm = new ManageDatabasesForm(UserFilePath);
+            databaseForm.Show();
+            Hide();
         }
 
         private void Btn_SignOut_Click(object sender, EventArgs e)

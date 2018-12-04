@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.Btn_Home = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -38,8 +39,17 @@
             this.GrBox_ContactList = new System.Windows.Forms.GroupBox();
             this.Btn_Search = new System.Windows.Forms.Button();
             this.Rtb_Search = new System.Windows.Forms.RichTextBox();
+            this.Btn_Clear = new System.Windows.Forms.Button();
+            this.contactBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.emailDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mobileDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.alternativeMobileDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.addressDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.moreInfoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.GrBox_ContactList.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.contactBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -50,7 +60,7 @@
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(763, 55);
+            this.label1.Size = new System.Drawing.Size(861, 55);
             this.label1.TabIndex = 13;
             this.label1.Text = "  Manage Databases";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -60,76 +70,90 @@
             this.Btn_Home.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Btn_Home.FlatAppearance.BorderSize = 0;
             this.Btn_Home.Font = new System.Drawing.Font("Georgia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_Home.Location = new System.Drawing.Point(669, 12);
+            this.Btn_Home.Location = new System.Drawing.Point(768, 12);
             this.Btn_Home.Name = "Btn_Home";
-            this.Btn_Home.Size = new System.Drawing.Size(81, 28);
+            this.Btn_Home.Size = new System.Drawing.Size(81, 31);
             this.Btn_Home.TabIndex = 31;
             this.Btn_Home.Text = "Home";
             this.Btn_Home.UseVisualStyleBackColor = true;
+            this.Btn_Home.Click += new System.EventHandler(this.Btn_Home_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(27, 77);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(68, 15);
+            this.label2.Size = new System.Drawing.Size(81, 18);
             this.label2.TabIndex = 32;
             this.label2.Text = "Choose db:";
             // 
             // ComboBox_Databases
             // 
+            this.ComboBox_Databases.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ComboBox_Databases.FormattingEnabled = true;
             this.ComboBox_Databases.Location = new System.Drawing.Point(110, 73);
             this.ComboBox_Databases.Name = "ComboBox_Databases";
-            this.ComboBox_Databases.Size = new System.Drawing.Size(174, 23);
+            this.ComboBox_Databases.Size = new System.Drawing.Size(174, 26);
             this.ComboBox_Databases.TabIndex = 33;
-            this.ComboBox_Databases.SelectedIndexChanged += new System.EventHandler(this.ComboBox_Databases_SelectedIndexChanged);
             // 
             // Btn_Display
             // 
-            this.Btn_Display.Location = new System.Drawing.Point(320, 68);
+            this.Btn_Display.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Display.Location = new System.Drawing.Point(410, 69);
             this.Btn_Display.Name = "Btn_Display";
             this.Btn_Display.Size = new System.Drawing.Size(89, 32);
             this.Btn_Display.TabIndex = 34;
             this.Btn_Display.Text = "Display";
             this.Btn_Display.UseVisualStyleBackColor = true;
+            this.Btn_Display.Click += new System.EventHandler(this.Btn_Display_Click);
             // 
             // Btn_Select
             // 
-            this.Btn_Select.Location = new System.Drawing.Point(415, 67);
+            this.Btn_Select.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Select.Location = new System.Drawing.Point(302, 69);
             this.Btn_Select.Name = "Btn_Select";
             this.Btn_Select.Size = new System.Drawing.Size(89, 32);
             this.Btn_Select.TabIndex = 34;
             this.Btn_Select.Text = "Select";
             this.Btn_Select.UseVisualStyleBackColor = true;
+            this.Btn_Select.Click += new System.EventHandler(this.Btn_Select_Click);
             // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.nameDataGridViewTextBoxColumn,
+            this.emailDataGridViewTextBoxColumn,
+            this.mobileDataGridViewTextBoxColumn,
+            this.alternativeMobileDataGridViewTextBoxColumn,
+            this.addressDataGridViewTextBoxColumn,
+            this.moreInfoDataGridViewTextBoxColumn});
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 19);
+            this.dataGridView1.Location = new System.Drawing.Point(3, 22);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(611, 305);
+            this.dataGridView1.Size = new System.Drawing.Size(831, 292);
             this.dataGridView1.TabIndex = 35;
             // 
             // GrBox_ContactList
             // 
             this.GrBox_ContactList.Controls.Add(this.dataGridView1);
-            this.GrBox_ContactList.Location = new System.Drawing.Point(30, 119);
+            this.GrBox_ContactList.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GrBox_ContactList.Location = new System.Drawing.Point(12, 119);
             this.GrBox_ContactList.Name = "GrBox_ContactList";
-            this.GrBox_ContactList.Size = new System.Drawing.Size(617, 327);
+            this.GrBox_ContactList.Size = new System.Drawing.Size(837, 317);
             this.GrBox_ContactList.TabIndex = 36;
             this.GrBox_ContactList.TabStop = false;
             this.GrBox_ContactList.Text = "Contact Lists";
             // 
             // Btn_Search
             // 
-            this.Btn_Search.Font = new System.Drawing.Font("Modern No. 20", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Search.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Search.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Btn_Search.Location = new System.Drawing.Point(673, 106);
+            this.Btn_Search.Location = new System.Drawing.Point(762, 66);
             this.Btn_Search.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Search.Name = "Btn_Search";
-            this.Btn_Search.Size = new System.Drawing.Size(77, 34);
+            this.Btn_Search.Size = new System.Drawing.Size(87, 34);
             this.Btn_Search.TabIndex = 38;
             this.Btn_Search.Text = "Search";
             this.Btn_Search.UseVisualStyleBackColor = true;
@@ -137,18 +161,71 @@
             // 
             // Rtb_Search
             // 
-            this.Rtb_Search.Location = new System.Drawing.Point(548, 67);
+            this.Rtb_Search.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Rtb_Search.Location = new System.Drawing.Point(548, 69);
             this.Rtb_Search.Margin = new System.Windows.Forms.Padding(4);
             this.Rtb_Search.Name = "Rtb_Search";
             this.Rtb_Search.Size = new System.Drawing.Size(202, 31);
             this.Rtb_Search.TabIndex = 37;
             this.Rtb_Search.Text = "";
             // 
+            // Btn_Clear
+            // 
+            this.Btn_Clear.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Clear.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Btn_Clear.Location = new System.Drawing.Point(759, 446);
+            this.Btn_Clear.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn_Clear.Name = "Btn_Clear";
+            this.Btn_Clear.Size = new System.Drawing.Size(87, 34);
+            this.Btn_Clear.TabIndex = 38;
+            this.Btn_Clear.Text = "Clear";
+            this.Btn_Clear.UseVisualStyleBackColor = true;
+            this.Btn_Clear.Click += new System.EventHandler(this.Btn_Clear_Click);
+            // 
+            // contactBindingSource
+            // 
+            this.contactBindingSource.DataSource = typeof(CMEntities.Contact);
+            // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            this.nameDataGridViewTextBoxColumn.Width = 120;
+            // 
+            // emailDataGridViewTextBoxColumn
+            // 
+            this.emailDataGridViewTextBoxColumn.HeaderText = "Email";
+            this.emailDataGridViewTextBoxColumn.Name = "emailDataGridViewTextBoxColumn";
+            this.emailDataGridViewTextBoxColumn.Width = 130;
+            // 
+            // mobileDataGridViewTextBoxColumn
+            // 
+            this.mobileDataGridViewTextBoxColumn.HeaderText = "Mobile";
+            this.mobileDataGridViewTextBoxColumn.Name = "mobileDataGridViewTextBoxColumn";
+            // 
+            // alternativeMobileDataGridViewTextBoxColumn
+            // 
+            this.alternativeMobileDataGridViewTextBoxColumn.HeaderText = "Alt. Mobile";
+            this.alternativeMobileDataGridViewTextBoxColumn.Name = "alternativeMobileDataGridViewTextBoxColumn";
+            // 
+            // addressDataGridViewTextBoxColumn
+            // 
+            this.addressDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.addressDataGridViewTextBoxColumn.HeaderText = "Address";
+            this.addressDataGridViewTextBoxColumn.Name = "addressDataGridViewTextBoxColumn";
+            // 
+            // moreInfoDataGridViewTextBoxColumn
+            // 
+            this.moreInfoDataGridViewTextBoxColumn.HeaderText = "More Info.";
+            this.moreInfoDataGridViewTextBoxColumn.Name = "moreInfoDataGridViewTextBoxColumn";
+            this.moreInfoDataGridViewTextBoxColumn.Width = 130;
+            // 
             // ManageDatabasesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(763, 484);
+            this.ClientSize = new System.Drawing.Size(861, 493);
+            this.Controls.Add(this.Btn_Clear);
             this.Controls.Add(this.Btn_Search);
             this.Controls.Add(this.Rtb_Search);
             this.Controls.Add(this.GrBox_ContactList);
@@ -163,6 +240,7 @@
             this.Text = "ManageDatabasesForm";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.GrBox_ContactList.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.contactBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -180,5 +258,13 @@
         private System.Windows.Forms.GroupBox GrBox_ContactList;
         private System.Windows.Forms.Button Btn_Search;
         private System.Windows.Forms.RichTextBox Rtb_Search;
+        private System.Windows.Forms.Button Btn_Clear;
+        private System.Windows.Forms.BindingSource contactBindingSource;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn emailDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn mobileDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn alternativeMobileDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn addressDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn moreInfoDataGridViewTextBoxColumn;
     }
 }

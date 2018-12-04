@@ -9,10 +9,7 @@ namespace MyCMDBApp
 {
     public partial class ContactsViewForm : Form
     {
-        public ContactsViewForm()
-        {
-            
-        }
+        public ContactsViewForm(){}
 
         public ContactsViewForm(string path, string dbName)
         {
@@ -26,7 +23,7 @@ namespace MyCMDBApp
             {
                 n = dataGridView1.Rows.Add();//gets the number of rows already in the table
 
-                dataGridView1.Rows[n].Cells[0].Value = node.SelectSingleNode("username").InnerText;
+                dataGridView1.Rows[n].Cells[0].Value = node.SelectSingleNode("name").InnerText;
                 dataGridView1.Rows[n].Cells[1].Value = node.SelectSingleNode("email").InnerText;
                 dataGridView1.Rows[n].Cells[2].Value = node.SelectSingleNode("mobile").InnerText;
                 dataGridView1.Rows[n].Cells[3].Value = node.SelectSingleNode("address").InnerText;
@@ -35,11 +32,11 @@ namespace MyCMDBApp
             xmlDocument.Save(path.ToString());
         }
 
-        private void Btn_Home_Click(object sender, EventArgs e)
+        private void Btn_Back_Click(object sender, EventArgs e)
         {
-            StartupForm parentForm = new StartupForm();
-            parentForm.ShowDialog();
+            NewDatabaseForm goBack = new NewDatabaseForm();
             Close();
+            goBack.Show();
         }
     }
 }

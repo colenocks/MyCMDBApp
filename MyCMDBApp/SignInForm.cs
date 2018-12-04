@@ -85,12 +85,10 @@ namespace MyCMDBApp
                         else
                         {
                             //Open the Start up form and pass properties
-                            StartupForm dashboard = new StartupForm(RetrievedUsername, RetrievedUserFilePath, CurrentUserFolderPath);
-                            dashboard.Show();
-                            
+                            StartupForm startupForm = new StartupForm(RetrievedUsername, RetrievedUserFilePath, CurrentUserFolderPath);
+                            startupForm.Show();
                             xmlDocument.Save(Path.GetFullPath(RetrievedUserFilePath));
 
-                            //close this form
                             Hide();
                         }
                     }
@@ -241,7 +239,7 @@ namespace MyCMDBApp
                 Txt_Username.Focus();
             }  
         }
-        
+
 
 
         ////FIELDS VALIDATION
