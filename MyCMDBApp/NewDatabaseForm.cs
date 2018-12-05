@@ -151,7 +151,8 @@ namespace MyCMDBApp
             //Disabled by default, enabled after one contact is added
             //pass in the contact list, database name and path as parameter
             ContactsViewForm viewContact = new ContactsViewForm(Rtb_Database_Directory.Text, Txt_Database_Name.Text);
-            viewContact.ShowDialog();
+            viewContact.Tag = this;
+            viewContact.ShowDialog(this);
         }
 
         private void Btn_Finish_Click(object sender, EventArgs e)
@@ -167,6 +168,8 @@ namespace MyCMDBApp
 
         private void Btn_Home_Click(object sender, EventArgs e)
         {
+            var startupForm = (StartupForm)Tag;
+            startupForm.Show();
             Close();
         }
 

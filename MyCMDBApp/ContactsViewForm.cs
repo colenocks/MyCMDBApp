@@ -34,9 +34,9 @@ namespace MyCMDBApp
 
         private void Btn_Back_Click(object sender, EventArgs e)
         {
-            NewDatabaseForm goBack = new NewDatabaseForm();
-            Close();
+            var goBack = (NewDatabaseForm)Tag;
             goBack.Show();
+            Close();
         }
     }
 }

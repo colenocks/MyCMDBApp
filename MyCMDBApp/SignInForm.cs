@@ -84,11 +84,10 @@ namespace MyCMDBApp
                         }
                         else
                         {
+                            xmlDocument.Save(Path.GetFullPath(RetrievedUserFilePath));
                             //Open the Start up form and pass properties
                             StartupForm startupForm = new StartupForm(RetrievedUsername, RetrievedUserFilePath, CurrentUserFolderPath);
                             startupForm.Show();
-                            xmlDocument.Save(Path.GetFullPath(RetrievedUserFilePath));
-
                             Hide();
                         }
                     }

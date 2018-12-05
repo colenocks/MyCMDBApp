@@ -36,8 +36,9 @@ namespace MyCMDBApp
         {
             //Create an instance of the new database form
             NewDatabaseForm newDatabaseForm = new NewDatabaseForm(Username, UserFolderPath);
-            newDatabaseForm.Show();
-            //close current form
+           
+            newDatabaseForm.Tag = this;
+            newDatabaseForm.Show(this);
             Hide();
         }
 
@@ -53,9 +54,11 @@ namespace MyCMDBApp
             //{
             //}
              //MessageBox.Show($"{_Handler.List_All_Databases.Count} database(s) found");
+
             //open ManageDatabase form to select database
             ManageDatabasesForm databaseForm = new ManageDatabasesForm(UserFilePath);
-            databaseForm.Show();
+            databaseForm.Tag = this;
+            databaseForm.Show(this);
             Hide();
         }
 

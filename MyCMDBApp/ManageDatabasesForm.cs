@@ -34,6 +34,19 @@ namespace MyCMDBApp
             ComboBox_Databases.DisplayMember = "DisplayName";
         }
 
+        //if command contains ":"
+        //call colon. call dollar. call plus, call minus
+        //depending on the contants of the strings call these methods on any of them or their substrings.
+        //If command contains "$"- call CheckSpecialCharacter on substring before and after specialCharacter and return the
+        public string ParseColon(string commandString)
+        {   
+            string value = "";
+            //command string is passed in
+            //command string is parsed
+            //the result of the command string is returns a value
+            //this value is vital to display the matched contact's database and highlight the row matched
+            return value;
+        }
         private void Btn_Search_Click(object sender, EventArgs e)
         {
             string command = Rtb_Search.Text.ToLower().Trim(); //As so -> "Key:Value" = command
@@ -65,6 +78,10 @@ namespace MyCMDBApp
                                     if (node.SelectSingleNode(keyString).InnerText.ToLower() == key_Value)
                                     {
                                         MessageBox.Show("Found You!");
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("this contact does not exist");
                                     }
 
                                 }
@@ -99,9 +116,9 @@ namespace MyCMDBApp
 
         private void Btn_Home_Click(object sender, EventArgs e)
         {
-            Close();
-            StartupForm startupForm = new StartupForm();
+            var startupForm = (StartupForm)Tag;
             startupForm.Show();
+            Close();
         }
 
         //METHODS
