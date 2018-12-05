@@ -93,8 +93,8 @@ namespace MyCMDBApp
         private void Btn_Add_Contacts_Click(object sender, EventArgs e)
         {
             //Enables the contact Form Group box
+            //Btn_Add_Contacts.Enabled = false;
             GrBox_Contact_Form.Enabled = true;
-            Btn_Add_Contacts.Enabled = false;
             
         }
 

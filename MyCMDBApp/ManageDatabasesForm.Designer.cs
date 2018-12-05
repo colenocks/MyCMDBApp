@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.Btn_Home = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -36,20 +35,18 @@
             this.Btn_Display = new System.Windows.Forms.Button();
             this.Btn_Select = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.GrBox_ContactList = new System.Windows.Forms.GroupBox();
-            this.Btn_Search = new System.Windows.Forms.Button();
-            this.Rtb_Search = new System.Windows.Forms.RichTextBox();
-            this.Btn_Clear = new System.Windows.Forms.Button();
-            this.contactBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.emailDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mobileDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.alternativeMobileDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.addressDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.moreInfoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GrBox_ContactList = new System.Windows.Forms.GroupBox();
+            this.Btn_Search = new System.Windows.Forms.Button();
+            this.Rtb_Search = new System.Windows.Forms.RichTextBox();
+            this.Btn_Clear = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.GrBox_ContactList.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.contactBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -99,6 +96,7 @@
             // 
             // Btn_Display
             // 
+            this.Btn_Display.Enabled = false;
             this.Btn_Display.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Display.Location = new System.Drawing.Point(410, 69);
             this.Btn_Display.Name = "Btn_Display";
@@ -132,8 +130,43 @@
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(3, 22);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(831, 292);
             this.dataGridView1.TabIndex = 35;
+            // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            this.nameDataGridViewTextBoxColumn.Width = 120;
+            // 
+            // emailDataGridViewTextBoxColumn
+            // 
+            this.emailDataGridViewTextBoxColumn.HeaderText = "Email";
+            this.emailDataGridViewTextBoxColumn.Name = "emailDataGridViewTextBoxColumn";
+            this.emailDataGridViewTextBoxColumn.Width = 130;
+            // 
+            // mobileDataGridViewTextBoxColumn
+            // 
+            this.mobileDataGridViewTextBoxColumn.HeaderText = "Mobile";
+            this.mobileDataGridViewTextBoxColumn.Name = "mobileDataGridViewTextBoxColumn";
+            // 
+            // alternativeMobileDataGridViewTextBoxColumn
+            // 
+            this.alternativeMobileDataGridViewTextBoxColumn.HeaderText = "Alt. Mobile";
+            this.alternativeMobileDataGridViewTextBoxColumn.Name = "alternativeMobileDataGridViewTextBoxColumn";
+            // 
+            // addressDataGridViewTextBoxColumn
+            // 
+            this.addressDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.addressDataGridViewTextBoxColumn.HeaderText = "Address";
+            this.addressDataGridViewTextBoxColumn.Name = "addressDataGridViewTextBoxColumn";
+            // 
+            // moreInfoDataGridViewTextBoxColumn
+            // 
+            this.moreInfoDataGridViewTextBoxColumn.HeaderText = "More Info.";
+            this.moreInfoDataGridViewTextBoxColumn.Name = "moreInfoDataGridViewTextBoxColumn";
+            this.moreInfoDataGridViewTextBoxColumn.Width = 130;
             // 
             // GrBox_ContactList
             // 
@@ -182,44 +215,6 @@
             this.Btn_Clear.UseVisualStyleBackColor = true;
             this.Btn_Clear.Click += new System.EventHandler(this.Btn_Clear_Click);
             // 
-            // contactBindingSource
-            // 
-            this.contactBindingSource.DataSource = typeof(CMEntities.Contact);
-            // 
-            // nameDataGridViewTextBoxColumn
-            // 
-            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
-            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            this.nameDataGridViewTextBoxColumn.Width = 120;
-            // 
-            // emailDataGridViewTextBoxColumn
-            // 
-            this.emailDataGridViewTextBoxColumn.HeaderText = "Email";
-            this.emailDataGridViewTextBoxColumn.Name = "emailDataGridViewTextBoxColumn";
-            this.emailDataGridViewTextBoxColumn.Width = 130;
-            // 
-            // mobileDataGridViewTextBoxColumn
-            // 
-            this.mobileDataGridViewTextBoxColumn.HeaderText = "Mobile";
-            this.mobileDataGridViewTextBoxColumn.Name = "mobileDataGridViewTextBoxColumn";
-            // 
-            // alternativeMobileDataGridViewTextBoxColumn
-            // 
-            this.alternativeMobileDataGridViewTextBoxColumn.HeaderText = "Alt. Mobile";
-            this.alternativeMobileDataGridViewTextBoxColumn.Name = "alternativeMobileDataGridViewTextBoxColumn";
-            // 
-            // addressDataGridViewTextBoxColumn
-            // 
-            this.addressDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.addressDataGridViewTextBoxColumn.HeaderText = "Address";
-            this.addressDataGridViewTextBoxColumn.Name = "addressDataGridViewTextBoxColumn";
-            // 
-            // moreInfoDataGridViewTextBoxColumn
-            // 
-            this.moreInfoDataGridViewTextBoxColumn.HeaderText = "More Info.";
-            this.moreInfoDataGridViewTextBoxColumn.Name = "moreInfoDataGridViewTextBoxColumn";
-            this.moreInfoDataGridViewTextBoxColumn.Width = 130;
-            // 
             // ManageDatabasesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -240,7 +235,6 @@
             this.Text = "ManageDatabasesForm";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.GrBox_ContactList.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.contactBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -259,7 +253,6 @@
         private System.Windows.Forms.Button Btn_Search;
         private System.Windows.Forms.RichTextBox Rtb_Search;
         private System.Windows.Forms.Button Btn_Clear;
-        private System.Windows.Forms.BindingSource contactBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn emailDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn mobileDataGridViewTextBoxColumn;
