@@ -33,7 +33,66 @@ namespace CMBLL
             //Add to list
             List_All_Databases.Add(database);
         }
-        
+
+        public void AddAlert(Alert alert, string path)
+        {
+            //write to xml
+            XmlWriterSettings settings = new XmlWriterSettings
+            {
+                Indent = true,
+                Encoding = Encoding.UTF8
+            };
+
+            //Create the directory
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            //Create file to write to
+            string alertFile = Path.Combine(path, alert.Alert_Tag + ".xml");
+
+            if (!File.Exists(alertFile))
+            {
+                XmlWriter xmlwriter;
+                xmlwriter = XmlWriter.Create(path, settings);
+                xmlwriter.WriteStartDocument();
+                xmlwriter.WriteStartElement($"{alert.Alert_Tag}_Alert");//root element
+                xmlwriter.WriteStartElement("alert");
+                        xmlwriter.WriteElementString("title", alert.Title);
+                        xmlwriter.WriteElementString("date", alert.Date);
+                        xmlwriter.WriteElementString("reminder", alert.Reminder.ToString());
+                    xmlwriter.WriteEndElement();
+                xmlwriter.WriteEndElement();
+                xmlwriter.Flush();
+                xmlwriter.Close();
+            }
+            else
+            {
+                //load the file and add the nodes
+                XmlDocument xDoc = new XmlDocument();
+                xDoc.Load(Path.GetFullPath(alertFile));
+
+                XmlNode top = xDoc.CreateElement("alert");
+                XmlNode Xtitle = xDoc.CreateElement("title");
+                XmlNode Xdate = xDoc.CreateElement("date");
+                XmlNode Xtime = xDoc.CreateElement("time");
+                XmlNode Xrem = xDoc.CreateElement("time");
+
+                Xtitle.InnerText = alert.Title;
+                Xdate.InnerText = alert.Date;
+                Xtime.InnerText = alert.Time;
+                Xrem.InnerText = alert.Reminder.ToString();
+
+                top.AppendChild(Xtitle);
+                top.AppendChild(Xdate);
+                top.AppendChild(Xtime);
+                top.AppendChild(Xrem);
+
+                xDoc.DocumentElement.AppendChild(top);
+                xDoc.Save(Path.GetFullPath(alertFile));
+            }
+        }
+
         public void AddContact(Contact contact)
         {
             //add non empty nodes

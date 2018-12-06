@@ -11,8 +11,8 @@ namespace MyCMDBApp
 {
     public partial class NewDatabaseForm : Form
     {
-        private string _userFolder;
-        private string _userName;
+        public string _userFolder;
+        public string _userName;
 
         public List<Contact> List_All_Contacts = new List<Contact>();
 
@@ -101,7 +101,7 @@ namespace MyCMDBApp
         private void Btn_Create_Alert_Click(object sender, EventArgs e)
         {
             //Create instance of Alert Form
-            NewAlertForm newAlert = new NewAlertForm();
+            NewAlertForm newAlert = new NewAlertForm(Txt_Database_Name.Text, _userFolder, _userName);
             newAlert.ShowDialog();
             //... coming soon- Prajwal
 

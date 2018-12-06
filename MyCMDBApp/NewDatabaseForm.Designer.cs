@@ -89,7 +89,7 @@
             this.GrBox_Contact_Form.Margin = new System.Windows.Forms.Padding(4);
             this.GrBox_Contact_Form.Name = "GrBox_Contact_Form";
             this.GrBox_Contact_Form.Padding = new System.Windows.Forms.Padding(4);
-            this.GrBox_Contact_Form.Size = new System.Drawing.Size(590, 491);
+            this.GrBox_Contact_Form.Size = new System.Drawing.Size(510, 490);
             this.GrBox_Contact_Form.TabIndex = 11;
             this.GrBox_Contact_Form.TabStop = false;
             this.GrBox_Contact_Form.Text = "Contact Form";
@@ -97,10 +97,11 @@
             // Btn_Add
             // 
             this.Btn_Add.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_Add.Location = new System.Drawing.Point(421, 364);
+            this.Btn_Add.ForeColor = System.Drawing.Color.ForestGreen;
+            this.Btn_Add.Location = new System.Drawing.Point(317, 369);
             this.Btn_Add.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Add.Name = "Btn_Add";
-            this.Btn_Add.Size = new System.Drawing.Size(123, 46);
+            this.Btn_Add.Size = new System.Drawing.Size(142, 46);
             this.Btn_Add.TabIndex = 23;
             this.Btn_Add.Text = "Add";
             this.Btn_Add.UseVisualStyleBackColor = true;
@@ -108,25 +109,29 @@
             // 
             // Btn_New_Database
             // 
+            this.Btn_New_Database.BackColor = System.Drawing.Color.PowderBlue;
             this.Btn_New_Database.Enabled = false;
+            this.Btn_New_Database.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.Btn_New_Database.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.Btn_New_Database.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_New_Database.Location = new System.Drawing.Point(34, 419);
+            this.Btn_New_Database.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Btn_New_Database.Location = new System.Drawing.Point(10, 389);
             this.Btn_New_Database.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_New_Database.Name = "Btn_New_Database";
-            this.Btn_New_Database.Size = new System.Drawing.Size(142, 46);
+            this.Btn_New_Database.Size = new System.Drawing.Size(101, 80);
             this.Btn_New_Database.TabIndex = 25;
             this.Btn_New_Database.Text = "New Database";
-            this.Btn_New_Database.UseVisualStyleBackColor = true;
+            this.Btn_New_Database.UseVisualStyleBackColor = false;
             this.Btn_New_Database.Click += new System.EventHandler(this.Btn_New_Database_Click);
             // 
             // Btn_View_Contacts
             // 
             this.Btn_View_Contacts.Enabled = false;
             this.Btn_View_Contacts.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_View_Contacts.Location = new System.Drawing.Point(399, 419);
+            this.Btn_View_Contacts.Location = new System.Drawing.Point(317, 423);
             this.Btn_View_Contacts.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_View_Contacts.Name = "Btn_View_Contacts";
-            this.Btn_View_Contacts.Size = new System.Drawing.Size(145, 46);
+            this.Btn_View_Contacts.Size = new System.Drawing.Size(142, 46);
             this.Btn_View_Contacts.TabIndex = 25;
             this.Btn_View_Contacts.Text = "View Contacts";
             this.Btn_View_Contacts.UseVisualStyleBackColor = true;
@@ -136,12 +141,12 @@
             // 
             this.Btn_Finish.Enabled = false;
             this.Btn_Finish.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_Finish.Location = new System.Drawing.Point(236, 418);
+            this.Btn_Finish.Location = new System.Drawing.Point(175, 422);
             this.Btn_Finish.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Finish.Name = "Btn_Finish";
-            this.Btn_Finish.Size = new System.Drawing.Size(99, 47);
+            this.Btn_Finish.Size = new System.Drawing.Size(91, 47);
             this.Btn_Finish.TabIndex = 24;
-            this.Btn_Finish.Text = "Finish";
+            this.Btn_Finish.Text = "Done";
             this.Btn_Finish.UseVisualStyleBackColor = true;
             this.Btn_Finish.Click += new System.EventHandler(this.Btn_Finish_Click);
             // 
@@ -152,7 +157,7 @@
             this.Txt_Notes.Margin = new System.Windows.Forms.Padding(4);
             this.Txt_Notes.Multiline = true;
             this.Txt_Notes.Name = "Txt_Notes";
-            this.Txt_Notes.Size = new System.Drawing.Size(360, 87);
+            this.Txt_Notes.Size = new System.Drawing.Size(275, 87);
             this.Txt_Notes.TabIndex = 22;
             // 
             // Txt_Address
@@ -162,7 +167,7 @@
             this.Txt_Address.Margin = new System.Windows.Forms.Padding(4);
             this.Txt_Address.Multiline = true;
             this.Txt_Address.Name = "Txt_Address";
-            this.Txt_Address.Size = new System.Drawing.Size(360, 58);
+            this.Txt_Address.Size = new System.Drawing.Size(275, 58);
             this.Txt_Address.TabIndex = 21;
             // 
             // Txt_Alt_Mobile
@@ -171,7 +176,7 @@
             this.Txt_Alt_Mobile.Location = new System.Drawing.Point(184, 153);
             this.Txt_Alt_Mobile.Margin = new System.Windows.Forms.Padding(4);
             this.Txt_Alt_Mobile.Name = "Txt_Alt_Mobile";
-            this.Txt_Alt_Mobile.Size = new System.Drawing.Size(360, 25);
+            this.Txt_Alt_Mobile.Size = new System.Drawing.Size(275, 25);
             this.Txt_Alt_Mobile.TabIndex = 20;
             // 
             // Txt_Mobile
@@ -180,7 +185,7 @@
             this.Txt_Mobile.Location = new System.Drawing.Point(184, 113);
             this.Txt_Mobile.Margin = new System.Windows.Forms.Padding(4);
             this.Txt_Mobile.Name = "Txt_Mobile";
-            this.Txt_Mobile.Size = new System.Drawing.Size(360, 25);
+            this.Txt_Mobile.Size = new System.Drawing.Size(275, 25);
             this.Txt_Mobile.TabIndex = 19;
             // 
             // Txt_Email
@@ -189,7 +194,7 @@
             this.Txt_Email.Location = new System.Drawing.Point(184, 70);
             this.Txt_Email.Margin = new System.Windows.Forms.Padding(4);
             this.Txt_Email.Name = "Txt_Email";
-            this.Txt_Email.Size = new System.Drawing.Size(360, 25);
+            this.Txt_Email.Size = new System.Drawing.Size(275, 25);
             this.Txt_Email.TabIndex = 11;
             // 
             // Txt_Name
@@ -198,7 +203,7 @@
             this.Txt_Name.Location = new System.Drawing.Point(184, 30);
             this.Txt_Name.Margin = new System.Windows.Forms.Padding(4);
             this.Txt_Name.Name = "Txt_Name";
-            this.Txt_Name.Size = new System.Drawing.Size(360, 25);
+            this.Txt_Name.Size = new System.Drawing.Size(275, 25);
             this.Txt_Name.TabIndex = 10;
             this.Txt_Name.Validating += new System.ComponentModel.CancelEventHandler(this.Txt_Name_Validating);
             // 
@@ -291,7 +296,7 @@
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(711, 66);
+            this.label1.Size = new System.Drawing.Size(717, 66);
             this.label1.TabIndex = 12;
             this.label1.Text = "  Create a New Database";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -312,12 +317,12 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.Color.Olive;
-            this.label2.Location = new System.Drawing.Point(166, 690);
+            this.label2.Location = new System.Drawing.Point(199, 697);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(335, 18);
+            this.label2.Size = new System.Drawing.Size(283, 18);
             this.label2.TabIndex = 31;
-            this.label2.Text = "Note: Click on finish so you can add new database";
+            this.label2.Text = "Click \"Done\" so you can add new database";
             // 
             // GrBox_Database
             // 
@@ -326,8 +331,8 @@
             this.GrBox_Database.Controls.Add(this.Txt_Database_Name);
             this.GrBox_Database.Controls.Add(this.Btn_Create);
             this.GrBox_Database.Controls.Add(this.Btn_Add_Contacts);
-            this.GrBox_Database.Controls.Add(this.Btn_Create_Alert);
             this.GrBox_Database.Controls.Add(this.Lbl_Database_Name);
+            this.GrBox_Database.Controls.Add(this.Btn_Create_Alert);
             this.GrBox_Database.Location = new System.Drawing.Point(11, 71);
             this.GrBox_Database.Name = "GrBox_Database";
             this.GrBox_Database.Size = new System.Drawing.Size(681, 111);
@@ -348,12 +353,13 @@
             // 
             this.Rtb_Database_Directory.AutoWordSelection = true;
             this.Rtb_Database_Directory.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.Rtb_Database_Directory.Font = new System.Drawing.Font("Constantia", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Rtb_Database_Directory.Location = new System.Drawing.Point(86, 65);
             this.Rtb_Database_Directory.Margin = new System.Windows.Forms.Padding(4);
             this.Rtb_Database_Directory.Multiline = false;
             this.Rtb_Database_Directory.Name = "Rtb_Database_Directory";
             this.Rtb_Database_Directory.ReadOnly = true;
-            this.Rtb_Database_Directory.Size = new System.Drawing.Size(457, 36);
+            this.Rtb_Database_Directory.Size = new System.Drawing.Size(447, 36);
             this.Rtb_Database_Directory.TabIndex = 15;
             this.Rtb_Database_Directory.Text = "";
             this.Rtb_Database_Directory.WordWrap = false;
@@ -396,16 +402,15 @@
             // 
             // Btn_Create_Alert
             // 
-            this.Btn_Create_Alert.BackColor = System.Drawing.Color.Turquoise;
+            this.Btn_Create_Alert.BackColor = System.Drawing.SystemColors.Control;
             this.Btn_Create_Alert.Enabled = false;
-            this.Btn_Create_Alert.FlatAppearance.BorderColor = System.Drawing.Color.Teal;
-            this.Btn_Create_Alert.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.Btn_Create_Alert.Font = new System.Drawing.Font("Constantia", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_Create_Alert.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Btn_Create_Alert.Location = new System.Drawing.Point(576, 68);
+            this.Btn_Create_Alert.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.Btn_Create_Alert.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Create_Alert.ForeColor = System.Drawing.Color.Red;
+            this.Btn_Create_Alert.Location = new System.Drawing.Point(541, 61);
             this.Btn_Create_Alert.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Create_Alert.Name = "Btn_Create_Alert";
-            this.Btn_Create_Alert.Size = new System.Drawing.Size(90, 36);
+            this.Btn_Create_Alert.Size = new System.Drawing.Size(125, 40);
             this.Btn_Create_Alert.TabIndex = 14;
             this.Btn_Create_Alert.Text = "Create Alert";
             this.Btn_Create_Alert.UseVisualStyleBackColor = false;
@@ -425,7 +430,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(711, 717);
+            this.ClientSize = new System.Drawing.Size(717, 724);
             this.Controls.Add(this.GrBox_Database);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Btn_Home);

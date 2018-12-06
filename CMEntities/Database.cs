@@ -8,7 +8,7 @@ namespace CMEntities
     {
         public string Database_Name { get; }
         public string Database_File_Path { get; }
-        public Alert Database_Alert { get; }
+        //public Alert Database_Alert { get; }
 
         public Database() { }
 
@@ -18,10 +18,10 @@ namespace CMEntities
             Database_File_Path = path;
         }
 
-        public Database(Alert alert)
-        {
-            Database_Alert = alert;
-        }
+        //public Database(Alert alert = null)
+        //{
+        //    Database_Alert = alert;
+        //}
 
         public string DisplayName
         {
@@ -33,7 +33,7 @@ namespace CMEntities
                 }
                 else
                 {
-                    return Database_Name + "'s Contacts";
+                    return Database_Name +"'s Contacts";
                 }
                 
             }  
