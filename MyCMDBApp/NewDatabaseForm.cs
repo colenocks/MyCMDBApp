@@ -101,7 +101,7 @@ namespace MyCMDBApp
         private void Btn_Create_Alert_Click(object sender, EventArgs e)
         {
             //Create instance of Alert Form
-            NewAlertForm newAlert = new NewAlertForm(Txt_Database_Name.Text, _userFolder, _userName);
+            NewAlertForm newAlert = new NewAlertForm(Txt_Database_Name.Text, _userName, _userFolder);
             newAlert.ShowDialog();
             //... coming soon- Prajwal
 
