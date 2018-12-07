@@ -52,6 +52,12 @@
     <Compile Include="ContactsViewForm.Designer.cs">
       <DependentUpon>ContactsViewForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ContactDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ContactDetailForm.Designer.cs">
+      <DependentUpon>ContactDetailForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ManageDatabasesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +92,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ContactsViewForm.resx">
       <DependentUpon>ContactsViewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ContactDetailForm.resx">
+      <DependentUpon>ContactDetailForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ManageDatabasesForm.resx">
       <DependentUpon>ManageDatabasesForm.cs</DependentUpon>

@@ -17,17 +17,21 @@ namespace MyCMDBApp
     public partial class ManageDatabasesForm : Form
     {
         private string _userPath;
+        private string _userFolderPath;
+
         private string dbFilePath;
         private string dbFileName;
         public List<Database> AllDatabases { get; private set; } = new List<Database>();
 
         public ManageDatabasesForm() { }
 
-        public ManageDatabasesForm(string path)
+        public ManageDatabasesForm(string path, string folderPath)
         {   
             InitializeComponent();
 
             _userPath = path;
+            _userFolderPath = folderPath;
+
             //fill list on load
             LoadToList();
             ComboBox_Databases.DataSource = AllDatabases;
@@ -68,7 +72,6 @@ namespace MyCMDBApp
                             {
                                 if (node.SelectSingleNode(arrayNode).InnerText.ToLower() == key_Value)
                                 {
-                                    MessageBox.Show("Found You!");
                                     value = key_Value;
 
                                     //Select the corresponding combobox index
@@ -98,6 +101,7 @@ namespace MyCMDBApp
         
         private void Btn_Search_Click(object sender, EventArgs e)
         {
+            dataGridView1.Rows.Clear();
             string command = Rtb_Search.Text.ToLower().Trim(); //As so -> "Key:Value" = command
             if (command.Contains(":") || command.Contains("$") || command.Contains("+") || command.Contains("-"))
             {
@@ -183,6 +187,8 @@ namespace MyCMDBApp
             else
             {
                 xmlDocument.Load(dbFilePath);
+                //load alerts too
+                //xmlDocument.Load(_userFolderPath);
                 int n = 0;
                 foreach (XmlNode node in xmlDocument.SelectNodes($"{dbFileName}/contact"))
                 {
@@ -210,5 +216,21 @@ namespace MyCMDBApp
             
         }
 
+        private void DataGridViewContacts_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string name = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+            string email = dataGridView1.CurrentRow.Cells[1].Value.ToString();
+            string mobile = dataGridView1.CurrentRow.Cells[2].Value.ToString();
+            string alternative = dataGridView1.CurrentRow.Cells[3].Value.ToString();
+            string address = dataGridView1.CurrentRow.Cells[4].Value.ToString();
+            string info = dataGridView1.CurrentRow.Cells[5].Value.ToString();
+
+            ContactDetailForm contactDetail = new ContactDetailForm(dbFileName, dbFilePath, name, email, mobile, alternative, address, info)
+            {
+                Tag = this //tag contact detail form to this form object
+            };
+            contactDetail.Show(this);
+            Hide();
+        }
     }
 }

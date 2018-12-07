@@ -68,7 +68,7 @@
             // Txt_Alert_Title
             // 
             this.Txt_Alert_Title.Location = new System.Drawing.Point(147, 109);
-            this.Txt_Alert_Title.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Txt_Alert_Title.Margin = new System.Windows.Forms.Padding(4);
             this.Txt_Alert_Title.Name = "Txt_Alert_Title";
             this.Txt_Alert_Title.Size = new System.Drawing.Size(278, 26);
             this.Txt_Alert_Title.TabIndex = 2;
@@ -77,7 +77,7 @@
             // 
             this.Dtp_Date.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.Dtp_Date.Location = new System.Drawing.Point(147, 154);
-            this.Dtp_Date.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Dtp_Date.Margin = new System.Windows.Forms.Padding(4);
             this.Dtp_Date.MinDate = new System.DateTime(2018, 12, 6, 0, 0, 0, 0);
             this.Dtp_Date.Name = "Dtp_Date";
             this.Dtp_Date.Size = new System.Drawing.Size(278, 26);
@@ -86,7 +86,7 @@
             // Btn_Cancel_Alert
             // 
             this.Btn_Cancel_Alert.Location = new System.Drawing.Point(136, 306);
-            this.Btn_Cancel_Alert.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Btn_Cancel_Alert.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Cancel_Alert.Name = "Btn_Cancel_Alert";
             this.Btn_Cancel_Alert.Size = new System.Drawing.Size(99, 54);
             this.Btn_Cancel_Alert.TabIndex = 4;
@@ -97,7 +97,7 @@
             // 
             this.Btn_Save_Alert.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Save_Alert.Location = new System.Drawing.Point(258, 306);
-            this.Btn_Save_Alert.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Btn_Save_Alert.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Save_Alert.Name = "Btn_Save_Alert";
             this.Btn_Save_Alert.Size = new System.Drawing.Size(92, 54);
             this.Btn_Save_Alert.TabIndex = 4;
@@ -109,7 +109,7 @@
             // 
             this.Dtp_Time.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.Dtp_Time.Location = new System.Drawing.Point(147, 203);
-            this.Dtp_Time.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Dtp_Time.Margin = new System.Windows.Forms.Padding(4);
             this.Dtp_Time.Name = "Dtp_Time";
             this.Dtp_Time.Size = new System.Drawing.Size(166, 26);
             this.Dtp_Time.TabIndex = 6;
@@ -149,11 +149,11 @@
             // Tag_Label
             // 
             this.Tag_Label.AutoSize = true;
-            this.Tag_Label.Location = new System.Drawing.Point(39, 69);
+            this.Tag_Label.Location = new System.Drawing.Point(147, 68);
             this.Tag_Label.Name = "Tag_Label";
-            this.Tag_Label.Size = new System.Drawing.Size(77, 18);
+            this.Tag_Label.Size = new System.Drawing.Size(101, 18);
             this.Tag_Label.TabIndex = 18;
-            this.Tag_Label.Text = "\"Alert Tag\"";
+            this.Tag_Label.Text = "For \"Alert Tag\"";
             // 
             // numericUpDown1
             // 
@@ -180,7 +180,7 @@
             this.Controls.Add(this.Lbl_Date);
             this.Controls.Add(this.Lbl_Alert_Title);
             this.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "NewAlertForm";
             this.Text = "NewAlertForm";
             this.Load += new System.EventHandler(this.NewAlertForm_Load);

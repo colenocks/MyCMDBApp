@@ -20,7 +20,7 @@ namespace MyCMDBApp
         public string UserFolderPath { get; private set; }
         public string UserFilePath { get; private set; }
         public string Username { get; private set; }
-
+        
         public StartupForm() {}
         
         public StartupForm(string username, string path, string folder)
@@ -35,9 +35,10 @@ namespace MyCMDBApp
         private void Btn_Create_Database_Click(object sender, EventArgs e)
         {
             //Create an instance of the new database form
-            NewDatabaseForm newDatabaseForm = new NewDatabaseForm(Username, UserFolderPath);
-           
-            newDatabaseForm.Tag = this;
+            NewDatabaseForm newDatabaseForm = new NewDatabaseForm(Username, UserFolderPath)
+            {
+                Tag = this
+            };
             newDatabaseForm.Show(this);
             Hide();
         }
@@ -53,11 +54,13 @@ namespace MyCMDBApp
             //else
             //{
             //}
-             //MessageBox.Show($"{_Handler.List_All_Databases.Count} database(s) found");
+            //MessageBox.Show($"{_Handler.List_All_Databases.Count} database(s) found");
 
             //open ManageDatabase form to select database
-            ManageDatabasesForm databaseForm = new ManageDatabasesForm(UserFilePath);
-            databaseForm.Tag = this;
+            ManageDatabasesForm databaseForm = new ManageDatabasesForm(UserFilePath, UserFolderPath)
+            {
+                Tag = this //set this form as a tag property of the next form instance
+            };
             databaseForm.Show(this);
             Hide();
         }
@@ -73,19 +76,8 @@ namespace MyCMDBApp
         private void Btn_Manage_Alerts_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Alerts Coming Soon");
+           
         }
-
-
-        //public void NameCommand()
-        //{
-        //    string command = "name:coleman";
-        //    int Len = command.Length; //12 
-        //    int colonIndex = command.IndexOf(":"); // = 4
-        //    int afterColon = colonIndex + 1; // = 5
-        //    string Key1 = command.Substring(0, colonIndex);
-        //    MessageBox.Show($"{Key1}");
-        //    string key1_Value = command.Substring(afterColon, Len - afterColon);
-        //    MessageBox.Show($"{key1_Value}");
-        //}
+            
     }
 }

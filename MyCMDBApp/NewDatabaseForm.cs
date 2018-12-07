@@ -12,6 +12,7 @@ namespace MyCMDBApp
     public partial class NewDatabaseForm : Form
     {
         public string _userFolder;
+        public string _alertFolder;
         public string _userName;
 
         public List<Contact> List_All_Contacts = new List<Contact>();
@@ -26,16 +27,22 @@ namespace MyCMDBApp
         }
 
         private void Btn_Create_Click(object sender, EventArgs e)
-        {
-            string userDatabasesFolder = Path.Combine(_userFolder, $"{_userName}_Databases");
-            //create the Directory, if it doesn't exist
+        {   
+            //create two level directory, if it doesn't exist
+            string DatabasesFolder = Path.Combine(_userFolder, "Databases");
+            if (!Directory.Exists(DatabasesFolder))
+            {
+                Directory.CreateDirectory(DatabasesFolder);
+            }
+                
+            string userDatabasesFolder = Path.Combine(DatabasesFolder, $"{_userName}_Databases");
             if (!Directory.Exists(userDatabasesFolder))
             {
                 Directory.CreateDirectory(userDatabasesFolder);
             }
             //trim name for white spaces
             string databaseName = Txt_Database_Name.Text.Trim().ToLower();
-
+            
             SaveFileDialog savefile = new SaveFileDialog
             {
                 Title = "Save Database File",
@@ -43,7 +50,6 @@ namespace MyCMDBApp
                 FileName = databaseName,
                 InitialDirectory = userDatabasesFolder
             };
-
             if (savefile.ShowDialog() == DialogResult.OK)
             {
                 //check if the file exists
@@ -74,7 +80,7 @@ namespace MyCMDBApp
                     //instantiate user constructor A
                     User userObj = new User(databaseName, Rtb_Database_Directory.Text);
                     //Add database details to the user xml file
-                    _Handler.AddToUserDatabaseXml(userObj, userDatabaseXmlFile);
+                    _Handler.SaveUserDatabaseDetails(userObj, userDatabaseXmlFile);
 
                     ///clear the contact list
                     List_All_Contacts.Clear();
@@ -95,6 +101,7 @@ namespace MyCMDBApp
             //Enables the contact Form Group box
             //Btn_Add_Contacts.Enabled = false;
             GrBox_Contact_Form.Enabled = true;
+            Btn_Add.Enabled = true;
             
         }
 
@@ -143,6 +150,13 @@ namespace MyCMDBApp
             }
         }
 
+        private void Btn_Add_Event_Click(object sender, EventArgs e)
+        {
+            //Create instance of Alert Form
+            NewAlertForm newAlert = new NewAlertForm(Txt_Name.Text, _userName, _userFolder);
+            newAlert.ShowDialog();
+        }
+
         private void Btn_View_Contacts_Click(object sender, EventArgs e)
         {
             //Display a message box, total number of contacts added
@@ -150,8 +164,10 @@ namespace MyCMDBApp
 
             //Disabled by default, enabled after one contact is added
             //pass in the contact list, database name and path as parameter
-            ContactsViewForm viewContact = new ContactsViewForm(Rtb_Database_Directory.Text, Txt_Database_Name.Text);
-            viewContact.Tag = this;
+            ContactsViewForm viewContact = new ContactsViewForm(Rtb_Database_Directory.Text, Txt_Database_Name.Text)
+            {
+                Tag = this 
+            };
             viewContact.ShowDialog(this);
         }
 
@@ -159,6 +175,9 @@ namespace MyCMDBApp
         {
             //clear contacts list
             List_All_Contacts.Clear();
+
+            //Disable contact form controls
+            GrBox_Contact_Form.Enabled = false;
             Btn_New_Database.Enabled = true;
 
             Btn_Add.Enabled = false;
@@ -168,26 +187,13 @@ namespace MyCMDBApp
 
         private void Btn_Home_Click(object sender, EventArgs e)
         {
-            var startupForm = (StartupForm)Tag;
+            var startupForm = (StartupForm)Tag; //set the tag property of the previous form to a variable
             startupForm.Show();
             Close();
         }
 
         private void Btn_New_Database_Click(object sender, EventArgs e)
         {
-            ////pass the list on to startUpForm
-            //StartupForm startupForm = new StartupForm();
-            ////call the method and pass in the list
-            //startupForm.RetrieveDatabase(List_All_Databases);
-
-            ////clear list
-            //List_All_Contacts.Clear();
-
-            //Disable group box controls
-            GrBox_Contact_Form.Enabled = false;
-            Btn_View_Contacts.Enabled = true;
-            MessageBox.Show("Press the home key to return!");
-
             Txt_Database_Name.Enabled = true;
             Txt_Database_Name.Focus();
             Btn_Create.Enabled = true;
@@ -219,7 +225,6 @@ namespace MyCMDBApp
             //    errorProvider.SetError(Txt_Name, "");
             //}
         }
-
         //Email
 
         //Phone

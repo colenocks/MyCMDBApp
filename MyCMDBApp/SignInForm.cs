@@ -40,19 +40,18 @@ namespace MyCMDBApp
                 string userId = Txt_User_ID.Text.Trim().ToLower();
                 //get the users list folder path from handler class
                 DB_Handler _Handler = new DB_Handler();
-                string AllUsersFile = Path.Combine(_Handler.UsersFolderPath, "users.xml"); 
+                string CMA_UsersFile = Path.Combine(_Handler.CMA_UsersFolder, "CMA_users.xml"); 
                 
-
                 XmlDocument xmlDocument = new XmlDocument();
                 //Load the users xml file and check if username and path exists
-                if (!File.Exists(AllUsersFile))
+                if (!File.Exists(CMA_UsersFile))
                 {
                    MessageBox.Show("No user have been created in this application yet");
                     ClearFields();
                 }
                 else
                 {
-                    xmlDocument.Load(Path.GetFullPath(AllUsersFile));
+                    xmlDocument.Load(Path.GetFullPath(CMA_UsersFile));
                 
                     foreach (XmlNode node in xmlDocument.SelectNodes("allusers/user"))
                     {
@@ -65,7 +64,7 @@ namespace MyCMDBApp
                             CurrentUserFolderPath = Path.GetDirectoryName(RetrievedUserFilePath);
                         }
                     }
-                    xmlDocument.Save(Path.GetFullPath(AllUsersFile));
+                    xmlDocument.Save(Path.GetFullPath(CMA_UsersFile));
                     
                     if (string.IsNullOrEmpty(RetrievedUserFilePath))
                     {
@@ -85,7 +84,7 @@ namespace MyCMDBApp
                         else
                         {
                             xmlDocument.Save(Path.GetFullPath(RetrievedUserFilePath));
-                            //Open the Start up form and pass properties
+                            //Open the Start up form and pass 4 properties
                             StartupForm startupForm = new StartupForm(RetrievedUsername, RetrievedUserFilePath, CurrentUserFolderPath);
                             startupForm.Show();
                             Hide();
@@ -108,12 +107,12 @@ namespace MyCMDBApp
             {
                 string userPath = browserDialog.SelectedPath;
                 //Predefined folder in MyDocuments folder
-                if (!Directory.Exists(userPath + "\\cmdb"))
+                if (!Directory.Exists(userPath + "\\CMA"))
                 {
-                    Directory.CreateDirectory(userPath + "\\cmdb"); //Custom folder in application Data
+                    Directory.CreateDirectory(userPath + "\\CMA"); //Custom folder in application Data
                 }
                 //display the folder path on rtb field
-                Rtb_User_Directory.Text = Path.GetFullPath(userPath + "\\cmdb"); //User.User_Directory
+                Rtb_User_Directory.Text = Path.GetFullPath(userPath + "\\CMA"); //User.User_Directory
             }
             else
             {
@@ -137,24 +136,25 @@ namespace MyCMDBApp
             }
             else
             {
+                CurrentUserFolderPath = Rtb_User_Directory.Text;
                 //Go into the users file to retrieve user information
                 DB_Handler _Handler = new DB_Handler();
                 XmlDocument xmlDocument = new XmlDocument();
 
                 //trim the username for white spaces
                 string username = Txt_Username.Text.Trim().ToLower();
-                if (!Directory.Exists(_Handler.UsersFolderPath))
+                if (!Directory.Exists(_Handler.CMA_UsersFolder))
                 {
-                    Directory.CreateDirectory(_Handler.UsersFolderPath);
+                    Directory.CreateDirectory(_Handler.CMA_UsersFolder);
                 }
-                string AllUsersFile = Path.GetFullPath(Path.Combine(_Handler.UsersFolderPath, "users.xml"));//create users.xml (empty) File
-
+                string AllUsersFile = Path.GetFullPath(Path.Combine(_Handler.CMA_UsersFolder, "CMA_users.xml"));//Root Folder(CMA parent folder)
+                
                 //first check if the users.xml file has been created
-                if (File.Exists("user.xml"))
+                if (File.Exists(AllUsersFile))
                 {
                     //Load the users.xml file and check if username and path exists
                     xmlDocument.Load(AllUsersFile);
-                    foreach (XmlNode node in xmlDocument.SelectNodes("user"))
+                    foreach (XmlNode node in xmlDocument.SelectNodes("allusers/user"))
                     {
                         if (node.SelectSingleNode("username").InnerText == username)
                         {
@@ -173,21 +173,26 @@ namespace MyCMDBApp
                         Txt_Password.Clear();
                         Txt_Repeat_Password.Clear();
                     }
-                    //When validation succeeds
+                    //WHEN ALL VALIDATION SUCCEEDS
                     else
                     {
-                        //generate empty file with username + xml extension
-                        string generatedEmptyFilePath = Path.Combine(Rtb_User_Directory.Text, username+".xml");
+                        //create empty database file in CMA/CMA_Users Folder, using username
+                        string CMA_UsersFolder = Path.Combine(CurrentUserFolderPath, "CMA_Users");
+                        if (!Directory.Exists(CMA_UsersFolder))//CMA_Users Folder
+                        {
+                            Directory.CreateDirectory(CMA_UsersFolder);
+                        }
+                        string generatedEmptyFilePath = Path.Combine(CMA_UsersFolder, username+".xml");
 
                         //instantiate User constructor B
-                        User userObj = new User(username, Txt_Password.Text, generatedEmptyFilePath);
+                        User userObj = new User(username, Txt_Password.Text, Path.GetFullPath(generatedEmptyFilePath));
 
-                        //Create the user, write xml to "users.xml" file
+                        //Create the user's xml file
                         _Handler.CreateUser(userObj);
                         
-                        //saves user to autoGenerated All Users File
-                        _Handler.SaveUsersAccount(username, generatedEmptyFilePath);
-                        
+                        //saves the user into autoGenerated "CMA_Users.xml" file
+                        _Handler.SaveUsersAccount(username, Path.GetFullPath(generatedEmptyFilePath));
+
                         MessageBox.Show("Your User Account has been Created successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
                         ClearFields();
 

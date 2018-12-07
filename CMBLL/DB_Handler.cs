@@ -9,7 +9,9 @@ namespace CMBLL
 {
     public class DB_Handler
     {
-        public string UsersFolderPath => Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\users lists";
+        //Users List Folder
+        public string CMA_UsersFolder => Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) /*+ "\\CMA_Users"*/;
+
 
         public List<Database> List_All_Databases = new List<Database>();
 
@@ -34,6 +36,17 @@ namespace CMBLL
             List_All_Databases.Add(database);
         }
 
+        public string CreateAlertFolder(string username, string userfolder)
+        {
+            //create Alert Folder inside CMA Folder
+            string alertFolderPath = Path.Combine(userfolder, "Alerts", $"{username}_Alerts");
+            if (!Directory.Exists(alertFolderPath))
+            {
+                Directory.CreateDirectory(alertFolderPath);
+            }
+            return alertFolderPath;
+        }
+
         public void AddAlert(Alert alert, string path)
         {
             //write to xml
@@ -48,7 +61,7 @@ namespace CMBLL
             {
                 Directory.CreateDirectory(path);
             }
-            //Create file to write to
+            //Create Alert file to write to
             string alertFile = Path.Combine(path, alert.Alert_Tag + ".xml");
 
             if (!File.Exists(alertFile))
@@ -56,12 +69,13 @@ namespace CMBLL
                 XmlWriter xmlwriter;
                 xmlwriter = XmlWriter.Create(path, settings);
                 xmlwriter.WriteStartDocument();
-                xmlwriter.WriteStartElement($"{alert.Alert_Tag}_Alert");//root element
+                xmlwriter.WriteStartElement($"{alert.Alert_Tag}_alert");//root element
                 xmlwriter.WriteStartElement("alert");
-                        xmlwriter.WriteElementString("title", alert.Title);
-                        xmlwriter.WriteElementString("date", alert.Date);
-                        xmlwriter.WriteElementString("reminder", alert.Reminder.ToString());
-                    xmlwriter.WriteEndElement();
+                xmlwriter.WriteElementString("title", alert.Title);
+                xmlwriter.WriteElementString("date", alert.Date);
+                xmlwriter.WriteElementString("time", alert.Time);
+                xmlwriter.WriteElementString("reminder", alert.Reminder.ToString());
+                xmlwriter.WriteEndElement();
                 xmlwriter.WriteEndElement();
                 xmlwriter.Flush();
                 xmlwriter.Close();
@@ -76,7 +90,7 @@ namespace CMBLL
                 XmlNode Xtitle = xDoc.CreateElement("title");
                 XmlNode Xdate = xDoc.CreateElement("date");
                 XmlNode Xtime = xDoc.CreateElement("time");
-                XmlNode Xrem = xDoc.CreateElement("time");
+                XmlNode Xrem = xDoc.CreateElement("reminder");
 
                 Xtitle.InnerText = alert.Title;
                 Xdate.InnerText = alert.Date;
@@ -93,10 +107,10 @@ namespace CMBLL
             }
         }
 
-        public void AddContact(Contact contact)
+        public void AddContact(Contact contact, Alert alert = null)
         {
             //add non empty nodes
-            
+            int counter = 0; //to resolve duplicate names
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(contact.Full_Path.ToString());
             XmlNode XTop = xmlDocument.CreateElement("contact");
@@ -108,7 +122,16 @@ namespace CMBLL
             XmlNode XNote = xmlDocument.CreateElement("information");
 
             //fill nodes with text
-            XName.InnerText = contact.Name;
+            foreach (XmlNode node in xmlDocument.SelectNodes($"{contact.Contact_Database}/contact/name"))//look for duplicate names in list of contacts
+            {
+                if (node.SelectSingleNode("name").InnerText == contact.Name)
+                {
+                    counter++;
+                    XName.InnerText = $"{contact.Name}_{counter}";
+                }
+                else { XName.InnerText = contact.Name; }
+            }
+
             XEmail.InnerText = contact.Email;
             XMobile.InnerText = contact.Mobile;
             XAltMobile.InnerText = contact.Alternative_Mobile;
@@ -127,7 +150,81 @@ namespace CMBLL
             xmlDocument.DocumentElement.AppendChild(XTop);
 
             xmlDocument.Save(Path.GetFullPath(contact.Full_Path));
-           
+
+        }
+
+        public void UpdateContact(Contact contact, string contactId)
+        {
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.Load(contact.Full_Path.ToString());
+            foreach (XmlNode node in xmlDocument.SelectNodes($"{contact.Contact_Database}/contact"))
+            {
+                //if xml node name corresponds to the name on textbox
+                if (node.SelectSingleNode("name").InnerText == contactId)
+                {
+                    //set the new non empty values
+                    if (!string.IsNullOrEmpty(contact.Name))//name
+                    {
+                        //Go through all contacts to check for duplicate name
+                        foreach (XmlNode nameNode in xmlDocument.SelectNodes($"{contact.Contact_Database}/contact/name"))
+                        {
+                            if (node.SelectSingleNode("name").InnerText != contact.Name)
+                            {
+                                node.SelectSingleNode("name").InnerText = contact.Name;
+                            }
+                            else
+                            {
+                                //leave the name unchanged
+                                node.SelectSingleNode("name").InnerText = contactId;
+                            }
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(contact.Email))//Email
+                    {
+                        node.SelectSingleNode("email").InnerText = contact.Email;
+                    }
+                    if (!string.IsNullOrEmpty(contact.Mobile))//Mobile
+                    {
+                        node.SelectSingleNode("mobile").InnerText = contact.Mobile;
+                    }
+                    if (!string.IsNullOrEmpty(contact.Alternative_Mobile))//Alternative
+                    {
+                        node.SelectSingleNode("alternative").InnerText = contact.Alternative_Mobile;
+                    }
+                    if (!string.IsNullOrEmpty(contact.Address))//Address
+                    {
+                        node.SelectSingleNode("address").InnerText = contact.Address;
+                    }
+                    if (!string.IsNullOrEmpty(contact.Note))//Additional Info
+                    {
+                        node.SelectSingleNode("information").InnerText = contact.Note;
+                    }
+                }
+            }
+            xmlDocument.Save(contact.Full_Path.ToString());
+        }
+
+        public void DeleteAlert(Alert alert)
+        {
+
+        }
+
+        public void DeleteContact(Contact contact, string contactId)
+        {
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.Load(contact.Full_Path.ToString());
+            foreach (XmlNode node in xmlDocument.SelectNodes($"{contact.Contact_Database}/contact"))
+            {
+                //if xml node name corresponds to the name on textbox
+                if (node.SelectSingleNode("name").InnerText == contactId)
+                {
+                    node.ParentNode.RemoveChild(node); //this removes the contact node that matches the contactId
+                }
+            }
+            xmlDocument.Save(contact.Full_Path.ToString());
+
+            //delete associated alert Tag in alert File
+           // xmlDocument.Load()
         }
 
         //this method is called on sign in button click
@@ -145,9 +242,9 @@ namespace CMBLL
                 XmlWriter xmlwriter;
                 xmlwriter = XmlWriter.Create(user.UserFilePath, settings);
                 xmlwriter.WriteStartDocument();
-                    xmlwriter.WriteStartElement(user.Username);
-                        xmlwriter.WriteAttributeString("password", user.Password);
-                        xmlwriter.WriteComment("---------Database List----------");
+                xmlwriter.WriteStartElement(user.Username);
+                xmlwriter.WriteAttributeString("password", user.Password);
+                xmlwriter.WriteComment("---------Database List----------");
                 xmlwriter.WriteEndElement();
                 xmlwriter.Flush();
                 xmlwriter.Close();
@@ -157,12 +254,12 @@ namespace CMBLL
         //add to list of users folder
         public void SaveUsersAccount(string username, string userpath)
         {
-            if (!Directory.Exists(UsersFolderPath))
+            if (!Directory.Exists(CMA_UsersFolder))
             {
-                Directory.CreateDirectory(UsersFolderPath);
+                Directory.CreateDirectory(CMA_UsersFolder);
             }
-            string usersXmlFile = Path.Combine(UsersFolderPath, "users.xml");
-            if(!File.Exists(usersXmlFile))
+            string usersXmlFile = Path.Combine(CMA_UsersFolder, "CMA_users.xml");
+            if (!File.Exists(usersXmlFile))
             {
                 XmlWriterSettings settings = new XmlWriterSettings
                 {
@@ -175,10 +272,10 @@ namespace CMBLL
                 xmlwriter.WriteStartDocument();
                 //
                 xmlwriter.WriteStartElement("allusers");
-                    xmlwriter.WriteStartElement("user");
-                        xmlwriter.WriteElementString("username", username);
-                        xmlwriter.WriteElementString("path", userpath);
-                    xmlwriter.WriteEndElement();
+                xmlwriter.WriteStartElement("user");
+                xmlwriter.WriteElementString("username", username);
+                xmlwriter.WriteElementString("path", userpath);
+                xmlwriter.WriteEndElement();
                 xmlwriter.WriteEndElement();
                 //
                 xmlwriter.Flush();
@@ -191,8 +288,8 @@ namespace CMBLL
                 xmlDocument.Load(Path.GetFullPath(usersXmlFile));
 
                 XmlNode top = xmlDocument.CreateElement("user");
-                    XmlNode Xusername = xmlDocument.CreateElement("username");
-                    XmlNode XUpath = xmlDocument.CreateElement("path");
+                XmlNode Xusername = xmlDocument.CreateElement("username");
+                XmlNode XUpath = xmlDocument.CreateElement("path");
 
                 Xusername.InnerText = username;
                 XUpath.InnerText = userpath;
@@ -206,7 +303,7 @@ namespace CMBLL
         }
 
         //this method is called on finish button in the create database form
-        public void AddToUserDatabaseXml(User user, string databasesXml)
+        public void SaveUserDatabaseDetails(User user, string databasesXml)
         {
             //load the xml file and add all created databases and alerts
             XmlDocument xmlDocument = new XmlDocument();
@@ -234,68 +331,5 @@ namespace CMBLL
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(user.UserFilePath);
         }
-        ////Takes in three parameters
-        //public List<ContactInfo> CloneContact(List<Contact> contactList , List<ContactInfo> contactInfoList)
-        //{
-        //    ContactInfo contactInfoObj = new ContactInfo();
-        //    XmlDocument xmlDocument = new XmlDocument();
-        //    //Note: all contacts in contactList have common database name and path; contactList[0].Full_Path == contactList[1].Full_Path
-        //    xmlDocument.Load(contactList[0].Full_Path.ToString());
-
-        //    for(int numberOfContacts = 0; numberOfContacts < contactList.Count; numberOfContacts++)
-        //    {
-        //        foreach (XmlNode node in xmlDocument.SelectNodes($"{contactList[0].Contact_Database}/contact"))
-        //        {
-        //            //Set ContactInfo Properties via contactInfoObj
-        //            contactInfoObj.Name_View = node.SelectSingleNode("name").InnerText;
-        //            contactInfoObj.Email_View = node.SelectSingleNode("email").InnerText;
-        //            contactInfoObj.Mobile_View = node.SelectSingleNode("mobile").InnerText;
-        //            contactInfoObj.Alternative_Mobile_View = node.SelectSingleNode("alternative").InnerText;
-        //            contactInfoObj.Address_View = node.SelectSingleNode("address").InnerText;
-        //            contactInfoObj.Note_View = node.SelectSingleNode("information").InnerText;
-        //            //Add objects to list(GridViewList)
-        //            contactInfoList.Add(contactInfoObj);
-        //        } 
-        //    }
-        //    xmlDocument.Save(contactList[0].Full_Path.ToString());
-        //    return contactInfoList;
-        //}
-
     }
 }
-/* 
- * 
-             // Saving empty file in directory chosen already)
-            SaveFileDialog saveFile = new SaveFileDialog
-            {
-                InitialDirectory = InitialPath,
-                Filter = "XML File | *.xml",
-                Title = "Create Empty Xml File",
-                FileName = Txt_Database_Name.Text //automatically adds the name to the dialog
-            };
-            if (saveFile.ShowDialog() == DialogResult.OK)
-            {
-                Rtb_Database_Directory.Text = saveFile.FileName;
-                if(Txt_Database_Name.Text == "" || Txt_Database_Name.Text != Path.GetFileNameWithoutExtension(saveFile.FileName))
-                {
-                    Txt_Database_Name.Text = Path.GetFileNameWithoutExtension(saveFile.FileName);
-                }
-
-                MessageBox.Show("Database file created succesfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.None);
-                Txt_Database_Name.Enabled = false;
-                Btn_Create.Enabled = false;
-                //Enable the add Contacts and Create Alert Button
-                Btn_Add_Contacts.Enabled = true;
-                Btn_Create_Alert.Enabled = true;
-
-                //instantiate database constructor
-                Databases databaseObj = new Databases(Path.GetFileNameWithoutExtension(saveFile.FileName), Rtb_Database_Directory.Text);
-
-                DB_Handler _Handler = new DB_Handler();
-                _Handler.SaveDatabase(databaseObj);
-            }
-            else
-            {
-                MessageBox.Show("File not saved", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-     */

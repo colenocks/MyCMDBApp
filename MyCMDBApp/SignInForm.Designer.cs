@@ -68,7 +68,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(808, 76);
             this.label1.TabIndex = 13;
-            this.label1.Text = " Sign In";
+            this.label1.Text = "   Contact Management Application (CMA)";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Lbl_Username
