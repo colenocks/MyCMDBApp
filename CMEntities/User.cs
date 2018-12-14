@@ -9,8 +9,7 @@ namespace CMEntities
         public string Username { get; }
         public string Password { get; }
         public string UserFilePath { get; }
-        //public string Alert_Path { get; } //coming soon
-        //public string Alert_Name { get; }
+        public string Alert_Path { get; } 
         public string Database_Path { get; }
         public string Database_Name { get; }// the database name here corresponds with the contact/Database classes database names
 
@@ -25,6 +24,10 @@ namespace CMEntities
             Username = username;
             Password = password;
             UserFilePath = path;
+        }
+        public User(string path)
+        {
+            Alert_Path = path;
         }
 
     }

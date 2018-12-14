@@ -29,10 +29,12 @@
         private void InitializeComponent()
         {
             this.GrBox_Contact_Form = new System.Windows.Forms.GroupBox();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.listBox_Alerts = new System.Windows.Forms.ListBox();
             this.Lbl_Alerts = new System.Windows.Forms.Label();
             this.Txt_Notes = new System.Windows.Forms.TextBox();
             this.Txt_Address = new System.Windows.Forms.TextBox();
+            this.Btn_Edit_Alert = new System.Windows.Forms.Button();
+            this.Btn_Delete_Alert = new System.Windows.Forms.Button();
             this.Txt_Alt_Mobile = new System.Windows.Forms.TextBox();
             this.Txt_Mobile = new System.Windows.Forms.TextBox();
             this.Txt_Email = new System.Windows.Forms.TextBox();
@@ -54,10 +56,12 @@
             // 
             // GrBox_Contact_Form
             // 
-            this.GrBox_Contact_Form.Controls.Add(this.listBox1);
+            this.GrBox_Contact_Form.Controls.Add(this.listBox_Alerts);
             this.GrBox_Contact_Form.Controls.Add(this.Lbl_Alerts);
             this.GrBox_Contact_Form.Controls.Add(this.Txt_Notes);
             this.GrBox_Contact_Form.Controls.Add(this.Txt_Address);
+            this.GrBox_Contact_Form.Controls.Add(this.Btn_Edit_Alert);
+            this.GrBox_Contact_Form.Controls.Add(this.Btn_Delete_Alert);
             this.GrBox_Contact_Form.Controls.Add(this.Txt_Alt_Mobile);
             this.GrBox_Contact_Form.Controls.Add(this.Txt_Mobile);
             this.GrBox_Contact_Form.Controls.Add(this.Txt_Email);
@@ -80,14 +84,15 @@
             this.GrBox_Contact_Form.TabStop = false;
             this.GrBox_Contact_Form.Text = "Contact Form";
             // 
-            // listBox1
+            // listBox_Alerts
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 15;
-            this.listBox1.Location = new System.Drawing.Point(152, 282);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(275, 79);
-            this.listBox1.TabIndex = 24;
+            this.listBox_Alerts.FormattingEnabled = true;
+            this.listBox_Alerts.ItemHeight = 15;
+            this.listBox_Alerts.Location = new System.Drawing.Point(152, 282);
+            this.listBox_Alerts.Name = "listBox_Alerts";
+            this.listBox_Alerts.Size = new System.Drawing.Size(121, 79);
+            this.listBox_Alerts.TabIndex = 24;
+            this.listBox_Alerts.SelectedIndexChanged += new System.EventHandler(this.listBox_Alerts_SelectedIndexChanged);
             // 
             // Lbl_Alerts
             // 
@@ -117,6 +122,32 @@
             this.Txt_Address.Name = "Txt_Address";
             this.Txt_Address.Size = new System.Drawing.Size(275, 58);
             this.Txt_Address.TabIndex = 21;
+            // 
+            // Btn_Edit_Alert
+            // 
+            this.Btn_Edit_Alert.Font = new System.Drawing.Font("Constantia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Edit_Alert.ForeColor = System.Drawing.Color.Blue;
+            this.Btn_Edit_Alert.Location = new System.Drawing.Point(316, 318);
+            this.Btn_Edit_Alert.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn_Edit_Alert.Name = "Btn_Edit_Alert";
+            this.Btn_Edit_Alert.Size = new System.Drawing.Size(75, 28);
+            this.Btn_Edit_Alert.TabIndex = 25;
+            this.Btn_Edit_Alert.Text = "Edit";
+            this.Btn_Edit_Alert.UseVisualStyleBackColor = true;
+            // 
+            // Btn_Delete_Alert
+            // 
+            this.Btn_Delete_Alert.Enabled = false;
+            this.Btn_Delete_Alert.Font = new System.Drawing.Font("Constantia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Delete_Alert.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.Btn_Delete_Alert.Location = new System.Drawing.Point(316, 282);
+            this.Btn_Delete_Alert.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn_Delete_Alert.Name = "Btn_Delete_Alert";
+            this.Btn_Delete_Alert.Size = new System.Drawing.Size(75, 28);
+            this.Btn_Delete_Alert.TabIndex = 25;
+            this.Btn_Delete_Alert.Text = "Delete";
+            this.Btn_Delete_Alert.UseVisualStyleBackColor = true;
+            this.Btn_Delete_Alert.Click += new System.EventHandler(this.Btn_Delete_Click);
             // 
             // Txt_Alt_Mobile
             // 
@@ -234,7 +265,7 @@
             // 
             this.Btn_Delete.Font = new System.Drawing.Font("Constantia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Delete.ForeColor = System.Drawing.Color.Red;
-            this.Btn_Delete.Location = new System.Drawing.Point(22, 461);
+            this.Btn_Delete.Location = new System.Drawing.Point(22, 462);
             this.Btn_Delete.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Delete.Name = "Btn_Delete";
             this.Btn_Delete.Size = new System.Drawing.Size(110, 46);
@@ -281,6 +312,7 @@
             this.Btn_Edit.TabIndex = 27;
             this.Btn_Edit.Text = "Edit";
             this.Btn_Edit.UseVisualStyleBackColor = true;
+            this.Btn_Edit.Click += new System.EventHandler(this.Btn_Edit_Click);
             // 
             // Btn_Back
             // 
@@ -336,9 +368,11 @@
         private System.Windows.Forms.Button Btn_Delete;
         private System.Windows.Forms.Button Btn_Save;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox listBox_Alerts;
         private System.Windows.Forms.Label Lbl_Alerts;
         private System.Windows.Forms.Button Btn_Edit;
         private System.Windows.Forms.Button Btn_Back;
+        private System.Windows.Forms.Button Btn_Edit_Alert;
+        private System.Windows.Forms.Button Btn_Delete_Alert;
     }
 }

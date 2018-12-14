@@ -9,9 +9,9 @@ namespace CMBLL
 {
     public class DB_Handler
     {
-        //Users List Folder
-        public string CMA_UsersFolder => Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) /*+ "\\CMA_Users"*/;
-
+        //Users List Folder -- This is created as the application starts
+        public string CMA_ALL_USERS_FOLDER => Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\CMA_All_Users";
+        public string CMA_ALL_USERS_FILE { get; private set; }
 
         public List<Database> List_All_Databases = new List<Database>();
 
@@ -36,81 +36,9 @@ namespace CMBLL
             List_All_Databases.Add(database);
         }
 
-        public string CreateAlertFolder(string username, string userfolder)
+        public void AddContact(Contact contact)
         {
-            //create Alert Folder inside CMA Folder
-            string alertFolderPath = Path.Combine(userfolder, "Alerts", $"{username}_Alerts");
-            if (!Directory.Exists(alertFolderPath))
-            {
-                Directory.CreateDirectory(alertFolderPath);
-            }
-            return alertFolderPath;
-        }
-
-        public void AddAlert(Alert alert, string path)
-        {
-            //write to xml
-            XmlWriterSettings settings = new XmlWriterSettings
-            {
-                Indent = true,
-                Encoding = Encoding.UTF8
-            };
-
-            //Create the directory
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-            //Create Alert file to write to
-            string alertFile = Path.Combine(path, alert.Alert_Tag + ".xml");
-
-            if (!File.Exists(alertFile))
-            {
-                XmlWriter xmlwriter;
-                xmlwriter = XmlWriter.Create(path, settings);
-                xmlwriter.WriteStartDocument();
-                xmlwriter.WriteStartElement($"{alert.Alert_Tag}_alert");//root element
-                xmlwriter.WriteStartElement("alert");
-                xmlwriter.WriteElementString("title", alert.Title);
-                xmlwriter.WriteElementString("date", alert.Date);
-                xmlwriter.WriteElementString("time", alert.Time);
-                xmlwriter.WriteElementString("reminder", alert.Reminder.ToString());
-                xmlwriter.WriteEndElement();
-                xmlwriter.WriteEndElement();
-                xmlwriter.Flush();
-                xmlwriter.Close();
-            }
-            else
-            {
-                //load the file and add the nodes
-                XmlDocument xDoc = new XmlDocument();
-                xDoc.Load(Path.GetFullPath(alertFile));
-
-                XmlNode top = xDoc.CreateElement("alert");
-                XmlNode Xtitle = xDoc.CreateElement("title");
-                XmlNode Xdate = xDoc.CreateElement("date");
-                XmlNode Xtime = xDoc.CreateElement("time");
-                XmlNode Xrem = xDoc.CreateElement("reminder");
-
-                Xtitle.InnerText = alert.Title;
-                Xdate.InnerText = alert.Date;
-                Xtime.InnerText = alert.Time;
-                Xrem.InnerText = alert.Reminder.ToString();
-
-                top.AppendChild(Xtitle);
-                top.AppendChild(Xdate);
-                top.AppendChild(Xtime);
-                top.AppendChild(Xrem);
-
-                xDoc.DocumentElement.AppendChild(top);
-                xDoc.Save(Path.GetFullPath(alertFile));
-            }
-        }
-
-        public void AddContact(Contact contact, Alert alert = null)
-        {
-            //add non empty nodes
-            int counter = 0; //to resolve duplicate names
+            //add non-empty nodes
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(contact.Full_Path.ToString());
             XmlNode XTop = xmlDocument.CreateElement("contact");
@@ -120,24 +48,27 @@ namespace CMBLL
             XmlNode XAltMobile = xmlDocument.CreateElement("alternative");
             XmlNode XAddress = xmlDocument.CreateElement("address");
             XmlNode XNote = xmlDocument.CreateElement("information");
+            //XmlNode XAlert = xmlDocument.CreateElement("alert");
 
             //fill nodes with text
-            foreach (XmlNode node in xmlDocument.SelectNodes($"{contact.Contact_Database}/contact/name"))//look for duplicate names in list of contacts
+            foreach (XmlNode node in xmlDocument.SelectNodes($"{contact.Contact_Database}/contact"))//look for duplicate names in list of contacts
             {
                 if (node.SelectSingleNode("name").InnerText == contact.Name)
                 {
-                    counter++;
-                    XName.InnerText = $"{contact.Name}_{counter}";
+                    //Add a suffix
+                    XName.InnerText = $"{contact.Name}_NEW";
                 }
-                else { XName.InnerText = contact.Name; }
+                else
+                {
+                    XName.InnerText = contact.Name;
+                }
+                XEmail.InnerText = contact.Email;
+                XMobile.InnerText = contact.Mobile;
+                XAltMobile.InnerText = contact.Alternative_Mobile;
+                XAddress.InnerText = contact.Address;
+                XNote.InnerText = contact.Note;
+                //XAlert.InnerText = contact.
             }
-
-            XEmail.InnerText = contact.Email;
-            XMobile.InnerText = contact.Mobile;
-            XAltMobile.InnerText = contact.Alternative_Mobile;
-            XAddress.InnerText = contact.Address;
-            XNote.InnerText = contact.Note;
-
             //append unto the top contact element
             XTop.AppendChild(XName);
             XTop.AppendChild(XEmail);
@@ -150,7 +81,6 @@ namespace CMBLL
             xmlDocument.DocumentElement.AppendChild(XTop);
 
             xmlDocument.Save(Path.GetFullPath(contact.Full_Path));
-
         }
 
         public void UpdateContact(Contact contact, string contactId)
@@ -166,18 +96,19 @@ namespace CMBLL
                     if (!string.IsNullOrEmpty(contact.Name))//name
                     {
                         //Go through all contacts to check for duplicate name
-                        foreach (XmlNode nameNode in xmlDocument.SelectNodes($"{contact.Contact_Database}/contact/name"))
-                        {
-                            if (node.SelectSingleNode("name").InnerText != contact.Name)
-                            {
-                                node.SelectSingleNode("name").InnerText = contact.Name;
-                            }
-                            else
-                            {
-                                //leave the name unchanged
-                                node.SelectSingleNode("name").InnerText = contactId;
-                            }
-                        }
+                        //    foreach (XmlNode nameNode in xmlDocument.SelectNodes($"{contact.Contact_Database}/contact/name"))
+                        //    {
+                        //        if (node.SelectSingleNode("name").InnerText != contact.Name)
+                        //        {
+                        //            node.SelectSingleNode("name").InnerText = contact.Name;
+                        //        }
+                        //        else
+                        //        {
+                        //            //leave the name unchanged
+                        //            node.SelectSingleNode("name").InnerText = contactId;
+                        //        }
+                        //    }
+                        node.SelectSingleNode("name").InnerText = contact.Name;
                     }
                     if (!string.IsNullOrEmpty(contact.Email))//Email
                     {
@@ -204,12 +135,7 @@ namespace CMBLL
             xmlDocument.Save(contact.Full_Path.ToString());
         }
 
-        public void DeleteAlert(Alert alert)
-        {
-
-        }
-
-        public void DeleteContact(Contact contact, string contactId)
+        public void DeleteContact(Contact contact, string contactId/*, Alert alert*/)
         {
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(contact.Full_Path.ToString());
@@ -224,14 +150,172 @@ namespace CMBLL
             xmlDocument.Save(contact.Full_Path.ToString());
 
             //delete associated alert Tag in alert File
-           // xmlDocument.Load()
+            //DeleteAlert(alert);
+        }
+
+        public void AddAlert(Alert alert)
+        {   
+            if(alert != null)
+            {
+                //write to xml
+                XmlWriterSettings settings = new XmlWriterSettings
+                {
+                    Indent = true,
+                    Encoding = Encoding.UTF8
+                };
+                
+                if (!Directory.Exists(alert.Alert_Path))
+                {
+                    Directory.CreateDirectory(alert.Alert_Path);
+                }
+                //Create Alert file to write to
+                string alertFile = Path.Combine(alert.Alert_Path, $"{alert.Alert_User}_Alerts", "Alerts.xml");
+                XmlDocument xDoc = new XmlDocument();
+
+                if (!File.Exists(alertFile))
+                {
+                    XmlWriter xmlwriter;
+                    xmlwriter = XmlWriter.Create(alertFile, settings);
+                    xmlwriter.WriteStartDocument();
+                    xmlwriter.WriteStartElement("alerts");
+                    xmlwriter.WriteStartElement($"{alert.Alert_Tag}_alert");//root element
+                    xmlwriter.WriteElementString("title", alert.Title);
+                    xmlwriter.WriteElementString("date", alert.Date);
+                    xmlwriter.WriteElementString("time", alert.Time);
+                    xmlwriter.WriteElementString("reminder", alert.Reminder.ToString());
+                    xmlwriter.WriteEndElement();
+                    xmlwriter.WriteEndElement();
+                    xmlwriter.Flush();
+                    xmlwriter.Close();
+                }
+                else
+                {
+                    //load the file and append the nodes
+                    xDoc.Load(Path.GetFullPath(alertFile));
+                    
+                    XmlNode top = xDoc.CreateElement($"{alert.Alert_Tag}_alert");
+                    XmlNode Xtitle = xDoc.CreateElement("title");
+                    XmlNode Xdate = xDoc.CreateElement("date");
+                    XmlNode Xtime = xDoc.CreateElement("time");
+                    XmlNode Xrem = xDoc.CreateElement("reminder");
+                    
+                    Xtitle.InnerText = alert.Title;
+                    Xdate.InnerText = alert.Date;
+                    Xtime.InnerText = alert.Time;
+                    Xrem.InnerText = alert.Reminder.ToString();
+
+                    top.AppendChild(Xtitle);
+                    top.AppendChild(Xdate);
+                    top.AppendChild(Xtime);
+                    top.AppendChild(Xrem);
+
+                    xDoc.DocumentElement.AppendChild(top);
+                    xDoc.Save(Path.GetFullPath(alertFile));
+                }
+
+                //save alert file path to CMA_users.xml
+                xDoc.Load(Path.GetFullPath(CMA_ALL_USERS_FILE));
+                foreach(XmlNode node in xDoc.SelectNodes("allusers/users"))
+                {
+                    if(node.SelectSingleNode("username").InnerText == alert.Alert_User)
+                    {
+                        node.SelectSingleNode("alert_path").InnerText = alertFile;
+                    }
+                }
+                xDoc.Save(Path.GetFullPath(CMA_ALL_USERS_FILE));
+            }
+            
+        }
+
+        public void DeleteAlert(Alert alert)//call delete constructor 
+        {
+            if(alert != null)
+            {
+                XmlDocument xmlDocument = new XmlDocument();
+                //Every alert file is named Alerts.xml
+                string alertFile = Path.Combine(alert.Alert_Path, "Alerts.xml");
+
+                xmlDocument.Load(Path.GetFullPath(alertFile));
+                foreach (XmlNode node in xmlDocument.SelectNodes($"{alert.Alert_Tag}/alerts"))
+                {
+                    //if xml node name corresponds to the name on textbox
+                    if (node.SelectSingleNode("title").InnerText == alert.Title)
+                    {
+                        node.ParentNode.RemoveChild(node); //this removes the alert node that matches the alert title
+                    }
+                }
+                if (xmlDocument.SelectSingleNode("alerts").InnerText == null)
+                    //if no nodes but the declaration remains
+                {
+                    File.Delete(alertFile);
+                }
+                xmlDocument.Save(Path.GetFullPath(alertFile));
+            }
+        }
+        
+        //this method is called when a user registers
+        public void SaveUsersAccount(User user)
+        {
+            //save user account into usersXmlFile 
+            if (!Directory.Exists(CMA_ALL_USERS_FOLDER))
+            {
+                Directory.CreateDirectory(CMA_ALL_USERS_FOLDER);
+            }
+            CMA_ALL_USERS_FILE = Path.Combine(CMA_ALL_USERS_FOLDER, "CMA_users.xml");
+
+            //Check if the usesXmlFile was created successfully on application startup
+            if (!File.Exists(CMA_ALL_USERS_FILE))
+            {
+                XmlWriterSettings settings = new XmlWriterSettings
+                {
+                    Indent = true,
+                    Encoding = Encoding.UTF8
+                };
+
+                XmlWriter xmlwriter;//create and write to the file
+                xmlwriter = XmlWriter.Create(CMA_ALL_USERS_FILE, settings);
+                xmlwriter.WriteStartDocument();
+                //
+                xmlwriter.WriteStartElement("allusers");
+                xmlwriter.WriteStartElement("user");
+                xmlwriter.WriteElementString("username", user.Username);
+                xmlwriter.WriteElementString("path", user.UserFilePath);
+                xmlwriter.WriteElementString("alert_path", "None");//Null at first
+                xmlwriter.WriteEndElement();
+                xmlwriter.WriteEndElement();
+                //
+                xmlwriter.Flush();
+                xmlwriter.Close();
+            }
+            else
+            {
+                // if the CMA_All_Users.xml file already exists, simply load it
+                XmlDocument xmlDocument = new XmlDocument();
+                xmlDocument.Load(Path.GetFullPath(CMA_ALL_USERS_FILE));
+
+                XmlNode top = xmlDocument.CreateElement("user");
+                XmlNode Xusername = xmlDocument.CreateElement("username");
+                XmlNode XUpath = xmlDocument.CreateElement("path");
+                XmlNode XApath = xmlDocument.CreateElement("alert_path");
+
+                Xusername.InnerText = user.Username;
+                XUpath.InnerText = user.UserFilePath;
+                XApath.InnerText = "None"; //Null at first
+
+                top.AppendChild(Xusername);
+                top.AppendChild(XUpath);
+                top.AppendChild(XApath);
+
+                xmlDocument.DocumentElement.AppendChild(top);
+                xmlDocument.Save(Path.GetFullPath(CMA_ALL_USERS_FILE));
+            }
         }
 
         //this method is called on sign in button click
-        public void CreateUser(User user)
+        public void CreateUserInfo(User user) //User class constructor B
         {
             //on click of Register button
-            //create a directory once user signs in, and create an xml file with username as root element
+            //create an xml file with username as root element
             if (!File.Exists(user.UserFilePath))
             {
                 XmlWriterSettings settings = new XmlWriterSettings
@@ -251,59 +335,8 @@ namespace CMBLL
             }
         }
 
-        //add to list of users folder
-        public void SaveUsersAccount(string username, string userpath)
-        {
-            if (!Directory.Exists(CMA_UsersFolder))
-            {
-                Directory.CreateDirectory(CMA_UsersFolder);
-            }
-            string usersXmlFile = Path.Combine(CMA_UsersFolder, "CMA_users.xml");
-            if (!File.Exists(usersXmlFile))
-            {
-                XmlWriterSettings settings = new XmlWriterSettings
-                {
-                    Indent = true,
-                    Encoding = Encoding.UTF8
-                };
-
-                XmlWriter xmlwriter;//create and write to the file
-                xmlwriter = XmlWriter.Create(usersXmlFile, settings);
-                xmlwriter.WriteStartDocument();
-                //
-                xmlwriter.WriteStartElement("allusers");
-                xmlwriter.WriteStartElement("user");
-                xmlwriter.WriteElementString("username", username);
-                xmlwriter.WriteElementString("path", userpath);
-                xmlwriter.WriteEndElement();
-                xmlwriter.WriteEndElement();
-                //
-                xmlwriter.Flush();
-                xmlwriter.Close();
-            }
-            else
-            {
-                // if the users.xml file already exists, simply load it
-                XmlDocument xmlDocument = new XmlDocument();
-                xmlDocument.Load(Path.GetFullPath(usersXmlFile));
-
-                XmlNode top = xmlDocument.CreateElement("user");
-                XmlNode Xusername = xmlDocument.CreateElement("username");
-                XmlNode XUpath = xmlDocument.CreateElement("path");
-
-                Xusername.InnerText = username;
-                XUpath.InnerText = userpath;
-
-                top.AppendChild(Xusername);
-                top.AppendChild(XUpath);
-
-                xmlDocument.DocumentElement.AppendChild(top);
-                xmlDocument.Save(Path.GetFullPath(usersXmlFile));
-            }
-        }
-
-        //this method is called on finish button in the create database form
-        public void SaveUserDatabaseDetails(User user, string databasesXml)
+        //this method is called on finish button in the New database form
+        public void SaveUserDatabaseInfo(User user, string databasesXml)
         {
             //load the xml file and add all created databases and alerts
             XmlDocument xmlDocument = new XmlDocument();
@@ -311,8 +344,6 @@ namespace CMBLL
             XmlNode XTop = xmlDocument.CreateElement("Files");
             XmlNode Xname = xmlDocument.CreateElement("database_name");
             XmlNode XDpath = xmlDocument.CreateElement("database_path");
-            //XmlNode Xalert = xmlDocument.CreateElement("alert_name");
-            //XmlNode XApath = xmlDocument.CreateElement("alert_path");
 
             Xname.InnerText = user.Database_Name;
             XDpath.InnerText = user.Database_Path;
@@ -325,11 +356,11 @@ namespace CMBLL
             xmlDocument.Save(Path.GetFullPath(databasesXml));
         }
 
-        public void ShowUserFiles(User user)
-        {
-            //load the xml file and display all created databases and alerts
-            XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(user.UserFilePath);
-        }
+        //public void ShowUserFiles(User user)
+        //{
+        //    //load the xml file and display all created databases and alerts
+        //    XmlDocument xmlDocument = new XmlDocument();
+        //    xmlDocument.Load(user.UserFilePath);
+        //}
     }
 }

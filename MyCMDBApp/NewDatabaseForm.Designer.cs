@@ -30,16 +30,13 @@
         {
             this.components = new System.ComponentModel.Container();
             this.GrBox_Contact_Form = new System.Windows.Forms.GroupBox();
-            this.Btn_Add = new System.Windows.Forms.Button();
-            this.Btn_New_Database = new System.Windows.Forms.Button();
-            this.Btn_View_Contacts = new System.Windows.Forms.Button();
-            this.Btn_Finish = new System.Windows.Forms.Button();
             this.Txt_Notes = new System.Windows.Forms.TextBox();
             this.Txt_Address = new System.Windows.Forms.TextBox();
             this.Txt_Alt_Mobile = new System.Windows.Forms.TextBox();
             this.Txt_Mobile = new System.Windows.Forms.TextBox();
             this.Txt_Email = new System.Windows.Forms.TextBox();
             this.Txt_Name = new System.Windows.Forms.TextBox();
+            this.Btn_Add_Event = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.Lbl_Notes = new System.Windows.Forms.Label();
             this.Lbl_Address = new System.Windows.Forms.Label();
@@ -47,6 +44,10 @@
             this.Lbl_Mobile = new System.Windows.Forms.Label();
             this.Lbl_Email = new System.Windows.Forms.Label();
             this.Lbl_Name = new System.Windows.Forms.Label();
+            this.Btn_Add = new System.Windows.Forms.Button();
+            this.Btn_New_Database = new System.Windows.Forms.Button();
+            this.Btn_View_Contacts = new System.Windows.Forms.Button();
+            this.Btn_Finish = new System.Windows.Forms.Button();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.Btn_Home = new System.Windows.Forms.Button();
@@ -59,7 +60,8 @@
             this.Btn_Add_Contacts = new System.Windows.Forms.Button();
             this.Lbl_Database_Name = new System.Windows.Forms.Label();
             this.Btn_Create_Alert = new System.Windows.Forms.Button();
-            this.Btn_Add_Event = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.GrBox_Contact_Form.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.GrBox_Database.SuspendLayout();
@@ -92,62 +94,6 @@
             this.GrBox_Contact_Form.TabStop = false;
             this.GrBox_Contact_Form.Text = "Contact Form";
             // 
-            // Btn_Add
-            // 
-            this.Btn_Add.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_Add.ForeColor = System.Drawing.Color.ForestGreen;
-            this.Btn_Add.Location = new System.Drawing.Point(383, 621);
-            this.Btn_Add.Margin = new System.Windows.Forms.Padding(4);
-            this.Btn_Add.Name = "Btn_Add";
-            this.Btn_Add.Size = new System.Drawing.Size(142, 46);
-            this.Btn_Add.TabIndex = 23;
-            this.Btn_Add.Text = "Add";
-            this.Btn_Add.UseVisualStyleBackColor = true;
-            this.Btn_Add.Click += new System.EventHandler(this.Btn_Add_Click);
-            // 
-            // Btn_New_Database
-            // 
-            this.Btn_New_Database.BackColor = System.Drawing.Color.PowderBlue;
-            this.Btn_New_Database.Enabled = false;
-            this.Btn_New_Database.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.Btn_New_Database.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.Btn_New_Database.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_New_Database.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Btn_New_Database.Location = new System.Drawing.Point(13, 635);
-            this.Btn_New_Database.Margin = new System.Windows.Forms.Padding(4);
-            this.Btn_New_Database.Name = "Btn_New_Database";
-            this.Btn_New_Database.Size = new System.Drawing.Size(151, 86);
-            this.Btn_New_Database.TabIndex = 25;
-            this.Btn_New_Database.Text = "New Database";
-            this.Btn_New_Database.UseVisualStyleBackColor = false;
-            this.Btn_New_Database.Click += new System.EventHandler(this.Btn_New_Database_Click);
-            // 
-            // Btn_View_Contacts
-            // 
-            this.Btn_View_Contacts.Enabled = false;
-            this.Btn_View_Contacts.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_View_Contacts.Location = new System.Drawing.Point(383, 675);
-            this.Btn_View_Contacts.Margin = new System.Windows.Forms.Padding(4);
-            this.Btn_View_Contacts.Name = "Btn_View_Contacts";
-            this.Btn_View_Contacts.Size = new System.Drawing.Size(142, 46);
-            this.Btn_View_Contacts.TabIndex = 25;
-            this.Btn_View_Contacts.Text = "View Contacts";
-            this.Btn_View_Contacts.UseVisualStyleBackColor = true;
-            this.Btn_View_Contacts.Click += new System.EventHandler(this.Btn_View_Contacts_Click);
-            // 
-            // Btn_Finish
-            // 
-            this.Btn_Finish.Enabled = false;
-            this.Btn_Finish.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_Finish.Location = new System.Drawing.Point(199, 674);
-            this.Btn_Finish.Margin = new System.Windows.Forms.Padding(4);
-            this.Btn_Finish.Name = "Btn_Finish";
-            this.Btn_Finish.Size = new System.Drawing.Size(91, 47);
-            this.Btn_Finish.TabIndex = 24;
-            this.Btn_Finish.Text = "Done";
-            this.Btn_Finish.UseVisualStyleBackColor = true;
-            this.Btn_Finish.Click += new System.EventHandler(this.Btn_Finish_Click);
-            // 
             // Txt_Notes
             // 
             this.Txt_Notes.Font = new System.Drawing.Font("Cambria", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -176,6 +122,7 @@
             this.Txt_Alt_Mobile.Name = "Txt_Alt_Mobile";
             this.Txt_Alt_Mobile.Size = new System.Drawing.Size(275, 25);
             this.Txt_Alt_Mobile.TabIndex = 20;
+            this.Txt_Alt_Mobile.TextChanged += new System.EventHandler(this.Txt_Alt_Mobile_TextChanged);
             // 
             // Txt_Mobile
             // 
@@ -185,6 +132,7 @@
             this.Txt_Mobile.Name = "Txt_Mobile";
             this.Txt_Mobile.Size = new System.Drawing.Size(275, 25);
             this.Txt_Mobile.TabIndex = 19;
+            this.Txt_Mobile.TextChanged += new System.EventHandler(this.Txt_Mobile_TextChanged);
             // 
             // Txt_Email
             // 
@@ -194,6 +142,7 @@
             this.Txt_Email.Name = "Txt_Email";
             this.Txt_Email.Size = new System.Drawing.Size(275, 25);
             this.Txt_Email.TabIndex = 11;
+            this.Txt_Email.TextChanged += new System.EventHandler(this.Txt_Email_TextChanged);
             // 
             // Txt_Name
             // 
@@ -203,7 +152,23 @@
             this.Txt_Name.Name = "Txt_Name";
             this.Txt_Name.Size = new System.Drawing.Size(275, 25);
             this.Txt_Name.TabIndex = 10;
-            this.Txt_Name.Validating += new System.ComponentModel.CancelEventHandler(this.Txt_Name_Validating);
+            this.Txt_Name.TextChanged += new System.EventHandler(this.Txt_Name_TextChanged);
+            // 
+            // Btn_Add_Event
+            // 
+            this.Btn_Add_Event.BackColor = System.Drawing.SystemColors.Control;
+            this.Btn_Add_Event.Enabled = false;
+            this.Btn_Add_Event.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.Btn_Add_Event.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Add_Event.ForeColor = System.Drawing.Color.Peru;
+            this.Btn_Add_Event.Location = new System.Drawing.Point(205, 372);
+            this.Btn_Add_Event.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn_Add_Event.Name = "Btn_Add_Event";
+            this.Btn_Add_Event.Size = new System.Drawing.Size(109, 40);
+            this.Btn_Add_Event.TabIndex = 14;
+            this.Btn_Add_Event.Text = "Add Event";
+            this.Btn_Add_Event.UseVisualStyleBackColor = false;
+            this.Btn_Add_Event.Click += new System.EventHandler(this.Btn_Add_Event_Click);
             // 
             // label7
             // 
@@ -280,6 +245,62 @@
             this.Lbl_Name.Size = new System.Drawing.Size(50, 18);
             this.Lbl_Name.TabIndex = 18;
             this.Lbl_Name.Text = "Name:";
+            // 
+            // Btn_Add
+            // 
+            this.Btn_Add.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Add.ForeColor = System.Drawing.Color.ForestGreen;
+            this.Btn_Add.Location = new System.Drawing.Point(383, 621);
+            this.Btn_Add.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn_Add.Name = "Btn_Add";
+            this.Btn_Add.Size = new System.Drawing.Size(142, 46);
+            this.Btn_Add.TabIndex = 23;
+            this.Btn_Add.Text = "Add";
+            this.Btn_Add.UseVisualStyleBackColor = true;
+            this.Btn_Add.Click += new System.EventHandler(this.Btn_Add_Click);
+            // 
+            // Btn_New_Database
+            // 
+            this.Btn_New_Database.BackColor = System.Drawing.Color.PowderBlue;
+            this.Btn_New_Database.Enabled = false;
+            this.Btn_New_Database.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.Btn_New_Database.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.Btn_New_Database.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_New_Database.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Btn_New_Database.Location = new System.Drawing.Point(13, 635);
+            this.Btn_New_Database.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn_New_Database.Name = "Btn_New_Database";
+            this.Btn_New_Database.Size = new System.Drawing.Size(151, 86);
+            this.Btn_New_Database.TabIndex = 25;
+            this.Btn_New_Database.Text = "New Database";
+            this.Btn_New_Database.UseVisualStyleBackColor = false;
+            this.Btn_New_Database.Click += new System.EventHandler(this.Btn_New_Database_Click);
+            // 
+            // Btn_View_Contacts
+            // 
+            this.Btn_View_Contacts.Enabled = false;
+            this.Btn_View_Contacts.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_View_Contacts.Location = new System.Drawing.Point(383, 675);
+            this.Btn_View_Contacts.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn_View_Contacts.Name = "Btn_View_Contacts";
+            this.Btn_View_Contacts.Size = new System.Drawing.Size(142, 46);
+            this.Btn_View_Contacts.TabIndex = 25;
+            this.Btn_View_Contacts.Text = "View Contacts";
+            this.Btn_View_Contacts.UseVisualStyleBackColor = true;
+            this.Btn_View_Contacts.Click += new System.EventHandler(this.Btn_View_Contacts_Click);
+            // 
+            // Btn_Finish
+            // 
+            this.Btn_Finish.Enabled = false;
+            this.Btn_Finish.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Finish.Location = new System.Drawing.Point(199, 674);
+            this.Btn_Finish.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn_Finish.Name = "Btn_Finish";
+            this.Btn_Finish.Size = new System.Drawing.Size(91, 47);
+            this.Btn_Finish.TabIndex = 24;
+            this.Btn_Finish.Text = "Done";
+            this.Btn_Finish.UseVisualStyleBackColor = true;
+            this.Btn_Finish.Click += new System.EventHandler(this.Btn_Finish_Click);
             // 
             // errorProvider
             // 
@@ -370,6 +391,7 @@
             this.Txt_Database_Name.Name = "Txt_Database_Name";
             this.Txt_Database_Name.Size = new System.Drawing.Size(255, 26);
             this.Txt_Database_Name.TabIndex = 11;
+            this.Txt_Database_Name.TextChanged += new System.EventHandler(this.Txt_Database_Name_TextChanged);
             // 
             // Btn_Create
             // 
@@ -424,27 +446,35 @@
             this.Btn_Create_Alert.UseVisualStyleBackColor = false;
             this.Btn_Create_Alert.Click += new System.EventHandler(this.Btn_Create_Alert_Click);
             // 
-            // Btn_Add_Event
+            // label3
             // 
-            this.Btn_Add_Event.BackColor = System.Drawing.SystemColors.Control;
-            this.Btn_Add_Event.Enabled = false;
-            this.Btn_Add_Event.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.Btn_Add_Event.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_Add_Event.ForeColor = System.Drawing.Color.DimGray;
-            this.Btn_Add_Event.Location = new System.Drawing.Point(205, 372);
-            this.Btn_Add_Event.Margin = new System.Windows.Forms.Padding(4);
-            this.Btn_Add_Event.Name = "Btn_Add_Event";
-            this.Btn_Add_Event.Size = new System.Drawing.Size(109, 40);
-            this.Btn_Add_Event.TabIndex = 14;
-            this.Btn_Add_Event.Text = "Add Event";
-            this.Btn_Add_Event.UseVisualStyleBackColor = false;
-            this.Btn_Add_Event.Click += new System.EventHandler(this.Btn_Add_Event_Click);
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.Olive;
+            this.label3.Location = new System.Drawing.Point(530, 305);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(174, 18);
+            this.label3.TabIndex = 33;
+            this.label3.Text = "(e.g 123-45677, 12-345678)";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.Color.Olive;
+            this.label4.Location = new System.Drawing.Point(530, 262);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(151, 18);
+            this.label4.TabIndex = 34;
+            this.label4.Text = "(e.g exams@dbs.com)";
             // 
             // NewDatabaseForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(717, 766);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.Btn_New_Database);
             this.Controls.Add(this.Btn_Add);
             this.Controls.Add(this.Btn_Finish);
@@ -503,5 +533,7 @@
         private System.Windows.Forms.Button Btn_Create_Alert;
         private System.Windows.Forms.Label Lbl_Database_Name;
         private System.Windows.Forms.Button Btn_Add_Event;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
     }
 }

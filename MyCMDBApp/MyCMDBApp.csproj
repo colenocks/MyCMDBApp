@@ -70,6 +70,12 @@
     <Compile Include="NewAlertForm.Designer.cs">
       <DependentUpon>NewAlertForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="NewContactForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewContactForm.Designer.cs">
+      <DependentUpon>NewContactForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="NewDatabaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,6 +107,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NewAlertForm.resx">
       <DependentUpon>NewAlertForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewContactForm.resx">
+      <DependentUpon>NewContactForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewDatabaseForm.resx">
       <DependentUpon>NewDatabaseForm.cs</DependentUpon>

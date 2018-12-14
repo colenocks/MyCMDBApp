@@ -57,7 +57,7 @@ namespace MyCMDBApp
             //MessageBox.Show($"{_Handler.List_All_Databases.Count} database(s) found");
 
             //open ManageDatabase form to select database
-            ManageDatabasesForm databaseForm = new ManageDatabasesForm(UserFilePath, UserFolderPath)
+            ManageDatabasesForm databaseForm = new ManageDatabasesForm(Username, UserFilePath, UserFolderPath)
             {
                 Tag = this //set this form as a tag property of the next form instance
             };

@@ -8,20 +8,14 @@ namespace CMEntities
     {
         public string Database_Name { get; }
         public string Database_File_Path { get; }
-        //public Alert Database_Alert { get; }
 
         public Database() { }
 
-        public Database(string name, string path)
+        public Database(string name, string path, Alert alertpath = null)
         {
             Database_Name = name;
             Database_File_Path = path;
         }
-
-        //public Database(Alert alert = null)
-        //{
-        //    Database_Alert = alert;
-        //}
 
         public string DisplayName
         {

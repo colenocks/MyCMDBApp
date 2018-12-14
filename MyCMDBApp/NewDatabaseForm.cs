@@ -6,6 +6,7 @@ using System.IO;
 using System.Windows.Forms;
 using CMBLL;
 using System.Xml;
+using System.Text.RegularExpressions;
 
 namespace MyCMDBApp
 {
@@ -14,10 +15,12 @@ namespace MyCMDBApp
         public string _userFolder;
         public string _alertFolder;
         public string _userName;
-
         public List<Contact> List_All_Contacts = new List<Contact>();
 
-        public NewDatabaseForm(){}
+        //validator instance
+        DB_Validator _Validator = new DB_Validator();
+
+        public NewDatabaseForm() { }
 
         public NewDatabaseForm(string name, string folder)
         {
@@ -27,22 +30,16 @@ namespace MyCMDBApp
         }
 
         private void Btn_Create_Click(object sender, EventArgs e)
-        {   
+        {
             //create two level directory, if it doesn't exist
-            string DatabasesFolder = Path.Combine(_userFolder, "Databases");
-            if (!Directory.Exists(DatabasesFolder))
-            {
-                Directory.CreateDirectory(DatabasesFolder);
-            }
-                
-            string userDatabasesFolder = Path.Combine(DatabasesFolder, $"{_userName}_Databases");
+            string userDatabasesFolder = Path.Combine(_userFolder, $"{_userName}_Databases");
             if (!Directory.Exists(userDatabasesFolder))
             {
                 Directory.CreateDirectory(userDatabasesFolder);
             }
             //trim name for white spaces
             string databaseName = Txt_Database_Name.Text.Trim().ToLower();
-            
+
             SaveFileDialog savefile = new SaveFileDialog
             {
                 Title = "Save Database File",
@@ -76,15 +73,15 @@ namespace MyCMDBApp
 
                     //back up one directory, get database storage file.
                     //instead of going into the file to retrieve
-                    string userDatabaseXmlFile = Path.Combine(_userFolder, _userName+".xml");
+                    string userDatabaseXmlFile = Path.Combine(_userFolder, _userName + ".xml");
                     //instantiate user constructor A
                     User userObj = new User(databaseName, Rtb_Database_Directory.Text);
                     //Add database details to the user xml file
-                    _Handler.SaveUserDatabaseDetails(userObj, userDatabaseXmlFile);
+                    _Handler.SaveUserDatabaseInfo(userObj, userDatabaseXmlFile);
 
                     ///clear the contact list
                     List_All_Contacts.Clear();
-                    
+
                 }
                 else
                 {
@@ -102,7 +99,8 @@ namespace MyCMDBApp
             //Btn_Add_Contacts.Enabled = false;
             GrBox_Contact_Form.Enabled = true;
             Btn_Add.Enabled = true;
-            
+            Btn_Add_Event.Enabled = true;
+
         }
 
         private void Btn_Create_Alert_Click(object sender, EventArgs e)
@@ -118,7 +116,7 @@ namespace MyCMDBApp
         {
             if (string.IsNullOrEmpty(Txt_Name.Text))
             {
-                MessageBox.Show("Fill the required fields"); 
+                MessageBox.Show("Fill the required fields");
             }
             else
             {
@@ -152,9 +150,14 @@ namespace MyCMDBApp
 
         private void Btn_Add_Event_Click(object sender, EventArgs e)
         {
-            //Create instance of Alert Form
-            NewAlertForm newAlert = new NewAlertForm(Txt_Name.Text, _userName, _userFolder);
-            newAlert.ShowDialog();
+            if (!string.IsNullOrEmpty(Txt_Name.Text))
+            {
+                //Create instance of Alert Form
+                NewAlertForm newAlert = new NewAlertForm(Txt_Name.Text, _userName, _userFolder);
+                newAlert.ShowDialog();
+            }
+            else { MessageBox.Show("set name for alert"); }
+            
         }
 
         private void Btn_View_Contacts_Click(object sender, EventArgs e)
@@ -166,7 +169,7 @@ namespace MyCMDBApp
             //pass in the contact list, database name and path as parameter
             ContactsViewForm viewContact = new ContactsViewForm(Rtb_Database_Directory.Text, Txt_Database_Name.Text)
             {
-                Tag = this 
+                Tag = this
             };
             viewContact.ShowDialog(this);
         }
@@ -187,7 +190,7 @@ namespace MyCMDBApp
 
         private void Btn_Home_Click(object sender, EventArgs e)
         {
-            var startupForm = (StartupForm)Tag; //set the tag property of the previous form to a variable
+            var startupForm = (StartupForm)Tag; //use the tag property of the previous to hold it's state.
             startupForm.Show();
             Close();
         }
@@ -198,36 +201,75 @@ namespace MyCMDBApp
             Txt_Database_Name.Focus();
             Btn_Create.Enabled = true;
         }
-        
-        //FIELDS VALIDATION
-        //Name
-        //private bool Txt_Name_Validated()
-        //{
-            //bool valid = true;
 
-            //if (string.IsNullOrEmpty(Txt_Name.Text))
-            //{
-            //    valid = false;
-            //}
-            
-            //return valid;
-        //}
-
-        private void Txt_Name_Validating(object sender, CancelEventArgs e)
+        /***************************************************************
+         *  FIELDS VALIDATION
+         **************************************************************/
+        private void Txt_Name_TextChanged(object sender, EventArgs e)
         {
-            //if (!Txt_Name_Validated())
-            //{
-            //    errorProvider.SetError(Txt_Name, $"You must Enter a Name");
-            //    e.Cancel = true;
-            //}
-            //else
-            //{
-            //    errorProvider.SetError(Txt_Name, "");
-            //}
+            if (_Validator.ValidateName(Txt_Name.Text)) //if validation succeeds
+            {
+                //errorProvider.Clear();
+                errorProvider.SetError(Txt_Name, "");
+            }
+            else
+            {
+                errorProvider.SetError(Txt_Name, $"You must Enter a Name(Text Only)");
+                return;
+            }
         }
-        //Email
 
-        //Phone
+        private void Txt_Email_TextChanged(object sender, EventArgs e)
+        {
+            if (_Validator.ValidateEmailAddress(Txt_Email.Text))
+            {
+                errorProvider.SetError(Txt_Email, "");
+            }
+            else
+            {
+                errorProvider.SetError(Txt_Email, "Please provide a valid email address");
+                return;
+            }
+        }
 
+        private void Txt_Mobile_TextChanged(object sender, EventArgs e)
+        {
+            if (_Validator.ValidatePhoneNumber(Txt_Mobile.Text))
+            {
+                errorProvider.SetError(Txt_Mobile, "");
+            }
+            else
+            {
+                errorProvider.SetError(this.Txt_Name, "Contact Number Format xxx-10 Digit Number");
+                return;
+            }
+        }
+
+        private void Txt_Alt_Mobile_TextChanged(object sender, EventArgs e)
+        {
+            if (!_Validator.ValidatePhoneNumber(Txt_Alt_Mobile.Text))
+            {
+                errorProvider.SetError(Txt_Alt_Mobile, "");
+            }
+            else
+            {
+                errorProvider.SetError(this.Txt_Name, "Contact Number Format xxx-10 Digit Number");
+                return;
+            }
+        }
+
+        private void Txt_Database_Name_TextChanged(object sender, EventArgs e)
+        {
+            if (_Validator.ValidateName(Txt_Database_Name.Text)) //if validation succeeds
+            {
+                //errorProvider.Clear();
+                errorProvider.SetError(Txt_Name, "");
+            }
+            else
+            {
+                errorProvider.SetError(Txt_Name, $"You must Enter a Name(Text Only)");
+                return;
+            }
+        }
     }
 }

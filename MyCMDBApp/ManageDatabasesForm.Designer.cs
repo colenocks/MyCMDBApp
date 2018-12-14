@@ -45,6 +45,7 @@
             this.Btn_Search = new System.Windows.Forms.Button();
             this.Rtb_Search = new System.Windows.Forms.RichTextBox();
             this.Btn_Clear = new System.Windows.Forms.Button();
+            this.Btn_Add_New_Contact = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.GrBox_ContactList.SuspendLayout();
             this.SuspendLayout();
@@ -119,6 +120,8 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AllowUserToResizeColumns = false;
             this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -134,6 +137,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(3, 22);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 25;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(831, 292);
@@ -144,34 +148,40 @@
             // 
             this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
             this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
             this.nameDataGridViewTextBoxColumn.Width = 120;
             // 
             // emailDataGridViewTextBoxColumn
             // 
             this.emailDataGridViewTextBoxColumn.HeaderText = "Email";
             this.emailDataGridViewTextBoxColumn.Name = "emailDataGridViewTextBoxColumn";
+            this.emailDataGridViewTextBoxColumn.ReadOnly = true;
             this.emailDataGridViewTextBoxColumn.Width = 130;
             // 
             // mobileDataGridViewTextBoxColumn
             // 
             this.mobileDataGridViewTextBoxColumn.HeaderText = "Mobile";
             this.mobileDataGridViewTextBoxColumn.Name = "mobileDataGridViewTextBoxColumn";
+            this.mobileDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // alternativeMobileDataGridViewTextBoxColumn
             // 
             this.alternativeMobileDataGridViewTextBoxColumn.HeaderText = "Alt. Mobile";
             this.alternativeMobileDataGridViewTextBoxColumn.Name = "alternativeMobileDataGridViewTextBoxColumn";
+            this.alternativeMobileDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // addressDataGridViewTextBoxColumn
             // 
             this.addressDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.addressDataGridViewTextBoxColumn.HeaderText = "Address";
             this.addressDataGridViewTextBoxColumn.Name = "addressDataGridViewTextBoxColumn";
+            this.addressDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // moreInfoDataGridViewTextBoxColumn
             // 
             this.moreInfoDataGridViewTextBoxColumn.HeaderText = "More Info.";
             this.moreInfoDataGridViewTextBoxColumn.Name = "moreInfoDataGridViewTextBoxColumn";
+            this.moreInfoDataGridViewTextBoxColumn.ReadOnly = true;
             this.moreInfoDataGridViewTextBoxColumn.Width = 130;
             // 
             // GrBox_ContactList
@@ -221,11 +231,25 @@
             this.Btn_Clear.UseVisualStyleBackColor = true;
             this.Btn_Clear.Click += new System.EventHandler(this.Btn_Clear_Click);
             // 
+            // Btn_Add_New_Contact
+            // 
+            this.Btn_Add_New_Contact.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Add_New_Contact.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Btn_Add_New_Contact.Location = new System.Drawing.Point(583, 446);
+            this.Btn_Add_New_Contact.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn_Add_New_Contact.Name = "Btn_Add_New_Contact";
+            this.Btn_Add_New_Contact.Size = new System.Drawing.Size(143, 34);
+            this.Btn_Add_New_Contact.TabIndex = 38;
+            this.Btn_Add_New_Contact.Text = "Add New Contact";
+            this.Btn_Add_New_Contact.UseVisualStyleBackColor = true;
+            this.Btn_Add_New_Contact.Click += new System.EventHandler(this.Btn_Add_New_Contact_Click);
+            // 
             // ManageDatabasesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(861, 493);
+            this.Controls.Add(this.Btn_Add_New_Contact);
             this.Controls.Add(this.Btn_Clear);
             this.Controls.Add(this.Btn_Search);
             this.Controls.Add(this.Rtb_Search);
@@ -265,5 +289,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn alternativeMobileDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn addressDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn moreInfoDataGridViewTextBoxColumn;
+        private System.Windows.Forms.Button Btn_Add_New_Contact;
     }
 }

@@ -8,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
@@ -18,6 +19,7 @@ namespace MyCMDBApp
     {
         private string _userPath;
         private string _userFolderPath;
+        private string _userName;
 
         private string dbFilePath;
         private string dbFileName;
@@ -25,10 +27,11 @@ namespace MyCMDBApp
 
         public ManageDatabasesForm() { }
 
-        public ManageDatabasesForm(string path, string folderPath)
+        public ManageDatabasesForm(string username, string path, string folderPath)
         {   
             InitializeComponent();
 
+            _userName = username;
             _userPath = path;
             _userFolderPath = folderPath;
 
@@ -45,7 +48,7 @@ namespace MyCMDBApp
         public string ParseColon(string commandString)//if command string contains ":"
         {
             //command string is passed in
-            string value = "";
+            string valueReturned = "";
             int searchContentLength = commandString.Length; //get the length
             int colonIndex = commandString.IndexOf(":"); // Key ":" Value
             int afterColon = colonIndex + 1; // move cursor to next character. key: "V"alue
@@ -70,9 +73,9 @@ namespace MyCMDBApp
                             xmlDocument.Load(AllDatabases[dbListIndex].Database_File_Path); //load all user's databases
                             foreach (XmlNode node in xmlDocument.SelectNodes($"{AllDatabases[dbListIndex].Database_Name}/contact"))
                             {
-                                if (node.SelectSingleNode(arrayNode).InnerText.ToLower() == key_Value)
+                                if (key_Value == node.SelectSingleNode(arrayNode).InnerText.ToLower() || Regex.IsMatch(node.SelectSingleNode(arrayNode).InnerText, "^"+key_Value+"(.*)"))
                                 {
-                                    value = key_Value;
+                                    valueReturned = key_Value;
 
                                     //Select the corresponding combobox index
                                     ComboBox_Databases.SelectedIndex = dbListIndex;
@@ -96,19 +99,25 @@ namespace MyCMDBApp
                 }
             }
             //this value is vital to display the matched contact's database and highlight the row matched
-            return value;
+            return valueReturned;
         }
-        
+
+        // Confirm that there is an ":" and a "$" in the search string, and in the correct order.
+
         private void Btn_Search_Click(object sender, EventArgs e)
         {
             dataGridView1.Rows.Clear();
             string command = Rtb_Search.Text.ToLower().Trim(); //As so -> "Key:Value" = command
-            if (command.Contains(":") || command.Contains("$") || command.Contains("+") || command.Contains("-"))
+
+            if (command.Contains(":"))
             {
                 var retrievedContent = ParseColon(command);
-
                 //Highlight the Row on display
                 DisplayContacts(retrievedContent);
+            }
+            if (command.Contains("$"))
+            {
+
             }
             else
             {
@@ -123,6 +132,7 @@ namespace MyCMDBApp
             DisplayContacts();
             Btn_Display.Enabled = false;
         }
+
         private void Btn_Select_Click(object sender, EventArgs e)
         {
             ComboBox_Databases.Enabled = false;
@@ -167,7 +177,7 @@ namespace MyCMDBApp
         }
 
         //Method display to gridview
-        private void DisplayContacts(string highlight = null)
+        private void DisplayContacts(string value_highlightedRow = null)
         {
             //if search button was not clicked i.e if combobox selected item has not been
             for (int i = 0; i < AllDatabases.Count; i++)
@@ -200,11 +210,11 @@ namespace MyCMDBApp
                     dataGridView1.Rows[n].Cells[4].Value = node.SelectSingleNode("address").InnerText;
                     dataGridView1.Rows[n].Cells[5].Value = node.SelectSingleNode("information").InnerText;
                     //highlight row if string matches passed in value
-                    if (!string.IsNullOrEmpty(highlight))
+                    if (!string.IsNullOrEmpty(value_highlightedRow))
                     {
                         for(int i = 0; i < 6; i++) //number of columns = 6
                         {
-                            if ((string)dataGridView1.Rows[n].Cells[i].Value == highlight)
+                            if ((string)dataGridView1.Rows[n].Cells[i].Value == value_highlightedRow)
                             {
                                 dataGridView1.Rows[n].DefaultCellStyle.BackColor = Color.DarkOrange;
                             }
@@ -218,6 +228,19 @@ namespace MyCMDBApp
 
         private void DataGridViewContacts_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            bool checkNull = false;
+            do
+            {  
+                if (string.IsNullOrEmpty(dataGridView1.CurrentRow.Cells[0].Value.ToString()))
+                {
+                    MessageBox.Show("You have selected an empty row");
+                }
+                else
+                {
+                    checkNull = true;
+                }
+            } while (!checkNull);
+            
             string name = dataGridView1.CurrentRow.Cells[0].Value.ToString();
             string email = dataGridView1.CurrentRow.Cells[1].Value.ToString();
             string mobile = dataGridView1.CurrentRow.Cells[2].Value.ToString();
@@ -225,12 +248,34 @@ namespace MyCMDBApp
             string address = dataGridView1.CurrentRow.Cells[4].Value.ToString();
             string info = dataGridView1.CurrentRow.Cells[5].Value.ToString();
 
-            ContactDetailForm contactDetail = new ContactDetailForm(dbFileName, dbFilePath, name, email, mobile, alternative, address, info)
+            ContactDetailForm contactDetail = new ContactDetailForm(dbFileName, dbFilePath, name, email, mobile, alternative, address, info, _userName)
             {
                 Tag = this //tag contact detail form to this form object
             };
             contactDetail.Show(this);
             Hide();
+            
+        }
+
+        private void Btn_Add_New_Contact_Click(object sender, EventArgs e)
+        {
+            string dbName;
+            string dbPath;
+            if (!Btn_Select.Enabled || ComboBox_Databases.SelectedIndex <= 0)
+            {
+                int dbIndex = ComboBox_Databases.SelectedIndex;
+                dbName = AllDatabases[dbIndex].Database_Name;
+                dbPath = AllDatabases[dbIndex].Database_File_Path;
+
+                NewContactForm newContactForm = new NewContactForm(dbName, dbPath, _userPath, _userFolderPath);
+                newContactForm.Tag = this; //tag this form to the next form
+                newContactForm.Show(this);
+            }
+            else
+            {
+                MessageBox.Show("You must selcet a database first");
+            }
         }
     }
 }
+

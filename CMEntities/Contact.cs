@@ -14,7 +14,7 @@ namespace CMEntities
         public string Address { get; }
         public string Note { get; }
         public string Full_Path { get; }
-        public Alert ContactAlert { get;  }
+        //public Alert AlertPath { get;  }
 
         public Contact(string database, string name, string email, string mobile, string altMobile, string address, string note, string path)
         {
@@ -26,12 +26,13 @@ namespace CMEntities
             Address = address;
             Note = note;
             Full_Path = path;
+            //AlertPath = alertPath;
         }
 
-        public Contact(Alert alert = null)
-        {
-            ContactAlert = alert;
-        }
+        //public Contact(Alert alert = null)
+        //{
+        //    ContactAlert = alert;
+        //}
 
     
 

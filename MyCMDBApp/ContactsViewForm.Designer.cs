@@ -75,7 +75,7 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 25;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(731, 389);
+            this.dataGridView1.Size = new System.Drawing.Size(731, 276);
             this.dataGridView1.TabIndex = 2;
             // 
             // Column1
@@ -136,7 +136,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(727, 451);
+            this.ClientSize = new System.Drawing.Size(727, 355);
             this.Controls.Add(this.Btn_Back);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridView1);

@@ -310,6 +310,7 @@
             this.Name = "SignInForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SignInForm";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SignInForm_FormClosed);
             this.GrB_Register_Form.ResumeLayout(false);
             this.GrB_Register_Form.PerformLayout();
             this.GrB_Sign_In_Form.ResumeLayout(false);
