@@ -30,7 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.GrBox_Contact_Form = new System.Windows.Forms.GroupBox();
+            this.Btn_Add_Event = new System.Windows.Forms.Button();
+            this.Lbl_Alert_Status = new System.Windows.Forms.Label();
             this.listBox_Alerts = new System.Windows.Forms.ListBox();
+            this.alertBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.Lbl_Alerts = new System.Windows.Forms.Label();
             this.Txt_Notes = new System.Windows.Forms.TextBox();
             this.Txt_Address = new System.Windows.Forms.TextBox();
@@ -52,7 +55,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.Btn_Edit = new System.Windows.Forms.Button();
             this.Btn_Back = new System.Windows.Forms.Button();
-            this.alertBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.GrBox_Contact_Form.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.alertBindingSource)).BeginInit();
@@ -61,6 +63,8 @@
             // 
             // GrBox_Contact_Form
             // 
+            this.GrBox_Contact_Form.Controls.Add(this.Btn_Add_Event);
+            this.GrBox_Contact_Form.Controls.Add(this.Lbl_Alert_Status);
             this.GrBox_Contact_Form.Controls.Add(this.listBox_Alerts);
             this.GrBox_Contact_Form.Controls.Add(this.Lbl_Alerts);
             this.GrBox_Contact_Form.Controls.Add(this.Txt_Notes);
@@ -84,10 +88,34 @@
             this.GrBox_Contact_Form.Margin = new System.Windows.Forms.Padding(4);
             this.GrBox_Contact_Form.Name = "GrBox_Contact_Form";
             this.GrBox_Contact_Form.Padding = new System.Windows.Forms.Padding(4);
-            this.GrBox_Contact_Form.Size = new System.Drawing.Size(462, 379);
+            this.GrBox_Contact_Form.Size = new System.Drawing.Size(462, 397);
             this.GrBox_Contact_Form.TabIndex = 12;
             this.GrBox_Contact_Form.TabStop = false;
             this.GrBox_Contact_Form.Text = "Contact Form";
+            // 
+            // Btn_Add_Event
+            // 
+            this.Btn_Add_Event.BackColor = System.Drawing.SystemColors.Control;
+            this.Btn_Add_Event.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.Btn_Add_Event.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Add_Event.ForeColor = System.Drawing.Color.Peru;
+            this.Btn_Add_Event.Location = new System.Drawing.Point(334, 312);
+            this.Btn_Add_Event.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn_Add_Event.Name = "Btn_Add_Event";
+            this.Btn_Add_Event.Size = new System.Drawing.Size(93, 31);
+            this.Btn_Add_Event.TabIndex = 29;
+            this.Btn_Add_Event.Text = "Add Event";
+            this.Btn_Add_Event.UseVisualStyleBackColor = false;
+            this.Btn_Add_Event.Click += new System.EventHandler(this.Btn_Add_Event_Click);
+            // 
+            // Lbl_Alert_Status
+            // 
+            this.Lbl_Alert_Status.AutoSize = true;
+            this.Lbl_Alert_Status.Location = new System.Drawing.Point(344, 282);
+            this.Lbl_Alert_Status.Name = "Lbl_Alert_Status";
+            this.Lbl_Alert_Status.Size = new System.Drawing.Size(74, 15);
+            this.Lbl_Alert_Status.TabIndex = 28;
+            this.Lbl_Alert_Status.Text = "Alert Status";
             // 
             // listBox_Alerts
             // 
@@ -97,18 +125,22 @@
             this.listBox_Alerts.ItemHeight = 15;
             this.listBox_Alerts.Location = new System.Drawing.Point(152, 282);
             this.listBox_Alerts.Name = "listBox_Alerts";
-            this.listBox_Alerts.Size = new System.Drawing.Size(121, 79);
+            this.listBox_Alerts.Size = new System.Drawing.Size(133, 79);
             this.listBox_Alerts.TabIndex = 24;
             this.listBox_Alerts.SelectedIndexChanged += new System.EventHandler(this.ListBox_Alerts_SelectedIndexChanged);
+            // 
+            // alertBindingSource
+            // 
+            this.alertBindingSource.DataSource = typeof(CMEntities.Alert);
             // 
             // Lbl_Alerts
             // 
             this.Lbl_Alerts.AutoSize = true;
             this.Lbl_Alerts.Location = new System.Drawing.Point(28, 282);
             this.Lbl_Alerts.Name = "Lbl_Alerts";
-            this.Lbl_Alerts.Size = new System.Drawing.Size(44, 15);
+            this.Lbl_Alerts.Size = new System.Drawing.Size(43, 15);
             this.Lbl_Alerts.TabIndex = 23;
-            this.Lbl_Alerts.Text = "Alerts:";
+            this.Lbl_Alerts.Text = "Event:";
             // 
             // Txt_Notes
             // 
@@ -132,28 +164,26 @@
             // 
             // Btn_Edit_Alert
             // 
-            this.Btn_Edit_Alert.Enabled = false;
             this.Btn_Edit_Alert.Font = new System.Drawing.Font("Constantia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Edit_Alert.ForeColor = System.Drawing.Color.Blue;
-            this.Btn_Edit_Alert.Location = new System.Drawing.Point(316, 318);
+            this.Btn_Edit_Alert.Location = new System.Drawing.Point(152, 367);
             this.Btn_Edit_Alert.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Edit_Alert.Name = "Btn_Edit_Alert";
-            this.Btn_Edit_Alert.Size = new System.Drawing.Size(75, 28);
+            this.Btn_Edit_Alert.Size = new System.Drawing.Size(62, 22);
             this.Btn_Edit_Alert.TabIndex = 25;
-            this.Btn_Edit_Alert.Text = "Edit";
+            this.Btn_Edit_Alert.Text = "Modify";
             this.Btn_Edit_Alert.UseVisualStyleBackColor = true;
             // 
             // Btn_Delete_Alert
             // 
-            this.Btn_Delete_Alert.Enabled = false;
             this.Btn_Delete_Alert.Font = new System.Drawing.Font("Constantia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Delete_Alert.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.Btn_Delete_Alert.Location = new System.Drawing.Point(316, 282);
+            this.Btn_Delete_Alert.Location = new System.Drawing.Point(222, 367);
             this.Btn_Delete_Alert.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Delete_Alert.Name = "Btn_Delete_Alert";
-            this.Btn_Delete_Alert.Size = new System.Drawing.Size(75, 28);
+            this.Btn_Delete_Alert.Size = new System.Drawing.Size(63, 22);
             this.Btn_Delete_Alert.TabIndex = 25;
-            this.Btn_Delete_Alert.Text = "Delete";
+            this.Btn_Delete_Alert.Text = "Remove";
             this.Btn_Delete_Alert.UseVisualStyleBackColor = true;
             this.Btn_Delete_Alert.Click += new System.EventHandler(this.Btn_Delete_Alert_Click);
             // 
@@ -165,6 +195,7 @@
             this.Txt_Alt_Mobile.Name = "Txt_Alt_Mobile";
             this.Txt_Alt_Mobile.Size = new System.Drawing.Size(275, 23);
             this.Txt_Alt_Mobile.TabIndex = 20;
+            this.Txt_Alt_Mobile.Validating += new System.ComponentModel.CancelEventHandler(this.Txt_Alt_Mobile_Validating);
             // 
             // Txt_Mobile
             // 
@@ -174,6 +205,7 @@
             this.Txt_Mobile.Name = "Txt_Mobile";
             this.Txt_Mobile.Size = new System.Drawing.Size(275, 23);
             this.Txt_Mobile.TabIndex = 19;
+            this.Txt_Mobile.Validating += new System.ComponentModel.CancelEventHandler(this.Txt_Mobile_Validating);
             // 
             // Txt_Email
             // 
@@ -183,6 +215,7 @@
             this.Txt_Email.Name = "Txt_Email";
             this.Txt_Email.Size = new System.Drawing.Size(275, 23);
             this.Txt_Email.TabIndex = 11;
+            this.Txt_Email.Validating += new System.ComponentModel.CancelEventHandler(this.Txt_Email_Validating);
             // 
             // Txt_Name
             // 
@@ -192,6 +225,7 @@
             this.Txt_Name.Name = "Txt_Name";
             this.Txt_Name.Size = new System.Drawing.Size(275, 23);
             this.Txt_Name.TabIndex = 10;
+            this.Txt_Name.Validating += new System.ComponentModel.CancelEventHandler(this.Txt_Name_Validating);
             // 
             // label7
             // 
@@ -273,10 +307,10 @@
             // 
             this.Btn_Delete.Font = new System.Drawing.Font("Constantia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Delete.ForeColor = System.Drawing.Color.Red;
-            this.Btn_Delete.Location = new System.Drawing.Point(22, 462);
+            this.Btn_Delete.Location = new System.Drawing.Point(20, 477);
             this.Btn_Delete.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Delete.Name = "Btn_Delete";
-            this.Btn_Delete.Size = new System.Drawing.Size(110, 46);
+            this.Btn_Delete.Size = new System.Drawing.Size(110, 35);
             this.Btn_Delete.TabIndex = 25;
             this.Btn_Delete.Text = "Delete Contact";
             this.Btn_Delete.UseVisualStyleBackColor = true;
@@ -287,10 +321,10 @@
             this.Btn_Save.Enabled = false;
             this.Btn_Save.Font = new System.Drawing.Font("Constantia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Save.ForeColor = System.Drawing.Color.Green;
-            this.Btn_Save.Location = new System.Drawing.Point(386, 461);
+            this.Btn_Save.Location = new System.Drawing.Point(386, 478);
             this.Btn_Save.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Save.Name = "Btn_Save";
-            this.Btn_Save.Size = new System.Drawing.Size(96, 47);
+            this.Btn_Save.Size = new System.Drawing.Size(96, 36);
             this.Btn_Save.TabIndex = 24;
             this.Btn_Save.Text = "Save Changes";
             this.Btn_Save.UseVisualStyleBackColor = true;
@@ -313,10 +347,10 @@
             // 
             this.Btn_Edit.Font = new System.Drawing.Font("Constantia", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Edit.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Btn_Edit.Location = new System.Drawing.Point(279, 461);
+            this.Btn_Edit.Location = new System.Drawing.Point(277, 478);
             this.Btn_Edit.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Edit.Name = "Btn_Edit";
-            this.Btn_Edit.Size = new System.Drawing.Size(85, 46);
+            this.Btn_Edit.Size = new System.Drawing.Size(85, 35);
             this.Btn_Edit.TabIndex = 27;
             this.Btn_Edit.Text = "Edit";
             this.Btn_Edit.UseVisualStyleBackColor = true;
@@ -335,10 +369,6 @@
             this.Btn_Back.UseVisualStyleBackColor = true;
             this.Btn_Back.Click += new System.EventHandler(this.Btn_Back_Click);
             // 
-            // alertBindingSource
-            // 
-            this.alertBindingSource.DataSource = typeof(CMEntities.Alert);
-            // 
             // errorProvider
             // 
             this.errorProvider.ContainerControl = this;
@@ -348,7 +378,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(542, 520);
+            this.ClientSize = new System.Drawing.Size(542, 525);
             this.Controls.Add(this.Btn_Back);
             this.Controls.Add(this.Btn_Edit);
             this.Controls.Add(this.label1);
@@ -358,7 +388,7 @@
             this.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ContactDetailForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.GrBox_Contact_Form.ResumeLayout(false);
             this.GrBox_Contact_Form.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.alertBindingSource)).EndInit();
@@ -394,5 +424,7 @@
         private System.Windows.Forms.Button Btn_Delete_Alert;
         private System.Windows.Forms.BindingSource alertBindingSource;
         private System.Windows.Forms.ErrorProvider errorProvider;
+        private System.Windows.Forms.Label Lbl_Alert_Status;
+        private System.Windows.Forms.Button Btn_Add_Event;
     }
 }

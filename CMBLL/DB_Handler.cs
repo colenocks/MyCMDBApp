@@ -12,7 +12,7 @@ namespace CMBLL
         //Users List Folder -- This is created as the application starts
         public string CMA_ALL_USERS_FOLDER => Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\CMA_All_Users";
         //this is created when a user registers
-        public string CMA_ALL_USERS_FILE => "CMA_users.xml";
+        public string CMA_ALL_USERS_FILE => Path.Combine(CMA_ALL_USERS_FOLDER, "CMA_users.xml");
 
         public List<Database> List_All_Databases = new List<Database>();
 
@@ -165,12 +165,8 @@ namespace CMBLL
                     Encoding = Encoding.UTF8
                 };
                 
-                if (!Directory.Exists(alert.Alert_Path))
-                {
-                    Directory.CreateDirectory(alert.Alert_Path);
-                }
                 XmlDocument xDoc = new XmlDocument();
-                if (!File.Exists(Path.GetFullPath(alert.Alert_Path)))
+                if (!File.Exists(alert.Alert_Path))
                 {
                     XmlWriter xmlwriter;
                     xmlwriter = XmlWriter.Create(alert.Alert_Path, settings);
@@ -189,7 +185,7 @@ namespace CMBLL
                 else
                 {
                     //load the file and append the nodes
-                    xDoc.Load(Path.GetFullPath(alert.Alert_Path));
+                    xDoc.Load(alert.Alert_Path);
                     
                     XmlNode top = xDoc.CreateElement($"{alert.Alert_Tag}_alert");
                     XmlNode Xtitle = xDoc.CreateElement("title");
@@ -208,7 +204,7 @@ namespace CMBLL
                     top.AppendChild(Xrem);
 
                     xDoc.DocumentElement.AppendChild(top);
-                    xDoc.Save(Path.GetFullPath(alert.Alert_Path));
+                    xDoc.Save(alert.Alert_Path);
                 }
 
                 //save alert file path to CMA_users.xml
@@ -222,7 +218,6 @@ namespace CMBLL
                 }
                 xDoc.Save(Path.GetFullPath(CMA_ALL_USERS_FILE));
             }
-            
         }
 
         public void DeleteAlert(Alert alert)//call delete constructor 
@@ -231,9 +226,8 @@ namespace CMBLL
             {
                 XmlDocument xmlDocument = new XmlDocument();
                 //Every alert file is named Alerts.xml
-                string alertFile = Path.Combine(alert.Alert_Path, "Alerts.xml");
 
-                xmlDocument.Load(Path.GetFullPath(alertFile));
+                xmlDocument.Load(Path.GetFullPath(alert.Alert_Path));
                 foreach (XmlNode node in xmlDocument.SelectNodes($"{alert.Alert_Tag}/alerts"))
                 {
                     //if xml node name corresponds to the name on textbox
@@ -245,9 +239,9 @@ namespace CMBLL
                 if (xmlDocument.SelectSingleNode("alerts").InnerText == null)
                     //if no nodes but the declaration remains
                 {
-                    File.Delete(alertFile);
+                    File.Delete(alert.Alert_Path);
                 }
-                xmlDocument.Save(Path.GetFullPath(alertFile));
+                xmlDocument.Save(Path.GetFullPath(alert.Alert_Path));
             }
         }
         

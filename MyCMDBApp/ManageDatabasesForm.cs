@@ -252,7 +252,7 @@ namespace MyCMDBApp
             string address = dataGridView1.CurrentRow.Cells[4].Value.ToString();
             string info = dataGridView1.CurrentRow.Cells[5].Value.ToString();
 
-            ContactDetailForm contactDetail = new ContactDetailForm(dbFileName, dbFilePath, name, email, mobile, alternative, address, info, _userName)
+            ContactDetailForm contactDetail = new ContactDetailForm(dbFileName, dbFilePath, name, email, mobile, alternative, address, info, _userName, _userParentDirectory)
             {
                 Tag = this //tag contact detail form to this form object
             };
@@ -276,6 +276,25 @@ namespace MyCMDBApp
                     Tag = this //tag the next form with this form
                 };
                 newContactForm.Show(this);
+            }
+            else
+            {
+                MessageBox.Show("You must selcet a database first");
+            }
+        }
+
+        private void Btn_Create_Alert_Click(object sender, EventArgs e)
+        {
+            if (!Btn_Select.Enabled || ComboBox_Databases.SelectedIndex >= 0)
+            {
+                int dbIndex = ComboBox_Databases.SelectedIndex;
+                string dbName = AllDatabases[dbIndex].Database_Name;
+                //Create instance of Alert Form
+                NewAlertForm newAlert = new NewAlertForm(dbName, _userName, _userParentDirectory);
+                {
+                    Tag = this;
+                }
+                newAlert.Show(this);
             }
             else
             {

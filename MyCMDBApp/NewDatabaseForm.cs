@@ -14,7 +14,6 @@ namespace MyCMDBApp
     {
         private string _userParentDirectory;
         private string _userFilePath;
-        private string _alertFolder;
         private string _userName;
         private List<Contact> List_All_Contacts = new List<Contact>();
 
@@ -104,11 +103,15 @@ namespace MyCMDBApp
 
         private void Btn_Create_Alert_Click(object sender, EventArgs e)
         {
-            //Create instance of Alert Form
-            NewAlertForm newAlert = new NewAlertForm(Txt_Database_Name.Text, _userName, _userParentDirectory);
-            newAlert.ShowDialog();
-            //... coming soon- Prajwal
-
+            if (string.IsNullOrEmpty(Txt_Database_Name.Text))
+            {
+                //Create instance of Alert Form
+                NewAlertForm newAlert = new NewAlertForm(Txt_Database_Name.Text, _userName, _userParentDirectory);
+                {
+                    Tag = this;
+                }
+                newAlert.Show(this);
+            }
         }
 
         private void Btn_Add_Click(object sender, EventArgs e)
@@ -204,21 +207,36 @@ namespace MyCMDBApp
         /***************************************************************
          *  FIELDS VALIDATION
          **************************************************************/
-        private void Txt_Name_TextChanged(object sender, EventArgs e)
+        private void Txt_Database_Name_Validating(object sender, CancelEventArgs e)
         {
-            if (_Validator.ValidateName(Txt_Name.Text)) //if validation succeeds
+            if (_Validator.ValidateName(Txt_Database_Name.Text)) //if validation succeeds
             {
-                //errorProvider.Clear();
-                errorProvider.SetError(Txt_Name, "");
+
+                errorProvider.SetError(Txt_Database_Name, "");
             }
             else
             {
-                errorProvider.SetError(Txt_Name, $"You must Enter a Name(Text Only)");
-                return;
+                errorProvider.SetError(Txt_Database_Name, $"You must Enter Text Only");
+                e.Cancel = true;
             }
         }
 
-        private void Txt_Email_TextChanged(object sender, EventArgs e)
+        private void Txt_Name_Validating(object sender, CancelEventArgs e)
+        {
+            if (_Validator.ValidateName(Txt_Name.Text)) //if validation succeeds
+            {
+
+                errorProvider.SetError(Txt_Name, "");
+                errorProvider.Clear();
+            }
+            else
+            {
+                errorProvider.SetError(Txt_Name, $"You must Enter Text Only");
+                e.Cancel = true;
+            }
+        }
+
+        private void Txt_Email_Validating(object sender, CancelEventArgs e)
         {
             if (_Validator.ValidateEmailAddress(Txt_Email.Text))
             {
@@ -227,11 +245,11 @@ namespace MyCMDBApp
             else
             {
                 errorProvider.SetError(Txt_Email, "Please provide a valid email address");
-                return;
+                e.Cancel = true;
             }
         }
 
-        private void Txt_Mobile_TextChanged(object sender, EventArgs e)
+        private void Txt_Mobile_Validating(object sender, CancelEventArgs e)
         {
             if (_Validator.ValidatePhoneNumber(Txt_Mobile.Text))
             {
@@ -240,11 +258,11 @@ namespace MyCMDBApp
             else
             {
                 errorProvider.SetError(Txt_Mobile, "Contact Number Format xxx-10 Digit Number");
-                return;
+                e.Cancel = true;
             }
         }
 
-        private void Txt_Alt_Mobile_TextChanged(object sender, EventArgs e)
+        private void Txt_Alt_Mobile_Validating(object sender, CancelEventArgs e)
         {
             if (!_Validator.ValidatePhoneNumber(Txt_Alt_Mobile.Text))
             {
@@ -253,21 +271,7 @@ namespace MyCMDBApp
             else
             {
                 errorProvider.SetError(Txt_Alt_Mobile, "Contact Number Format xxx-10 Digit Number");
-                return;
-            }
-        }
-
-        private void Txt_Database_Name_TextChanged(object sender, EventArgs e)
-        {
-            if (_Validator.ValidateName(Txt_Database_Name.Text)) //if validation succeeds
-            {
-                //errorProvider.Clear();
-                errorProvider.SetError(Txt_Database_Name, "");
-            }
-            else
-            {
-                errorProvider.SetError(Txt_Database_Name, $"You must Enter a Name(Text Only)");
-                return;
+                e.Cancel = true;
             }
         }
     }

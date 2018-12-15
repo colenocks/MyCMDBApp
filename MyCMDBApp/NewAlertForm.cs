@@ -25,7 +25,6 @@ namespace MyCMDBApp
         public NewAlertForm(string label, string username, string userFolder)
         {
             InitializeComponent();
-
             Tag_Label.Text = "Alert for "+label;
             Tag_Label.ForeColor = Color.DarkOliveGreen;
 
@@ -36,13 +35,13 @@ namespace MyCMDBApp
 
         private void NewAlertForm_Load(object sender, EventArgs e)
         {
-            string alertFolderPath = Path.GetDirectoryName(UserParentDirectory);
-            //create Alert Folder inside CMA Folder as alert form loads
-            if (!Directory.Exists(alertFolderPath))
+            //create Alert Folder in the paren directory as alert form loads
+            string alertFolder = Path.Combine(UserParentDirectory, $"{Username}_Alerts");
+            if (!Directory.Exists(alertFolder))
             {
-                Directory.CreateDirectory(alertFolderPath);
+                Directory.CreateDirectory(alertFolder);
             }
-            AlertfilePath = Path.Combine(alertFolderPath, $"{Username}_Alerts", "Alerts.xml");
+            AlertfilePath = Path.GetFullPath(Path.Combine(alertFolder, "Alerts.xml"));
         }
 
         private void Btn_Save_Alert_Click(object sender, EventArgs e)
@@ -64,12 +63,11 @@ namespace MyCMDBApp
             }
             GrBox_AlertBox.Enabled = false;
             Btn_Save_Alert.Enabled = false;
+            Btn_Add_Alert.Enabled = true;
         }
 
         private void Btn_Home_Click(object sender, EventArgs e)
         {
-            var newContactForm = (NewContactForm)Tag; //use the tag property of the previous to hold it's state.
-            newContactForm.Show();
             Close();
         }
 

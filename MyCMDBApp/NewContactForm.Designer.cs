@@ -106,7 +106,7 @@
             this.Txt_Alt_Mobile.Name = "Txt_Alt_Mobile";
             this.Txt_Alt_Mobile.Size = new System.Drawing.Size(275, 25);
             this.Txt_Alt_Mobile.TabIndex = 20;
-            this.Txt_Alt_Mobile.TextChanged += new System.EventHandler(this.Txt_Alt_Mobile_TextChanged);
+            this.Txt_Alt_Mobile.Validating += new System.ComponentModel.CancelEventHandler(this.Txt_Alt_Mobile_Validating);
             // 
             // Txt_Mobile
             // 
@@ -116,7 +116,7 @@
             this.Txt_Mobile.Name = "Txt_Mobile";
             this.Txt_Mobile.Size = new System.Drawing.Size(275, 25);
             this.Txt_Mobile.TabIndex = 19;
-            this.Txt_Mobile.TextChanged += new System.EventHandler(this.Txt_Mobile_TextChanged);
+            this.Txt_Mobile.Validating += new System.ComponentModel.CancelEventHandler(this.Txt_Mobile_Validating);
             // 
             // Btn_Add_Event
             // 
@@ -141,7 +141,7 @@
             this.Txt_Email.Name = "Txt_Email";
             this.Txt_Email.Size = new System.Drawing.Size(275, 25);
             this.Txt_Email.TabIndex = 11;
-            this.Txt_Email.TextChanged += new System.EventHandler(this.Txt_Email_TextChanged);
+            this.Txt_Email.Validating += new System.ComponentModel.CancelEventHandler(this.Txt_Email_Validating);
             // 
             // Txt_Name
             // 
@@ -151,7 +151,7 @@
             this.Txt_Name.Name = "Txt_Name";
             this.Txt_Name.Size = new System.Drawing.Size(275, 25);
             this.Txt_Name.TabIndex = 10;
-            this.Txt_Name.TextChanged += new System.EventHandler(this.Txt_Name_TextChanged);
+            this.Txt_Name.Validating += new System.ComponentModel.CancelEventHandler(this.Txt_Name_Validating);
             // 
             // label7
             // 
@@ -238,7 +238,7 @@
             this.Btn_Add.Name = "Btn_Add";
             this.Btn_Add.Size = new System.Drawing.Size(107, 46);
             this.Btn_Add.TabIndex = 25;
-            this.Btn_Add.Text = "Add";
+            this.Btn_Add.Text = "Add Contact";
             this.Btn_Add.UseVisualStyleBackColor = true;
             this.Btn_Add.Click += new System.EventHandler(this.Btn_Add_Click);
             // 
@@ -282,6 +282,7 @@
             this.Controls.Add(this.Btn_Add);
             this.Controls.Add(this.GrBox_Contact_Form);
             this.Name = "NewContactForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NewContactForm";
             this.GrBox_Contact_Form.ResumeLayout(false);
             this.GrBox_Contact_Form.PerformLayout();

@@ -33,6 +33,7 @@
             this.Btn_Create_Database = new System.Windows.Forms.Button();
             this.Top_Label = new System.Windows.Forms.Label();
             this.Btn_SignOut = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Btn_Manage_Alerts
@@ -105,11 +106,23 @@
             this.Btn_SignOut.UseVisualStyleBackColor = true;
             this.Btn_SignOut.Click += new System.EventHandler(this.Btn_SignOut_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.Color.Fuchsia;
+            this.label4.Location = new System.Drawing.Point(288, 376);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(152, 16);
+            this.label4.TabIndex = 36;
+            this.label4.Text = "Created by Icardi © 2018";
+            // 
             // StartupForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(712, 413);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.Btn_SignOut);
             this.Controls.Add(this.Btn_Manage_Alerts);
             this.Controls.Add(this.Top_Label);
@@ -121,6 +134,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Welcome to My Contact Management";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -130,6 +144,7 @@
         private System.Windows.Forms.Button Btn_Create_Database;
         private System.Windows.Forms.Label Top_Label;
         private System.Windows.Forms.Button Btn_SignOut;
+        private System.Windows.Forms.Label label4;
     }
 }
 

@@ -19,7 +19,7 @@ namespace MyCMDBApp
         public string ALL_USERS_FILE { get; private set; }
 
         /**********SESSION PROPERTIES***********/
-        public string parentDirectory { get; private set; }
+        public string UserParentDirectory { get; private set; }
 
         //info retrieved from successful sign in
         public string RetrievedUserFilePath { get; private set; }
@@ -28,17 +28,18 @@ namespace MyCMDBApp
         public SignInForm()
         {
             InitializeComponent();
+        }
 
-                //ON FIRST INSTANCE OF APPLICATION
-
+        private void SignInForm_Load(object sender, EventArgs e)
+        {
             //create usersXmlFile "string path" in CMA_ALL_USERS_FOLDER
             DB_Handler _Handler = new DB_Handler();
             //CMA_USERS_FILE Folder
-            if (!Directory.Exists(_Handler.CMA_ALL_USERS_FOLDER))
+            if (!Directory.Exists(_Handler.CMA_ALL_USERS_FILE))
             {
-                Directory.CreateDirectory(_Handler.CMA_ALL_USERS_FOLDER);
+                Directory.CreateDirectory(_Handler.CMA_ALL_USERS_FILE);
             }
-            ALL_USERS_FILE = Path.GetFullPath(Path.Combine(_Handler.CMA_ALL_USERS_FOLDER, "CMA_users.xml"));    
+            ALL_USERS_FILE = Path.GetFullPath(_Handler.CMA_ALL_USERS_FILE);
         }
 
         private void Btn_Browse_Click(object sender, EventArgs e)
@@ -118,17 +119,17 @@ namespace MyCMDBApp
                     else
                     {
                         //save selected folder from the browse dialog
-                        parentDirectory = Rtb_User_Directory.Text;
+                        UserParentDirectory = Rtb_User_Directory.Text;
                         
-                        if (!Directory.Exists(parentDirectory))
+                        if (!Directory.Exists(UserParentDirectory))
                         {
-                            Directory.CreateDirectory(parentDirectory);
+                            Directory.CreateDirectory(UserParentDirectory);
                         }
                         //concatenate empty user file "string path"
-                        string UserFilePath = Path.GetFullPath(Path.Combine(parentDirectory, username+".xml"));
+                        string UserFilePath = Path.GetFullPath(Path.Combine(UserParentDirectory, username+".xml"));
 
                         //instantiate User constructor B
-                        User userObj = new User(username, Txt_Password.Text, UserFilePath, parentDirectory);
+                        User userObj = new User(username, Txt_Password.Text, UserFilePath, UserParentDirectory);
 
                         //Create the user's xml file to store info
                         _Handler.CreateUserInfo(userObj);
@@ -182,7 +183,7 @@ namespace MyCMDBApp
                             //retrieve the path, username and directoryPath
                             RetrievedUsername = userId;
                             RetrievedUserFilePath = node.SelectSingleNode("path").InnerText; 
-                            parentDirectory = Path.GetDirectoryName(RetrievedUserFilePath);
+                            UserParentDirectory = Path.GetDirectoryName(RetrievedUserFilePath);
                         }
                     }
                     xmlDocument.Save(Path.GetFullPath(CMA_UsersFile));
@@ -206,7 +207,7 @@ namespace MyCMDBApp
                         {
                             xmlDocument.Save(Path.GetFullPath(RetrievedUserFilePath));
                             //Open the Start up form and pass SESSION PROPERTIES
-                            StartupForm startupForm = new StartupForm(RetrievedUsername, RetrievedUserFilePath, parentDirectory);
+                            StartupForm startupForm = new StartupForm(RetrievedUsername, RetrievedUserFilePath, UserParentDirectory);
                             startupForm.Show();
                             Hide();
                         }
@@ -223,6 +224,7 @@ namespace MyCMDBApp
                 //enable registr_Form
                 GrB_Register_Form.Enabled = true;
                 GrB_Sign_In_Form.Enabled = false;
+                ClearFields();
             }
         }
 
@@ -233,6 +235,7 @@ namespace MyCMDBApp
                 //enable login form
                 GrB_Sign_In_Form.Enabled = true;
                 GrB_Register_Form.Enabled = false;
+                ClearFields();
             }
         }
 

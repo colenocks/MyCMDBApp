@@ -122,7 +122,7 @@
             this.Txt_Alt_Mobile.Name = "Txt_Alt_Mobile";
             this.Txt_Alt_Mobile.Size = new System.Drawing.Size(275, 25);
             this.Txt_Alt_Mobile.TabIndex = 20;
-            this.Txt_Alt_Mobile.TextChanged += new System.EventHandler(this.Txt_Alt_Mobile_TextChanged);
+            this.Txt_Alt_Mobile.Validating += new System.ComponentModel.CancelEventHandler(this.Txt_Alt_Mobile_Validating);
             // 
             // Txt_Mobile
             // 
@@ -132,7 +132,7 @@
             this.Txt_Mobile.Name = "Txt_Mobile";
             this.Txt_Mobile.Size = new System.Drawing.Size(275, 25);
             this.Txt_Mobile.TabIndex = 19;
-            this.Txt_Mobile.TextChanged += new System.EventHandler(this.Txt_Mobile_TextChanged);
+            this.Txt_Mobile.Validating += new System.ComponentModel.CancelEventHandler(this.Txt_Mobile_Validating);
             // 
             // Txt_Email
             // 
@@ -142,7 +142,7 @@
             this.Txt_Email.Name = "Txt_Email";
             this.Txt_Email.Size = new System.Drawing.Size(275, 25);
             this.Txt_Email.TabIndex = 11;
-            this.Txt_Email.TextChanged += new System.EventHandler(this.Txt_Email_TextChanged);
+            this.Txt_Email.Validating += new System.ComponentModel.CancelEventHandler(this.Txt_Email_Validating);
             // 
             // Txt_Name
             // 
@@ -152,7 +152,7 @@
             this.Txt_Name.Name = "Txt_Name";
             this.Txt_Name.Size = new System.Drawing.Size(275, 25);
             this.Txt_Name.TabIndex = 10;
-            this.Txt_Name.TextChanged += new System.EventHandler(this.Txt_Name_TextChanged);
+            this.Txt_Name.Validating += new System.ComponentModel.CancelEventHandler(this.Txt_Name_Validating);
             // 
             // Btn_Add_Event
             // 
@@ -161,7 +161,7 @@
             this.Btn_Add_Event.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
             this.Btn_Add_Event.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Add_Event.ForeColor = System.Drawing.Color.Peru;
-            this.Btn_Add_Event.Location = new System.Drawing.Point(205, 372);
+            this.Btn_Add_Event.Location = new System.Drawing.Point(267, 372);
             this.Btn_Add_Event.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Add_Event.Name = "Btn_Add_Event";
             this.Btn_Add_Event.Size = new System.Drawing.Size(109, 40);
@@ -253,20 +253,20 @@
             this.Btn_Add.Location = new System.Drawing.Point(416, 621);
             this.Btn_Add.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Add.Name = "Btn_Add";
-            this.Btn_Add.Size = new System.Drawing.Size(109, 46);
+            this.Btn_Add.Size = new System.Drawing.Size(109, 47);
             this.Btn_Add.TabIndex = 23;
-            this.Btn_Add.Text = "Add";
+            this.Btn_Add.Text = "Add Contact";
             this.Btn_Add.UseVisualStyleBackColor = true;
             this.Btn_Add.Click += new System.EventHandler(this.Btn_Add_Click);
             // 
             // Btn_New_Database
             // 
-            this.Btn_New_Database.BackColor = System.Drawing.Color.PowderBlue;
+            this.Btn_New_Database.BackColor = System.Drawing.Color.White;
             this.Btn_New_Database.Enabled = false;
             this.Btn_New_Database.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.Btn_New_Database.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.Btn_New_Database.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_New_Database.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Btn_New_Database.ForeColor = System.Drawing.Color.DarkRed;
             this.Btn_New_Database.Location = new System.Drawing.Point(541, 520);
             this.Btn_New_Database.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_New_Database.Name = "Btn_New_Database";
@@ -296,7 +296,7 @@
             this.Btn_Finish.Location = new System.Drawing.Point(220, 620);
             this.Btn_Finish.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Finish.Name = "Btn_Finish";
-            this.Btn_Finish.Size = new System.Drawing.Size(91, 47);
+            this.Btn_Finish.Size = new System.Drawing.Size(91, 38);
             this.Btn_Finish.TabIndex = 24;
             this.Btn_Finish.Text = "Done";
             this.Btn_Finish.UseVisualStyleBackColor = true;
@@ -336,7 +336,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.Color.Olive;
-            this.label2.Location = new System.Drawing.Point(145, 686);
+            this.label2.Location = new System.Drawing.Point(228, 684);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(283, 18);
@@ -391,7 +391,7 @@
             this.Txt_Database_Name.Name = "Txt_Database_Name";
             this.Txt_Database_Name.Size = new System.Drawing.Size(255, 26);
             this.Txt_Database_Name.TabIndex = 11;
-            this.Txt_Database_Name.TextChanged += new System.EventHandler(this.Txt_Database_Name_TextChanged);
+            this.Txt_Database_Name.Validating += new System.ComponentModel.CancelEventHandler(this.Txt_Database_Name_Validating);
             // 
             // Btn_Create
             // 

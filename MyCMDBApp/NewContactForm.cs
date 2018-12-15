@@ -70,7 +70,7 @@ namespace MyCMDBApp
                 {
                     Tag = this
                 };
-                newAlert.Show(this);
+                newAlert.Show();
             }
             else { MessageBox.Show("set name for alert"); }
         }
@@ -85,11 +85,11 @@ namespace MyCMDBApp
         /***************************************************************
                 *  FIELDS VALIDATION  *
         **************************************************************/
-        private void Txt_Name_TextChanged(object sender, EventArgs e)
+        private void Txt_Name_Validating(object sender, CancelEventArgs e)
         {
             if (_Validator.ValidateName(Txt_Name.Text)) //if validation succeeds
             {
-                
+
                 errorProvider.SetError(Txt_Name, "");
                 errorProvider.Clear();
             }
@@ -100,7 +100,7 @@ namespace MyCMDBApp
             }
         }
 
-        private void Txt_Email_TextChanged(object sender, EventArgs e)
+        private void Txt_Email_Validating(object sender, CancelEventArgs e)
         {
             if (_Validator.ValidateEmailAddress(Txt_Email.Text))
             {
@@ -113,7 +113,7 @@ namespace MyCMDBApp
             }
         }
 
-        private void Txt_Mobile_TextChanged(object sender, EventArgs e)
+        private void Txt_Mobile_Validating(object sender, CancelEventArgs e)
         {
             if (_Validator.ValidatePhoneNumber(Txt_Mobile.Text))
             {
@@ -126,7 +126,7 @@ namespace MyCMDBApp
             }
         }
 
-        private void Txt_Alt_Mobile_TextChanged(object sender, EventArgs e)
+        private void Txt_Alt_Mobile_Validating(object sender, CancelEventArgs e)
         {
             if (!_Validator.ValidatePhoneNumber(Txt_Alt_Mobile.Text))
             {

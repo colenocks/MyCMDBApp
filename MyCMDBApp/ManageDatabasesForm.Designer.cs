@@ -46,6 +46,7 @@
             this.Rtb_Search = new System.Windows.Forms.RichTextBox();
             this.Btn_Clear = new System.Windows.Forms.Button();
             this.Btn_Add_New_Contact = new System.Windows.Forms.Button();
+            this.Btn_Create_Alert = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.GrBox_ContactList.SuspendLayout();
             this.SuspendLayout();
@@ -234,7 +235,7 @@
             // Btn_Add_New_Contact
             // 
             this.Btn_Add_New_Contact.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_Add_New_Contact.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Btn_Add_New_Contact.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.Btn_Add_New_Contact.Location = new System.Drawing.Point(583, 446);
             this.Btn_Add_New_Contact.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Add_New_Contact.Name = "Btn_Add_New_Contact";
@@ -244,11 +245,27 @@
             this.Btn_Add_New_Contact.UseVisualStyleBackColor = true;
             this.Btn_Add_New_Contact.Click += new System.EventHandler(this.Btn_Add_New_Contact_Click);
             // 
+            // Btn_Create_Alert
+            // 
+            this.Btn_Create_Alert.BackColor = System.Drawing.SystemColors.Control;
+            this.Btn_Create_Alert.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.Btn_Create_Alert.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Create_Alert.ForeColor = System.Drawing.Color.Red;
+            this.Btn_Create_Alert.Location = new System.Drawing.Point(15, 443);
+            this.Btn_Create_Alert.Margin = new System.Windows.Forms.Padding(4);
+            this.Btn_Create_Alert.Name = "Btn_Create_Alert";
+            this.Btn_Create_Alert.Size = new System.Drawing.Size(125, 40);
+            this.Btn_Create_Alert.TabIndex = 39;
+            this.Btn_Create_Alert.Text = "Create Alert";
+            this.Btn_Create_Alert.UseVisualStyleBackColor = false;
+            this.Btn_Create_Alert.Click += new System.EventHandler(this.Btn_Create_Alert_Click);
+            // 
             // ManageDatabasesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(861, 493);
+            this.Controls.Add(this.Btn_Create_Alert);
             this.Controls.Add(this.Btn_Add_New_Contact);
             this.Controls.Add(this.Btn_Clear);
             this.Controls.Add(this.Btn_Search);
@@ -262,6 +279,7 @@
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Constantia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "ManageDatabasesForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ManageDatabasesForm";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.GrBox_ContactList.ResumeLayout(false);
@@ -290,5 +308,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn addressDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn moreInfoDataGridViewTextBoxColumn;
         private System.Windows.Forms.Button Btn_Add_New_Contact;
+        private System.Windows.Forms.Button Btn_Create_Alert;
     }
 }

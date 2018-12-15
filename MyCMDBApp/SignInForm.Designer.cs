@@ -51,6 +51,7 @@
             this.RadioBtn_Returning_User = new System.Windows.Forms.RadioButton();
             this.Panel_User_Type = new System.Windows.Forms.Panel();
             this.errorProv = new System.Windows.Forms.ErrorProvider(this.components);
+            this.label4 = new System.Windows.Forms.Label();
             this.GrB_Register_Form.SuspendLayout();
             this.GrB_Sign_In_Form.SuspendLayout();
             this.Panel_User_Type.SuspendLayout();
@@ -168,7 +169,7 @@
             this.GrB_Register_Form.Enabled = false;
             this.GrB_Register_Form.Location = new System.Drawing.Point(413, 96);
             this.GrB_Register_Form.Name = "GrB_Register_Form";
-            this.GrB_Register_Form.Size = new System.Drawing.Size(390, 379);
+            this.GrB_Register_Form.Size = new System.Drawing.Size(390, 357);
             this.GrB_Register_Form.TabIndex = 21;
             this.GrB_Register_Form.TabStop = false;
             this.GrB_Register_Form.Text = "New User";
@@ -294,12 +295,24 @@
             // 
             this.errorProv.ContainerControl = this;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.Color.Fuchsia;
+            this.label4.Location = new System.Drawing.Point(320, 466);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(168, 18);
+            this.label4.TabIndex = 35;
+            this.label4.Text = "Created by Icardi © 2018";
+            // 
             // SignInForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(808, 482);
+            this.ClientSize = new System.Drawing.Size(808, 493);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.Panel_User_Type);
             this.Controls.Add(this.GrB_Sign_In_Form);
             this.Controls.Add(this.GrB_Register_Form);
@@ -311,6 +324,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SignInForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SignInForm_FormClosed);
+            this.Load += new System.EventHandler(this.SignInForm_Load);
             this.GrB_Register_Form.ResumeLayout(false);
             this.GrB_Register_Form.PerformLayout();
             this.GrB_Sign_In_Form.ResumeLayout(false);
@@ -319,6 +333,7 @@
             this.Panel_User_Type.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProv)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -346,5 +361,6 @@
         private System.Windows.Forms.RadioButton RadioBtn_Returning_User;
         private System.Windows.Forms.Panel Panel_User_Type;
         private System.Windows.Forms.ErrorProvider errorProv;
+        private System.Windows.Forms.Label label4;
     }
 }
