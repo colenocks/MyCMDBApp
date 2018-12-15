@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.GrBox_Contact_Form = new System.Windows.Forms.GroupBox();
             this.listBox_Alerts = new System.Windows.Forms.ListBox();
             this.Lbl_Alerts = new System.Windows.Forms.Label();
@@ -51,7 +52,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.Btn_Edit = new System.Windows.Forms.Button();
             this.Btn_Back = new System.Windows.Forms.Button();
+            this.alertBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.GrBox_Contact_Form.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.alertBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // GrBox_Contact_Form
@@ -86,13 +91,15 @@
             // 
             // listBox_Alerts
             // 
+            this.listBox_Alerts.DataSource = this.alertBindingSource;
+            this.listBox_Alerts.DisplayMember = "Title";
             this.listBox_Alerts.FormattingEnabled = true;
             this.listBox_Alerts.ItemHeight = 15;
             this.listBox_Alerts.Location = new System.Drawing.Point(152, 282);
             this.listBox_Alerts.Name = "listBox_Alerts";
             this.listBox_Alerts.Size = new System.Drawing.Size(121, 79);
             this.listBox_Alerts.TabIndex = 24;
-            this.listBox_Alerts.SelectedIndexChanged += new System.EventHandler(this.listBox_Alerts_SelectedIndexChanged);
+            this.listBox_Alerts.SelectedIndexChanged += new System.EventHandler(this.ListBox_Alerts_SelectedIndexChanged);
             // 
             // Lbl_Alerts
             // 
@@ -125,6 +132,7 @@
             // 
             // Btn_Edit_Alert
             // 
+            this.Btn_Edit_Alert.Enabled = false;
             this.Btn_Edit_Alert.Font = new System.Drawing.Font("Constantia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Edit_Alert.ForeColor = System.Drawing.Color.Blue;
             this.Btn_Edit_Alert.Location = new System.Drawing.Point(316, 318);
@@ -147,7 +155,7 @@
             this.Btn_Delete_Alert.TabIndex = 25;
             this.Btn_Delete_Alert.Text = "Delete";
             this.Btn_Delete_Alert.UseVisualStyleBackColor = true;
-            this.Btn_Delete_Alert.Click += new System.EventHandler(this.Btn_Delete_Click);
+            this.Btn_Delete_Alert.Click += new System.EventHandler(this.Btn_Delete_Alert_Click);
             // 
             // Txt_Alt_Mobile
             // 
@@ -327,6 +335,14 @@
             this.Btn_Back.UseVisualStyleBackColor = true;
             this.Btn_Back.Click += new System.EventHandler(this.Btn_Back_Click);
             // 
+            // alertBindingSource
+            // 
+            this.alertBindingSource.DataSource = typeof(CMEntities.Alert);
+            // 
+            // errorProvider
+            // 
+            this.errorProvider.ContainerControl = this;
+            // 
             // ContactDetailForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -345,6 +361,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.GrBox_Contact_Form.ResumeLayout(false);
             this.GrBox_Contact_Form.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.alertBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -374,5 +392,7 @@
         private System.Windows.Forms.Button Btn_Back;
         private System.Windows.Forms.Button Btn_Edit_Alert;
         private System.Windows.Forms.Button Btn_Delete_Alert;
+        private System.Windows.Forms.BindingSource alertBindingSource;
+        private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }

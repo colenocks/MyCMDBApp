@@ -129,6 +129,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="Properties\DataSources\CMEntities.Alert.datasource" />
     <None Include="Properties\DataSources\CMEntities.Contact.datasource" />
     <None Include="Properties\DataSources\CMEntities.ContactInfo.datasource" />
     <None Include="Properties\DataSources\CMEntities.Database.datasource" />

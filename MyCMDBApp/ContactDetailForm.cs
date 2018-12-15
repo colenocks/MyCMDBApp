@@ -24,7 +24,7 @@ namespace MyCMDBApp
         private Contact currentContact;
 
         private List<Alert> Contact_Alerts_List = new List<Alert>();
-
+        DB_Validator _Validator = new DB_Validator();
         public ContactDetailForm() { }
 
         public ContactDetailForm(string DbName, string DbPath, string name, string email, string mobile, string altMobile, string address, string notes, string username)
@@ -48,40 +48,6 @@ namespace MyCMDBApp
 
             //Load alert lists if any
             LoadAlertList();
-        }
-
-        private void LoadAlertList()
-        {
-            DB_Handler _Handler = new DB_Handler();
-
-            //Load the CMA_Users xml file and retrieve alert path
-            XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(Path.GetFullPath(_Handler.CMA_ALL_USERS_FILE));
-            
-            foreach (XmlNode node in xmlDocument.SelectNodes("allusers/user"))
-            {
-                if(node.SelectSingleNode("user").InnerText == userName)
-                {
-                    userAlertFilePath = node.SelectSingleNode("alert_path").InnerText;
-                }
-            }
-            xmlDocument.Save(Path.GetFullPath(_Handler.CMA_ALL_USERS_FILE));
-            //open up the retrieved alert path
-            xmlDocument.Load(Path.GetFullPath(userAlertFilePath));
-            Alert alerts = null;
-            string tag, title, date, time, reminder;
-            tag = contactDb_name;
-            foreach (XmlNode node in xmlDocument.SelectNodes($"alerts/{contactDb_name}"))
-            {
-                title = node.SelectSingleNode("title").InnerText;
-                date = node.SelectSingleNode("date").InnerText;
-                time = node.SelectSingleNode("time").InnerText;
-                reminder = node.SelectSingleNode("reminder").InnerText;
-
-                alerts = new Alert(userName, tag, title, date, time, userAlertFilePath, reminder);
-                Contact_Alerts_List.Add(alerts);
-            }
-            xmlDocument.Load(Path.GetFullPath(userAlertFilePath));
         }
 
         private void Btn_Delete_Click(object sender, EventArgs e)
@@ -135,9 +101,116 @@ namespace MyCMDBApp
             Close();
         }
 
-        private void listBox_Alerts_SelectedIndexChanged(object sender, EventArgs e)
+        private void ListBox_Alerts_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Contact_Alerts_List
+            Btn_Delete_Alert.Enabled = true;
         }
+
+        private void Btn_Delete_Alert_Click(object sender, EventArgs e)
+        {
+            if(listBox_Alerts.SelectedIndex != -1)
+            {
+                DB_Handler _Handler = new DB_Handler();
+                _Handler.DeleteAlert(Contact_Alerts_List[listBox_Alerts.SelectedIndex]);
+            }
+        }
+
+        private void LoadAlertList()
+        {
+            DB_Handler _Handler = new DB_Handler();
+
+            //Load the CMA_Users xml file and retrieve alert path
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.Load(Path.GetFullPath(_Handler.CMA_ALL_USERS_FILE));
+            
+            foreach (XmlNode node in xmlDocument.SelectNodes("allusers/user"))
+            {
+                if(node.SelectSingleNode("user").InnerText == userName)
+                {
+                    userAlertFilePath = node.SelectSingleNode("alert_path").InnerText;
+                }
+            }
+            xmlDocument.Save(Path.GetFullPath(_Handler.CMA_ALL_USERS_FILE));
+            if (File.Exists(userAlertFilePath))
+            {
+                //open up the retrieved alert path
+                xmlDocument.Load(Path.GetFullPath(userAlertFilePath));
+                Alert alerts = null;
+                string tag, title, date, time, reminder;
+                tag = contactDb_name;
+                foreach (XmlNode node in xmlDocument.SelectNodes($"alerts/{contactDb_name}_alert"))
+                {
+                    title = node.SelectSingleNode("title").InnerText;
+                    date = node.SelectSingleNode("date").InnerText;
+                    time = node.SelectSingleNode("time").InnerText;
+                    reminder = node.SelectSingleNode("reminder").InnerText;
+                    decimal.TryParse(reminder, out decimal _reminder);
+                    alerts = new Alert(userName, tag, title, date, time, userAlertFilePath, _reminder);
+                    Contact_Alerts_List.Add(alerts);
+                }
+                xmlDocument.Load(Path.GetFullPath(userAlertFilePath));
+            }
+            else
+            {
+                MessageBox.Show("No alerts created yet");
+            }
+        }
+        
+        /***************************************************************
+                *  FIELDS VALIDATION  *
+        **************************************************************/
+        private void Txt_Name_TextChanged(object sender, EventArgs e)
+        {
+            if (_Validator.ValidateName(Txt_Name.Text)) //if validation succeeds
+            {
+                //errorProvider.Clear();
+                errorProvider.SetError(Txt_Name, "");
+            }
+            else
+            {
+                errorProvider.SetError(Txt_Name, $"You must Enter Text Only");
+                return;
+            }
+        }
+
+        private void Txt_Email_TextChanged(object sender, EventArgs e)
+        {
+            if (_Validator.ValidateEmailAddress(Txt_Email.Text))
+            {
+                errorProvider.SetError(Txt_Email, "");
+            }
+            else
+            {
+                errorProvider.SetError(Txt_Email, "Please provide a valid email address");
+                return;
+            }
+        }
+
+        private void Txt_Mobile_TextChanged(object sender, EventArgs e)
+        {
+            if (_Validator.ValidatePhoneNumber(Txt_Mobile.Text))
+            {
+                errorProvider.SetError(Txt_Mobile, "");
+            }
+            else
+            {
+                errorProvider.SetError(Txt_Mobile, "Contact Number Format xxx-10 Digit Number");
+                return;
+            }
+        }
+
+        private void Txt_Alt_Mobile_TextChanged(object sender, EventArgs e)
+        {
+            if (!_Validator.ValidatePhoneNumber(Txt_Alt_Mobile.Text))
+            {
+                errorProvider.SetError(Txt_Alt_Mobile, "");
+            }
+            else
+            {
+                errorProvider.SetError(Txt_Alt_Mobile, "Contact Number Format xxx-10 Digit Number");
+                return;
+            }
+        }
+
     }
 }

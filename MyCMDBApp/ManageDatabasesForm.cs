@@ -17,8 +17,8 @@ namespace MyCMDBApp
 {
     public partial class ManageDatabasesForm : Form
     {
-        private string _userPath;
-        private string _userFolderPath;
+        private string _userFilePath;
+        private string _userParentDirectory;
         private string _userName;
 
         private string dbFilePath;
@@ -32,8 +32,8 @@ namespace MyCMDBApp
             InitializeComponent();
 
             _userName = username;
-            _userPath = path;
-            _userFolderPath = folderPath;
+            _userFilePath = path;
+            _userParentDirectory = folderPath;
 
             //fill list on load
             LoadToList();
@@ -158,11 +158,11 @@ namespace MyCMDBApp
         //Method load databases to list
         private void LoadToList()
         {
-            string username = Path.GetFileNameWithoutExtension(_userPath);
+            string username = Path.GetFileNameWithoutExtension(_userFilePath);
 
             //Load the users xml file and retrieve all database paths
             XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(Path.GetFullPath(_userPath));
+            xmlDocument.Load(Path.GetFullPath(_userFilePath));
             Database databaseObj = null;
             string databaseName, databasePath;
             foreach (XmlNode node in xmlDocument.SelectNodes($"{username}/Files"))
@@ -173,7 +173,7 @@ namespace MyCMDBApp
 
                 AllDatabases.Add(databaseObj);
             }
-            xmlDocument.Save(Path.GetFullPath(_userPath));
+            xmlDocument.Save(Path.GetFullPath(_userFilePath));
         }
 
         //Method display to gridview
@@ -192,38 +192,42 @@ namespace MyCMDBApp
             XmlDocument xmlDocument = new XmlDocument();
             if (!File.Exists(dbFilePath))
             {
-                MessageBox.Show("This file has been Deleted!");
+                MessageBox.Show("This database file has been Deleted or Does not exist!");
             }
             else
             {
                 xmlDocument.Load(dbFilePath);
-                //load alerts too
-                //xmlDocument.Load(_userFolderPath);
                 int n = 0;
-                foreach (XmlNode node in xmlDocument.SelectNodes($"{dbFileName}/contact"))
+                if (xmlDocument.SelectSingleNode($"{ dbFileName}") == null)
                 {
-                    n = dataGridView1.Rows.Add();//gets the number of rows already in the table
-                    dataGridView1.Rows[n].Cells[0].Value = node.SelectSingleNode("name").InnerText;
-                    dataGridView1.Rows[n].Cells[1].Value = node.SelectSingleNode("email").InnerText;
-                    dataGridView1.Rows[n].Cells[2].Value = node.SelectSingleNode("mobile").InnerText;
-                    dataGridView1.Rows[n].Cells[3].Value = node.SelectSingleNode("alternative").InnerText;
-                    dataGridView1.Rows[n].Cells[4].Value = node.SelectSingleNode("address").InnerText;
-                    dataGridView1.Rows[n].Cells[5].Value = node.SelectSingleNode("information").InnerText;
-                    //highlight row if string matches passed in value
-                    if (!string.IsNullOrEmpty(value_highlightedRow))
+                    MessageBox.Show("No contacts found!");
+                }
+                else
+                {
+                    foreach (XmlNode node in xmlDocument.SelectNodes($"{dbFileName}/contact"))
                     {
-                        for(int i = 0; i < 6; i++) //number of columns = 6
+                        n = dataGridView1.Rows.Add();//gets the number of rows already in the table
+                        dataGridView1.Rows[n].Cells[0].Value = node.SelectSingleNode("name").InnerText;
+                        dataGridView1.Rows[n].Cells[1].Value = node.SelectSingleNode("email").InnerText;
+                        dataGridView1.Rows[n].Cells[2].Value = node.SelectSingleNode("mobile").InnerText;
+                        dataGridView1.Rows[n].Cells[3].Value = node.SelectSingleNode("alternative").InnerText;
+                        dataGridView1.Rows[n].Cells[4].Value = node.SelectSingleNode("address").InnerText;
+                        dataGridView1.Rows[n].Cells[5].Value = node.SelectSingleNode("information").InnerText;
+                        //highlight row if string matches passed in value
+                        if (!string.IsNullOrEmpty(value_highlightedRow))
                         {
-                            if ((string)dataGridView1.Rows[n].Cells[i].Value == value_highlightedRow)
+                            for (int i = 0; i < 6; i++) //number of columns = 6
                             {
-                                dataGridView1.Rows[n].DefaultCellStyle.BackColor = Color.DarkOrange;
+                                if ((string)dataGridView1.Rows[n].Cells[i].Value == value_highlightedRow)
+                                {
+                                    dataGridView1.Rows[n].DefaultCellStyle.BackColor = Color.DarkOrange;
+                                }
                             }
                         }
                     }
+                    xmlDocument.Save(dbFilePath);
                 }
-                xmlDocument.Save(dbFilePath);
             }
-            
         }
 
         private void DataGridViewContacts_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -261,14 +265,16 @@ namespace MyCMDBApp
         {
             string dbName;
             string dbPath;
-            if (!Btn_Select.Enabled || ComboBox_Databases.SelectedIndex <= 0)
+            if (!Btn_Select.Enabled || ComboBox_Databases.SelectedIndex >= 0)
             {
                 int dbIndex = ComboBox_Databases.SelectedIndex;
                 dbName = AllDatabases[dbIndex].Database_Name;
                 dbPath = AllDatabases[dbIndex].Database_File_Path;
 
-                NewContactForm newContactForm = new NewContactForm(dbName, dbPath, _userPath, _userFolderPath);
-                newContactForm.Tag = this; //tag this form to the next form
+                NewContactForm newContactForm = new NewContactForm(dbName, dbPath, _userFilePath, _userParentDirectory)
+                {
+                    Tag = this //tag the next form with this form
+                };
                 newContactForm.Show(this);
             }
             else

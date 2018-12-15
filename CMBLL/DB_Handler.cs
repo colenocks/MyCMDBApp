@@ -11,11 +11,12 @@ namespace CMBLL
     {
         //Users List Folder -- This is created as the application starts
         public string CMA_ALL_USERS_FOLDER => Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\CMA_All_Users";
-        public string CMA_ALL_USERS_FILE { get; private set; }
+        //this is created when a user registers
+        public string CMA_ALL_USERS_FILE => "CMA_users.xml";
 
         public List<Database> List_All_Databases = new List<Database>();
 
-        public void CreateDatabaseXml(Database database)
+        public void CreateDatabase(Database database)
         {
             //write to xml
             XmlWriterSettings settings = new XmlWriterSettings
@@ -168,14 +169,11 @@ namespace CMBLL
                 {
                     Directory.CreateDirectory(alert.Alert_Path);
                 }
-                //Create Alert file to write to
-                string alertFile = Path.Combine(alert.Alert_Path, $"{alert.Alert_User}_Alerts", "Alerts.xml");
                 XmlDocument xDoc = new XmlDocument();
-
-                if (!File.Exists(alertFile))
+                if (!File.Exists(Path.GetFullPath(alert.Alert_Path)))
                 {
                     XmlWriter xmlwriter;
-                    xmlwriter = XmlWriter.Create(alertFile, settings);
+                    xmlwriter = XmlWriter.Create(alert.Alert_Path, settings);
                     xmlwriter.WriteStartDocument();
                     xmlwriter.WriteStartElement("alerts");
                     xmlwriter.WriteStartElement($"{alert.Alert_Tag}_alert");//root element
@@ -191,7 +189,7 @@ namespace CMBLL
                 else
                 {
                     //load the file and append the nodes
-                    xDoc.Load(Path.GetFullPath(alertFile));
+                    xDoc.Load(Path.GetFullPath(alert.Alert_Path));
                     
                     XmlNode top = xDoc.CreateElement($"{alert.Alert_Tag}_alert");
                     XmlNode Xtitle = xDoc.CreateElement("title");
@@ -210,7 +208,7 @@ namespace CMBLL
                     top.AppendChild(Xrem);
 
                     xDoc.DocumentElement.AppendChild(top);
-                    xDoc.Save(Path.GetFullPath(alertFile));
+                    xDoc.Save(Path.GetFullPath(alert.Alert_Path));
                 }
 
                 //save alert file path to CMA_users.xml
@@ -219,7 +217,7 @@ namespace CMBLL
                 {
                     if(node.SelectSingleNode("username").InnerText == alert.Alert_User)
                     {
-                        node.SelectSingleNode("alert_path").InnerText = alertFile;
+                        node.SelectSingleNode("alert_path").InnerText = alert.Alert_Path;
                     }
                 }
                 xDoc.Save(Path.GetFullPath(CMA_ALL_USERS_FILE));
@@ -261,10 +259,10 @@ namespace CMBLL
             {
                 Directory.CreateDirectory(CMA_ALL_USERS_FOLDER);
             }
-            CMA_ALL_USERS_FILE = Path.Combine(CMA_ALL_USERS_FOLDER, "CMA_users.xml");
+            string allUsersFile = Path.Combine(CMA_ALL_USERS_FOLDER, CMA_ALL_USERS_FILE);
 
-            //Check if the usesXmlFile was created successfully on application startup
-            if (!File.Exists(CMA_ALL_USERS_FILE))
+            //Check if the userXmlFile was created successfully on application startup
+            if (!File.Exists(allUsersFile))
             {
                 XmlWriterSettings settings = new XmlWriterSettings
                 {
@@ -336,11 +334,11 @@ namespace CMBLL
         }
 
         //this method is called on finish button in the New database form
-        public void SaveUserDatabaseInfo(User user, string databasesXml)
+        public void SaveUserDatabaseInfo(User user)
         {
             //load the xml file and add all created databases and alerts
             XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(Path.GetFullPath(databasesXml));
+            xmlDocument.Load(Path.GetFullPath(user.UserFilePath));
             XmlNode XTop = xmlDocument.CreateElement("Files");
             XmlNode Xname = xmlDocument.CreateElement("database_name");
             XmlNode XDpath = xmlDocument.CreateElement("database_path");
@@ -353,7 +351,7 @@ namespace CMBLL
             //appends the nodes just under the comment "---Database list---"
             xmlDocument.DocumentElement.AppendChild(XTop);
 
-            xmlDocument.Save(Path.GetFullPath(databasesXml));
+            xmlDocument.Save(Path.GetFullPath(user.UserFilePath));
         }
 
         //public void ShowUserFiles(User user)

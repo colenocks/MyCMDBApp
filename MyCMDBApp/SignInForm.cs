@@ -19,7 +19,7 @@ namespace MyCMDBApp
         public string ALL_USERS_FILE { get; private set; }
 
         /**********SESSION PROPERTIES***********/
-        public string CurrentUser_FolderPath { get; private set; }
+        public string parentDirectory { get; private set; }
 
         //info retrieved from successful sign in
         public string RetrievedUserFilePath { get; private set; }
@@ -54,12 +54,12 @@ namespace MyCMDBApp
             {
                 string userPath = browserDialog.SelectedPath;
                 //Predefined folder in MyDocuments folder
-                if (!Directory.Exists(userPath + "\\CMA"))
+                if (!Directory.Exists(userPath))
                 {
-                    Directory.CreateDirectory(userPath + "\\CMA"); //Custom folder in application Data
+                    Directory.CreateDirectory(userPath); //Custom folder in application Data
                 }
                 //display the folder path on rtb field
-                Rtb_User_Directory.Text = Path.GetFullPath(userPath + "\\CMA");
+                Rtb_User_Directory.Text = Path.GetFullPath(userPath);
                 //User.User_Directory
             }
             else
@@ -118,20 +118,17 @@ namespace MyCMDBApp
                     else
                     {
                         //save selected folder from the browse dialog
-                        CurrentUser_FolderPath = Rtb_User_Directory.Text;
-
-                        //concatenate empty user file "string path" into CMA_Users Folder
-                        string CMA_UsersFolder = Path.Combine(Path.GetDirectoryName(CurrentUser_FolderPath), "CMA_Users");
-                        //check if the CMA_Users Folder has been created already
-                        if (!Directory.Exists(CMA_UsersFolder))
+                        parentDirectory = Rtb_User_Directory.Text;
+                        
+                        if (!Directory.Exists(parentDirectory))
                         {
-                            Directory.CreateDirectory(CMA_UsersFolder);
+                            Directory.CreateDirectory(parentDirectory);
                         }
                         //concatenate empty user file "string path"
-                        string emptyUserFilePath = Path.Combine(CMA_UsersFolder, username+".xml");
+                        string UserFilePath = Path.GetFullPath(Path.Combine(parentDirectory, username+".xml"));
 
                         //instantiate User constructor B
-                        User userObj = new User(username, Txt_Password.Text, Path.GetFullPath(emptyUserFilePath));
+                        User userObj = new User(username, Txt_Password.Text, UserFilePath, parentDirectory);
 
                         //Create the user's xml file to store info
                         _Handler.CreateUserInfo(userObj);
@@ -185,7 +182,7 @@ namespace MyCMDBApp
                             //retrieve the path, username and directoryPath
                             RetrievedUsername = userId;
                             RetrievedUserFilePath = node.SelectSingleNode("path").InnerText; 
-                            CurrentUser_FolderPath = Path.GetDirectoryName(RetrievedUserFilePath);
+                            parentDirectory = Path.GetDirectoryName(RetrievedUserFilePath);
                         }
                     }
                     xmlDocument.Save(Path.GetFullPath(CMA_UsersFile));
@@ -209,7 +206,7 @@ namespace MyCMDBApp
                         {
                             xmlDocument.Save(Path.GetFullPath(RetrievedUserFilePath));
                             //Open the Start up form and pass SESSION PROPERTIES
-                            StartupForm startupForm = new StartupForm(RetrievedUsername, RetrievedUserFilePath, CurrentUser_FolderPath);
+                            StartupForm startupForm = new StartupForm(RetrievedUsername, RetrievedUserFilePath, parentDirectory);
                             startupForm.Show();
                             Hide();
                         }

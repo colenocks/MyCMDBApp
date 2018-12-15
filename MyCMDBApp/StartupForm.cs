@@ -17,7 +17,7 @@ namespace MyCMDBApp
     public partial class StartupForm : Form
     {
         //Session Properties
-        public string UserFolderPath { get; private set; }
+        public string UserParentDirectory { get; private set; }
         public string UserFilePath { get; private set; }
         public string Username { get; private set; }
         
@@ -26,7 +26,7 @@ namespace MyCMDBApp
         public StartupForm(string username, string path, string folder)
         {
             InitializeComponent();
-            UserFolderPath = folder;
+            UserParentDirectory = folder;
             UserFilePath = path;
             Username = username;
             Top_Label.Text = $"Welcome {Username}";
@@ -35,7 +35,7 @@ namespace MyCMDBApp
         private void Btn_Create_Database_Click(object sender, EventArgs e)
         {
             //Create an instance of the new database form
-            NewDatabaseForm newDatabaseForm = new NewDatabaseForm(Username, UserFolderPath)
+            NewDatabaseForm newDatabaseForm = new NewDatabaseForm(Username, UserFilePath, UserParentDirectory)
             {
                 Tag = this
             };
@@ -57,7 +57,7 @@ namespace MyCMDBApp
             //MessageBox.Show($"{_Handler.List_All_Databases.Count} database(s) found");
 
             //open ManageDatabase form to select database
-            ManageDatabasesForm databaseForm = new ManageDatabasesForm(Username, UserFilePath, UserFolderPath)
+            ManageDatabasesForm databaseForm = new ManageDatabasesForm(Username, UserFilePath, UserParentDirectory)
             {
                 Tag = this //set this form as a tag property of the next form instance
             };

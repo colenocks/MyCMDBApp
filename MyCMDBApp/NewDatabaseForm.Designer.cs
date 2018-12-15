@@ -250,10 +250,10 @@
             // 
             this.Btn_Add.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Add.ForeColor = System.Drawing.Color.ForestGreen;
-            this.Btn_Add.Location = new System.Drawing.Point(383, 621);
+            this.Btn_Add.Location = new System.Drawing.Point(416, 621);
             this.Btn_Add.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Add.Name = "Btn_Add";
-            this.Btn_Add.Size = new System.Drawing.Size(142, 46);
+            this.Btn_Add.Size = new System.Drawing.Size(109, 46);
             this.Btn_Add.TabIndex = 23;
             this.Btn_Add.Text = "Add";
             this.Btn_Add.UseVisualStyleBackColor = true;
@@ -267,10 +267,10 @@
             this.Btn_New_Database.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.Btn_New_Database.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_New_Database.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Btn_New_Database.Location = new System.Drawing.Point(13, 635);
+            this.Btn_New_Database.Location = new System.Drawing.Point(541, 520);
             this.Btn_New_Database.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_New_Database.Name = "Btn_New_Database";
-            this.Btn_New_Database.Size = new System.Drawing.Size(151, 86);
+            this.Btn_New_Database.Size = new System.Drawing.Size(151, 44);
             this.Btn_New_Database.TabIndex = 25;
             this.Btn_New_Database.Text = "New Database";
             this.Btn_New_Database.UseVisualStyleBackColor = false;
@@ -280,12 +280,12 @@
             // 
             this.Btn_View_Contacts.Enabled = false;
             this.Btn_View_Contacts.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_View_Contacts.Location = new System.Drawing.Point(383, 675);
+            this.Btn_View_Contacts.Location = new System.Drawing.Point(22, 622);
             this.Btn_View_Contacts.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_View_Contacts.Name = "Btn_View_Contacts";
-            this.Btn_View_Contacts.Size = new System.Drawing.Size(142, 46);
+            this.Btn_View_Contacts.Size = new System.Drawing.Size(142, 60);
             this.Btn_View_Contacts.TabIndex = 25;
-            this.Btn_View_Contacts.Text = "View Contacts";
+            this.Btn_View_Contacts.Text = "View Added Contacts";
             this.Btn_View_Contacts.UseVisualStyleBackColor = true;
             this.Btn_View_Contacts.Click += new System.EventHandler(this.Btn_View_Contacts_Click);
             // 
@@ -293,7 +293,7 @@
             // 
             this.Btn_Finish.Enabled = false;
             this.Btn_Finish.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_Finish.Location = new System.Drawing.Point(199, 674);
+            this.Btn_Finish.Location = new System.Drawing.Point(220, 620);
             this.Btn_Finish.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Finish.Name = "Btn_Finish";
             this.Btn_Finish.Size = new System.Drawing.Size(91, 47);
@@ -315,7 +315,7 @@
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(717, 66);
+            this.label1.Size = new System.Drawing.Size(714, 66);
             this.label1.TabIndex = 12;
             this.label1.Text = "  Create a New Database";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -336,7 +336,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.Color.Olive;
-            this.label2.Location = new System.Drawing.Point(145, 739);
+            this.label2.Location = new System.Drawing.Point(145, 686);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(283, 18);
@@ -472,7 +472,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(717, 766);
+            this.ClientSize = new System.Drawing.Size(714, 722);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.Btn_New_Database);
@@ -486,7 +486,6 @@
             this.Controls.Add(this.GrBox_Contact_Form);
             this.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "NewDatabaseForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

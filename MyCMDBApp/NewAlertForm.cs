@@ -16,9 +16,9 @@ namespace MyCMDBApp
     public partial class NewAlertForm : Form
     {
         private string ContactOrDb_name; //contact or database alert
-        private string UserFolderPath; //contact or database alert path
+        private string UserParentDirectory; //contact or database alert path
         private string Username;
-        private string AlertFolderPath;
+        private string AlertfilePath;
 
         public NewAlertForm() { }
 
@@ -30,26 +30,24 @@ namespace MyCMDBApp
             Tag_Label.ForeColor = Color.DarkOliveGreen;
 
             ContactOrDb_name = label;
-            UserFolderPath = userFolder;
+            UserParentDirectory = userFolder;
             Username = username; //create the alert folder with username
         }
 
         private void NewAlertForm_Load(object sender, EventArgs e)
         {
-            //Create folder structure for alert in Browse location
-            string browseFolder = Path.GetDirectoryName(UserFolderPath);
+            string alertFolderPath = Path.GetDirectoryName(UserParentDirectory);
             //create Alert Folder inside CMA Folder as alert form loads
-            string alertFolderPath = Path.Combine(browseFolder, "CMA_Alerts");
             if (!Directory.Exists(alertFolderPath))
             {
                 Directory.CreateDirectory(alertFolderPath);
             }
-            AlertFolderPath = alertFolderPath;
+            AlertfilePath = Path.Combine(alertFolderPath, $"{Username}_Alerts", "Alerts.xml");
         }
 
         private void Btn_Save_Alert_Click(object sender, EventArgs e)
         {
-            Alert alertObj = new Alert(Username, ContactOrDb_name, Txt_Alert_Title.Text, Dtp_DateTime.Value.ToShortDateString(), Dtp_DateTime.Value.ToShortTimeString(), AlertFolderPath, numericUpDown1.Value);
+            Alert alertObj = new Alert(Username, ContactOrDb_name, Txt_Alert_Title.Text, Dtp_DateTime.Value.ToShortDateString(), Dtp_DateTime.Value.ToShortTimeString(), AlertfilePath, numericUpDown1.Value);
 
             MessageBox.Show("Finish changes","", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
 

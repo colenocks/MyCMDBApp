@@ -45,7 +45,7 @@
             this.Btn_Manage_Alerts.Name = "Btn_Manage_Alerts";
             this.Btn_Manage_Alerts.Size = new System.Drawing.Size(245, 60);
             this.Btn_Manage_Alerts.TabIndex = 3;
-            this.Btn_Manage_Alerts.Text = "Manage Alerts";
+            this.Btn_Manage_Alerts.Text = "VIEW ALL ALERTS";
             this.Btn_Manage_Alerts.UseVisualStyleBackColor = true;
             this.Btn_Manage_Alerts.Click += new System.EventHandler(this.Btn_Manage_Alerts_Click);
             // 
@@ -59,7 +59,7 @@
             this.Btn_Open_Database.Name = "Btn_Open_Database";
             this.Btn_Open_Database.Size = new System.Drawing.Size(245, 60);
             this.Btn_Open_Database.TabIndex = 2;
-            this.Btn_Open_Database.Text = "Open Database";
+            this.Btn_Open_Database.Text = "My Databases";
             this.Btn_Open_Database.UseVisualStyleBackColor = true;
             this.Btn_Open_Database.Click += new System.EventHandler(this.Btn_Open_Database_Click);
             // 
@@ -73,7 +73,7 @@
             this.Btn_Create_Database.Name = "Btn_Create_Database";
             this.Btn_Create_Database.Size = new System.Drawing.Size(245, 60);
             this.Btn_Create_Database.TabIndex = 1;
-            this.Btn_Create_Database.Text = "CREATE DATABASE";
+            this.Btn_Create_Database.Text = "NEW DATABASE";
             this.Btn_Create_Database.UseVisualStyleBackColor = true;
             this.Btn_Create_Database.Click += new System.EventHandler(this.Btn_Create_Database_Click);
             // 

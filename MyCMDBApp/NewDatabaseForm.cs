@@ -12,27 +12,29 @@ namespace MyCMDBApp
 {
     public partial class NewDatabaseForm : Form
     {
-        public string _userFolder;
-        public string _alertFolder;
-        public string _userName;
-        public List<Contact> List_All_Contacts = new List<Contact>();
+        private string _userParentDirectory;
+        private string _userFilePath;
+        private string _alertFolder;
+        private string _userName;
+        private List<Contact> List_All_Contacts = new List<Contact>();
 
         //validator instance
         DB_Validator _Validator = new DB_Validator();
 
         public NewDatabaseForm() { }
 
-        public NewDatabaseForm(string name, string folder)
+        public NewDatabaseForm(string name, string path, string folder)
         {
             InitializeComponent();
             _userName = name;
-            _userFolder = folder;
+            _userFilePath = path;
+            _userParentDirectory = folder;
         }
 
         private void Btn_Create_Click(object sender, EventArgs e)
         {
             //create two level directory, if it doesn't exist
-            string userDatabasesFolder = Path.Combine(_userFolder, $"{_userName}_Databases");
+            string userDatabasesFolder = Path.Combine(_userParentDirectory, $"{_userName}_Databases");
             if (!Directory.Exists(userDatabasesFolder))
             {
                 Directory.CreateDirectory(userDatabasesFolder);
@@ -69,15 +71,12 @@ namespace MyCMDBApp
                     Database databaseObj = new Database(Txt_Database_Name.Text, Rtb_Database_Directory.Text);
 
                     DB_Handler _Handler = new DB_Handler();
-                    _Handler.CreateDatabaseXml(databaseObj);
-
-                    //back up one directory, get database storage file.
-                    //instead of going into the file to retrieve
-                    string userDatabaseXmlFile = Path.Combine(_userFolder, _userName + ".xml");
+                    _Handler.CreateDatabase(databaseObj);
+                    
                     //instantiate user constructor A
-                    User userObj = new User(databaseName, Rtb_Database_Directory.Text);
+                    User userObj = new User(databaseName, Rtb_Database_Directory.Text, _userFilePath);
                     //Add database details to the user xml file
-                    _Handler.SaveUserDatabaseInfo(userObj, userDatabaseXmlFile);
+                    _Handler.SaveUserDatabaseInfo(userObj);
 
                     ///clear the contact list
                     List_All_Contacts.Clear();
@@ -85,7 +84,7 @@ namespace MyCMDBApp
                 }
                 else
                 {
-                    MessageBox.Show("File Name exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("File Name Duplication", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     Txt_Database_Name.Clear();
                     Txt_Database_Name.Focus();
                 }
@@ -106,7 +105,7 @@ namespace MyCMDBApp
         private void Btn_Create_Alert_Click(object sender, EventArgs e)
         {
             //Create instance of Alert Form
-            NewAlertForm newAlert = new NewAlertForm(Txt_Database_Name.Text, _userName, _userFolder);
+            NewAlertForm newAlert = new NewAlertForm(Txt_Database_Name.Text, _userName, _userParentDirectory);
             newAlert.ShowDialog();
             //... coming soon- Prajwal
 
@@ -153,7 +152,7 @@ namespace MyCMDBApp
             if (!string.IsNullOrEmpty(Txt_Name.Text))
             {
                 //Create instance of Alert Form
-                NewAlertForm newAlert = new NewAlertForm(Txt_Name.Text, _userName, _userFolder);
+                NewAlertForm newAlert = new NewAlertForm(Txt_Name.Text, _userName, _userParentDirectory);
                 newAlert.ShowDialog();
             }
             else { MessageBox.Show("set name for alert"); }
@@ -240,7 +239,7 @@ namespace MyCMDBApp
             }
             else
             {
-                errorProvider.SetError(this.Txt_Name, "Contact Number Format xxx-10 Digit Number");
+                errorProvider.SetError(Txt_Mobile, "Contact Number Format xxx-10 Digit Number");
                 return;
             }
         }
@@ -253,7 +252,7 @@ namespace MyCMDBApp
             }
             else
             {
-                errorProvider.SetError(this.Txt_Name, "Contact Number Format xxx-10 Digit Number");
+                errorProvider.SetError(Txt_Alt_Mobile, "Contact Number Format xxx-10 Digit Number");
                 return;
             }
         }
@@ -263,11 +262,11 @@ namespace MyCMDBApp
             if (_Validator.ValidateName(Txt_Database_Name.Text)) //if validation succeeds
             {
                 //errorProvider.Clear();
-                errorProvider.SetError(Txt_Name, "");
+                errorProvider.SetError(Txt_Database_Name, "");
             }
             else
             {
-                errorProvider.SetError(Txt_Name, $"You must Enter a Name(Text Only)");
+                errorProvider.SetError(Txt_Database_Name, $"You must Enter a Name(Text Only)");
                 return;
             }
         }

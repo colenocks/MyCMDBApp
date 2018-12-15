@@ -66,11 +66,20 @@ namespace MyCMDBApp
             if (!string.IsNullOrEmpty(Txt_Name.Text))
             {//Get the username and userfolder of co
                 //Create instance of Alert Form
-                NewAlertForm newAlert = new NewAlertForm(Txt_Name.Text, _userName, _userFolderPath);
-                newAlert.Tag = this;
+                NewAlertForm newAlert = new NewAlertForm(Txt_Name.Text, _userName, _userFolderPath)
+                {
+                    Tag = this
+                };
                 newAlert.Show(this);
             }
             else { MessageBox.Show("set name for alert"); }
+        }
+        
+        private void Btn_Back_Click(object sender, EventArgs e)
+        {
+            var manageDatabaseForm = (ManageDatabasesForm)Tag; //use the tag property of the previous to hold it's state.
+            manageDatabaseForm.Show();
+                Close();
         }
 
         /***************************************************************
@@ -80,8 +89,9 @@ namespace MyCMDBApp
         {
             if (_Validator.ValidateName(Txt_Name.Text)) //if validation succeeds
             {
-                //errorProvider.Clear();
+                
                 errorProvider.SetError(Txt_Name, "");
+                errorProvider.Clear();
             }
             else
             {
@@ -111,7 +121,7 @@ namespace MyCMDBApp
             }
             else
             {
-                errorProvider.SetError(this.Txt_Name, "Contact Number Format xxx-10 Digit Number");
+                errorProvider.SetError(Txt_Mobile, "Contact Number Format xxx-10 Digit Number");
                 return;
             }
         }
@@ -124,21 +134,9 @@ namespace MyCMDBApp
             }
             else
             {
-                errorProvider.SetError(this.Txt_Name, "Contact Number Format xxx-10 Digit Number");
+                errorProvider.SetError(Txt_Alt_Mobile, "Contact Number Format xxx-10 Digit Number");
                 return;
             }
-        }
-        
-        private void Btn_Back_Click(object sender, EventArgs e)
-        {
-            var manageDatabaseForm = (ManageDatabasesForm)Tag; //use the tag property of the previous to hold it's state.
-            manageDatabaseForm.Show();
-                Close();
-        }
-
-        private void Btn_Finish_Click(object sender, EventArgs e)
-        {
-            
         }
     }
 }
