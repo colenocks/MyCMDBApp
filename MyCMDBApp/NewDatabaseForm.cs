@@ -73,7 +73,8 @@ namespace MyCMDBApp
                     _Handler.CreateDatabase(databaseObj);
                     
                     //instantiate user constructor A
-                    User userObj = new User(databaseName, Rtb_Database_Directory.Text, _userFilePath);
+                    User userObj = new User(Txt_Database_Name.Text, Rtb_Database_Directory.Text, _userFilePath);
+
                     //Add database details to the user xml file
                     _Handler.SaveUserDatabaseInfo(userObj);
 
@@ -103,7 +104,7 @@ namespace MyCMDBApp
 
         private void Btn_Create_Alert_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(Txt_Database_Name.Text))
+            if (!string.IsNullOrEmpty(Txt_Database_Name.Text))
             {
                 //Create instance of Alert Form
                 NewAlertForm newAlert = new NewAlertForm(Txt_Database_Name.Text, _userName, _userParentDirectory);
@@ -148,6 +149,7 @@ namespace MyCMDBApp
                     Btn_View_Contacts.Enabled = true;
                 }
             }
+            GrBox_Contact_Form.Enabled = true;
         }
 
         private void Btn_Add_Event_Click(object sender, EventArgs e)
@@ -173,7 +175,7 @@ namespace MyCMDBApp
             {
                 Tag = this
             };
-            viewContact.ShowDialog(this);
+            viewContact.Show(this);
         }
 
         private void Btn_Finish_Click(object sender, EventArgs e)
@@ -264,7 +266,7 @@ namespace MyCMDBApp
 
         private void Txt_Alt_Mobile_Validating(object sender, CancelEventArgs e)
         {
-            if (!_Validator.ValidatePhoneNumber(Txt_Alt_Mobile.Text))
+            if (_Validator.ValidatePhoneNumber(Txt_Alt_Mobile.Text))
             {
                 errorProvider.SetError(Txt_Alt_Mobile, "");
             }

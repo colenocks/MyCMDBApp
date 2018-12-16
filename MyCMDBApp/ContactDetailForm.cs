@@ -26,6 +26,7 @@ namespace MyCMDBApp
 
         private List<Alert> Contact_Alerts_List = new List<Alert>();
         DB_Validator _Validator = new DB_Validator();
+
         public ContactDetailForm() { }
 
         public ContactDetailForm(string DbName, string DbPath, string name, string email, string mobile, string altMobile, string address, string notes, string username, string parentDir)
@@ -47,11 +48,25 @@ namespace MyCMDBApp
             userName = username;
             userParentDirectory = parentDir;
             contactName = name;
+        }
 
+        private void ContactDetailForm_Load(object sender, EventArgs e)
+        {
             //Load alert lists if any
-            LoadAlertList();
-            //declare alert status
-            Lbl_Alert_Status.Text = "No alerts";
+            LoadAlertList(contactName, Contact_Alerts_List);
+            
+
+            if(Contact_Alerts_List.Count == 0)
+            {
+                //declare alert status
+                Lbl_Alert_Status.Text = "No alerts";
+            }
+            else
+            {
+                Lbl_Alert_Status.Text = Contact_Alerts_List.Count.ToString();
+                listBox_Alerts.DataSource = Contact_Alerts_List;
+                listBox_Alerts.DisplayMember = "DisplayName";
+            }
         }
 
         private void Btn_Delete_Click(object sender, EventArgs e)
@@ -111,32 +126,40 @@ namespace MyCMDBApp
             }
         }
 
-        private void LoadAlertList()
+        public void LoadAlertList(string Tag, List<Alert> list)
         {
             DB_Handler _Handler = new DB_Handler();
-            //Load the CMA_Users xml file and retrieve alert path
+
+            //Load the CMA_Users.xml file and retrieve alert path
             XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(Path.GetFullPath(_Handler.CMA_ALL_USERS_FILE));
-            
-            foreach (XmlNode node in xmlDocument.SelectNodes("allusers/user"))
+            if (Directory.Exists(_Handler.CMA_ALL_USERS_FOLDER))
             {
-                if(node.SelectSingleNode("username").InnerText == userName)
+                string allusersfile = Path.Combine(_Handler.CMA_ALL_USERS_FOLDER, "CMA_Users.xml");
+                if (File.Exists(allusersfile))
                 {
-                   if(node.SelectSingleNode("alert_path") != null)
+                    xmlDocument.Load(Path.GetFullPath(allusersfile));
+            
+                    foreach (XmlNode node in xmlDocument.SelectNodes("allusers/user"))
                     {
-                        userAlertFilePath = node.SelectSingleNode("alert_path").InnerText;
+                        if(node.SelectSingleNode("username").InnerText == userName)
+                        {
+                           if(node.SelectSingleNode("alert_path") != null)
+                            {
+                                userAlertFilePath = node.SelectSingleNode("alert_path").InnerText;
+                            }
+                        }
+                        xmlDocument.Save(Path.GetFullPath(allusersfile));
                     }
                 }
             }
-            xmlDocument.Save(Path.GetFullPath(_Handler.CMA_ALL_USERS_FILE));
             if (File.Exists(userAlertFilePath))
             {
                 //open up the retrieved alert path
                 xmlDocument.Load(Path.GetFullPath(userAlertFilePath));
                 Alert alerts = null;
                 string tag, title, date, time, reminder;
-                tag = contactDb_name;
-                foreach (XmlNode node in xmlDocument.SelectNodes($"alerts/{contactDb_name}_alert"))
+                tag = Tag;
+                foreach (XmlNode node in xmlDocument.SelectNodes($"alerts/{Tag}_alert"))
                 {
                     title = node.SelectSingleNode("title").InnerText;
                     date = node.SelectSingleNode("date").InnerText;
@@ -145,7 +168,7 @@ namespace MyCMDBApp
                     decimal.TryParse(reminder, out decimal _reminder);
 
                     alerts = new Alert(userName, tag, title, date, time, userAlertFilePath, _reminder);
-                    Contact_Alerts_List.Add(alerts);
+                    list.Add(alerts);
                 }
                 xmlDocument.Load(Path.GetFullPath(userAlertFilePath));
             }
@@ -213,7 +236,7 @@ namespace MyCMDBApp
 
         private void Txt_Alt_Mobile_Validating(object sender, CancelEventArgs e)
         {
-            if (!_Validator.ValidatePhoneNumber(Txt_Alt_Mobile.Text))
+            if (_Validator.ValidatePhoneNumber(Txt_Alt_Mobile.Text))
             {
                 errorProvider.SetError(Txt_Alt_Mobile, "");
             }

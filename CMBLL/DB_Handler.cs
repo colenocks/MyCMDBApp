@@ -11,10 +11,16 @@ namespace CMBLL
     {
         //Users List Folder -- This is created as the application starts
         public string CMA_ALL_USERS_FOLDER => Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\CMA_All_Users";
-        //this is created when a user registers
-        public string CMA_ALL_USERS_FILE => Path.Combine(CMA_ALL_USERS_FOLDER, "CMA_users.xml");
 
-        public List<Database> List_All_Databases = new List<Database>();
+        private string CMA_usersxmlfile="";
+        private List<Database> List_All_Databases = new List<Database>();
+
+        public DB_Handler() { }
+
+        public DB_Handler(string users)
+        {
+            CMA_usersxmlfile = users;
+        }
 
         public void CreateDatabase(Database database)
         {
@@ -52,6 +58,7 @@ namespace CMBLL
             //XmlNode XAlert = xmlDocument.CreateElement("alert");
 
             //fill nodes with text
+            XName.InnerText = contact.Name;
             foreach (XmlNode node in xmlDocument.SelectNodes($"{contact.Contact_Database}/contact"))//look for duplicate names in list of contacts
             {
                 if (node.SelectSingleNode("name").InnerText == contact.Name)
@@ -63,13 +70,12 @@ namespace CMBLL
                 {
                     XName.InnerText = contact.Name;
                 }
-                XEmail.InnerText = contact.Email;
-                XMobile.InnerText = contact.Mobile;
-                XAltMobile.InnerText = contact.Alternative_Mobile;
-                XAddress.InnerText = contact.Address;
-                XNote.InnerText = contact.Note;
-                //XAlert.InnerText = contact.
             }
+            XEmail.InnerText = contact.Email;
+            XMobile.InnerText = contact.Mobile;
+            XAltMobile.InnerText = contact.Alternative_Mobile;
+            XAddress.InnerText = contact.Address;
+            XNote.InnerText = contact.Note;
             //append unto the top contact element
             XTop.AppendChild(XName);
             XTop.AppendChild(XEmail);
@@ -179,7 +185,6 @@ namespace CMBLL
                     xmlwriter.WriteElementString("reminder", alert.Reminder.ToString());
                     xmlwriter.WriteEndElement();
                     xmlwriter.WriteEndElement();
-                    xmlwriter.Flush();
                     xmlwriter.Close();
                 }
                 else
@@ -206,17 +211,20 @@ namespace CMBLL
                     xDoc.DocumentElement.AppendChild(top);
                     xDoc.Save(alert.Alert_Path);
                 }
-
-                //save alert file path to CMA_users.xml
-                xDoc.Load(Path.GetFullPath(CMA_ALL_USERS_FILE));
-                foreach(XmlNode node in xDoc.SelectNodes("allusers/users"))
+                
+                if(File.Exists(CMA_usersxmlfile))
                 {
-                    if(node.SelectSingleNode("username").InnerText == alert.Alert_User)
+                    //save alert file path to CMA_users.xml
+                    xDoc.Load(Path.GetFullPath(CMA_usersxmlfile));
+                    foreach (XmlNode node in xDoc.SelectNodes("allusers/users"))
                     {
-                        node.SelectSingleNode("alert_path").InnerText = alert.Alert_Path;
+                        if (node.SelectSingleNode("username").InnerText == alert.Alert_User)
+                        {
+                            node.SelectSingleNode("alert_path").InnerText = alert.Alert_Path;
+                        }
                     }
+                    xDoc.Save(Path.GetFullPath(CMA_usersxmlfile));
                 }
-                xDoc.Save(Path.GetFullPath(CMA_ALL_USERS_FILE));
             }
         }
 
@@ -246,17 +254,17 @@ namespace CMBLL
         }
         
         //this method is called when a user registers
-        public void SaveUsersAccount(User user)
+        public void SaveUsersAccount(User user, string allusersfilepath)
         {
             //save user account into usersXmlFile 
-            if (!Directory.Exists(CMA_ALL_USERS_FOLDER))
-            {
-                Directory.CreateDirectory(CMA_ALL_USERS_FOLDER);
-            }
-            string allUsersFile = Path.Combine(CMA_ALL_USERS_FOLDER, CMA_ALL_USERS_FILE);
+            //if (!Directory.Exists(CMA_ALL_USERS_FOLDER))
+            //{
+            //    Directory.CreateDirectory(CMA_ALL_USERS_FOLDER);
+            //}
+            //string allUsersFile = Path.Combine(CMA_ALL_USERS_FOLDER, "CMA_Users.xml");
 
             //Check if the userXmlFile was created successfully on application startup
-            if (!File.Exists(allUsersFile))
+            if (!File.Exists(allusersfilepath))
             {
                 XmlWriterSettings settings = new XmlWriterSettings
                 {
@@ -265,7 +273,7 @@ namespace CMBLL
                 };
 
                 XmlWriter xmlwriter;//create and write to the file
-                xmlwriter = XmlWriter.Create(CMA_ALL_USERS_FILE, settings);
+                xmlwriter = XmlWriter.Create(allusersfilepath, settings);
                 xmlwriter.WriteStartDocument();
                 //
                 xmlwriter.WriteStartElement("allusers");
@@ -276,14 +284,13 @@ namespace CMBLL
                 xmlwriter.WriteEndElement();
                 xmlwriter.WriteEndElement();
                 //
-                xmlwriter.Flush();
                 xmlwriter.Close();
             }
             else
             {
                 // if the CMA_All_Users.xml file already exists, simply load it
                 XmlDocument xmlDocument = new XmlDocument();
-                xmlDocument.Load(Path.GetFullPath(CMA_ALL_USERS_FILE));
+                xmlDocument.Load(Path.GetFullPath(allusersfilepath));
 
                 XmlNode top = xmlDocument.CreateElement("user");
                 XmlNode Xusername = xmlDocument.CreateElement("username");
@@ -299,14 +306,13 @@ namespace CMBLL
                 top.AppendChild(XApath);
 
                 xmlDocument.DocumentElement.AppendChild(top);
-                xmlDocument.Save(Path.GetFullPath(CMA_ALL_USERS_FILE));
+                xmlDocument.Save(Path.GetFullPath(allusersfilepath));
             }
         }
-
-        //this method is called on sign in button click
+        
         public void CreateUserInfo(User user) //User class constructor B
         {
-            //on click of Register button
+            //on click of Register button/SignIn button
             //create an xml file with username as root element
             if (!File.Exists(user.UserFilePath))
             {

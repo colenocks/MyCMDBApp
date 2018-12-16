@@ -71,7 +71,7 @@
             this.Btn_Add_Alert.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Add_Alert.Name = "Btn_Add_Alert";
             this.Btn_Add_Alert.Size = new System.Drawing.Size(99, 45);
-            this.Btn_Add_Alert.TabIndex = 4;
+            this.Btn_Add_Alert.TabIndex = 6;
             this.Btn_Add_Alert.Text = "Add";
             this.Btn_Add_Alert.UseVisualStyleBackColor = true;
             this.Btn_Add_Alert.Click += new System.EventHandler(this.Btn_Add_Alert_Click);
@@ -83,7 +83,7 @@
             this.Btn_Save_Alert.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Save_Alert.Name = "Btn_Save_Alert";
             this.Btn_Save_Alert.Size = new System.Drawing.Size(92, 45);
-            this.Btn_Save_Alert.TabIndex = 4;
+            this.Btn_Save_Alert.TabIndex = 5;
             this.Btn_Save_Alert.Text = "Save";
             this.Btn_Save_Alert.UseVisualStyleBackColor = true;
             this.Btn_Save_Alert.Click += new System.EventHandler(this.Btn_Save_Alert_Click);
@@ -95,7 +95,7 @@
             this.Dtp_DateTime.Margin = new System.Windows.Forms.Padding(4);
             this.Dtp_DateTime.Name = "Dtp_DateTime";
             this.Dtp_DateTime.Size = new System.Drawing.Size(133, 26);
-            this.Dtp_DateTime.TabIndex = 6;
+            this.Dtp_DateTime.TabIndex = 3;
             // 
             // Lbl_DateTime
             // 
@@ -143,7 +143,7 @@
             this.numericUpDown1.Location = new System.Drawing.Point(159, 133);
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(56, 26);
-            this.numericUpDown1.TabIndex = 19;
+            this.numericUpDown1.TabIndex = 4;
             // 
             // Btn_Home
             // 

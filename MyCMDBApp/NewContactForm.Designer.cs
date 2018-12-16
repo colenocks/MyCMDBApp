@@ -86,7 +86,7 @@
             this.Txt_Notes.Multiline = true;
             this.Txt_Notes.Name = "Txt_Notes";
             this.Txt_Notes.Size = new System.Drawing.Size(275, 87);
-            this.Txt_Notes.TabIndex = 22;
+            this.Txt_Notes.TabIndex = 15;
             // 
             // Txt_Address
             // 
@@ -96,7 +96,7 @@
             this.Txt_Address.Multiline = true;
             this.Txt_Address.Name = "Txt_Address";
             this.Txt_Address.Size = new System.Drawing.Size(275, 58);
-            this.Txt_Address.TabIndex = 21;
+            this.Txt_Address.TabIndex = 14;
             // 
             // Txt_Alt_Mobile
             // 
@@ -105,7 +105,7 @@
             this.Txt_Alt_Mobile.Margin = new System.Windows.Forms.Padding(4);
             this.Txt_Alt_Mobile.Name = "Txt_Alt_Mobile";
             this.Txt_Alt_Mobile.Size = new System.Drawing.Size(275, 25);
-            this.Txt_Alt_Mobile.TabIndex = 20;
+            this.Txt_Alt_Mobile.TabIndex = 13;
             this.Txt_Alt_Mobile.Validating += new System.ComponentModel.CancelEventHandler(this.Txt_Alt_Mobile_Validating);
             // 
             // Txt_Mobile
@@ -115,7 +115,7 @@
             this.Txt_Mobile.Margin = new System.Windows.Forms.Padding(4);
             this.Txt_Mobile.Name = "Txt_Mobile";
             this.Txt_Mobile.Size = new System.Drawing.Size(275, 25);
-            this.Txt_Mobile.TabIndex = 19;
+            this.Txt_Mobile.TabIndex = 12;
             this.Txt_Mobile.Validating += new System.ComponentModel.CancelEventHandler(this.Txt_Mobile_Validating);
             // 
             // Btn_Add_Event
@@ -128,7 +128,7 @@
             this.Btn_Add_Event.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Add_Event.Name = "Btn_Add_Event";
             this.Btn_Add_Event.Size = new System.Drawing.Size(153, 46);
-            this.Btn_Add_Event.TabIndex = 14;
+            this.Btn_Add_Event.TabIndex = 16;
             this.Btn_Add_Event.Text = "Add Event/ Alert";
             this.Btn_Add_Event.UseVisualStyleBackColor = false;
             this.Btn_Add_Event.Click += new System.EventHandler(this.Btn_Add_Event_Click);
@@ -237,7 +237,7 @@
             this.Btn_Add.Margin = new System.Windows.Forms.Padding(4);
             this.Btn_Add.Name = "Btn_Add";
             this.Btn_Add.Size = new System.Drawing.Size(107, 46);
-            this.Btn_Add.TabIndex = 25;
+            this.Btn_Add.TabIndex = 17;
             this.Btn_Add.Text = "Add Contact";
             this.Btn_Add.UseVisualStyleBackColor = true;
             this.Btn_Add.Click += new System.EventHandler(this.Btn_Add_Click);

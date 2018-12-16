@@ -30,5 +30,10 @@ namespace CMEntities
             Alert_Tag = tag;
             Alert_Path = path;
         }
+
+        public string DisplayName
+        {
+            get{ return Title; }
+        }
     }
 }

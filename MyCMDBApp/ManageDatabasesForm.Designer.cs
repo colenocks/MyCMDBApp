@@ -47,6 +47,7 @@
             this.Btn_Clear = new System.Windows.Forms.Button();
             this.Btn_Add_New_Contact = new System.Windows.Forms.Button();
             this.Btn_Create_Alert = new System.Windows.Forms.Button();
+            this.Btn_View_All_Alerts = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.GrBox_ContactList.SuspendLayout();
             this.SuspendLayout();
@@ -260,6 +261,17 @@
             this.Btn_Create_Alert.UseVisualStyleBackColor = false;
             this.Btn_Create_Alert.Click += new System.EventHandler(this.Btn_Create_Alert_Click);
             // 
+            // Btn_View_All_Alerts
+            // 
+            this.Btn_View_All_Alerts.Font = new System.Drawing.Font("Constantia", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_View_All_Alerts.Location = new System.Drawing.Point(175, 443);
+            this.Btn_View_All_Alerts.Name = "Btn_View_All_Alerts";
+            this.Btn_View_All_Alerts.Size = new System.Drawing.Size(129, 40);
+            this.Btn_View_All_Alerts.TabIndex = 34;
+            this.Btn_View_All_Alerts.Text = "View db Alerts";
+            this.Btn_View_All_Alerts.UseVisualStyleBackColor = true;
+            this.Btn_View_All_Alerts.Click += new System.EventHandler(this.Btn_View_All_Alerts_Click);
+            // 
             // ManageDatabasesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -272,6 +284,7 @@
             this.Controls.Add(this.Rtb_Search);
             this.Controls.Add(this.GrBox_ContactList);
             this.Controls.Add(this.Btn_Select);
+            this.Controls.Add(this.Btn_View_All_Alerts);
             this.Controls.Add(this.Btn_Display);
             this.Controls.Add(this.ComboBox_Databases);
             this.Controls.Add(this.label2);
@@ -309,5 +322,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn moreInfoDataGridViewTextBoxColumn;
         private System.Windows.Forms.Button Btn_Add_New_Contact;
         private System.Windows.Forms.Button Btn_Create_Alert;
+        private System.Windows.Forms.Button Btn_View_All_Alerts;
     }
 }

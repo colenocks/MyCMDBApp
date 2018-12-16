@@ -73,11 +73,11 @@ namespace MyCMDBApp
             Close();
         }
 
-        private void Btn_Manage_Alerts_Click(object sender, EventArgs e)
+        private void Btn_View_Alerts_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Alerts Coming Soon");
-           
-        }
+            ViewAlertsForm viewAlerts = new ViewAlertsForm();
             
+            viewAlerts.ShowDialog();
+        }
     }
 }

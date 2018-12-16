@@ -33,7 +33,6 @@
             this.Btn_Add_Event = new System.Windows.Forms.Button();
             this.Lbl_Alert_Status = new System.Windows.Forms.Label();
             this.listBox_Alerts = new System.Windows.Forms.ListBox();
-            this.alertBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.Lbl_Alerts = new System.Windows.Forms.Label();
             this.Txt_Notes = new System.Windows.Forms.TextBox();
             this.Txt_Address = new System.Windows.Forms.TextBox();
@@ -57,7 +56,6 @@
             this.Btn_Back = new System.Windows.Forms.Button();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.GrBox_Contact_Form.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.alertBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
@@ -119,8 +117,6 @@
             // 
             // listBox_Alerts
             // 
-            this.listBox_Alerts.DataSource = this.alertBindingSource;
-            this.listBox_Alerts.DisplayMember = "Title";
             this.listBox_Alerts.FormattingEnabled = true;
             this.listBox_Alerts.ItemHeight = 15;
             this.listBox_Alerts.Location = new System.Drawing.Point(152, 282);
@@ -128,10 +124,6 @@
             this.listBox_Alerts.Size = new System.Drawing.Size(133, 79);
             this.listBox_Alerts.TabIndex = 24;
             this.listBox_Alerts.SelectedIndexChanged += new System.EventHandler(this.ListBox_Alerts_SelectedIndexChanged);
-            // 
-            // alertBindingSource
-            // 
-            this.alertBindingSource.DataSource = typeof(CMEntities.Alert);
             // 
             // Lbl_Alerts
             // 
@@ -389,9 +381,9 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ContactDetailForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Load += new System.EventHandler(this.ContactDetailForm_Load);
             this.GrBox_Contact_Form.ResumeLayout(false);
             this.GrBox_Contact_Form.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.alertBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
 
@@ -422,7 +414,6 @@
         private System.Windows.Forms.Button Btn_Back;
         private System.Windows.Forms.Button Btn_Edit_Alert;
         private System.Windows.Forms.Button Btn_Delete_Alert;
-        private System.Windows.Forms.BindingSource alertBindingSource;
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.Label Lbl_Alert_Status;
         private System.Windows.Forms.Button Btn_Add_Event;

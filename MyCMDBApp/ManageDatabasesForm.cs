@@ -23,7 +23,8 @@ namespace MyCMDBApp
 
         private string dbFilePath;
         private string dbFileName;
-        public List<Database> AllDatabases { get; private set; } = new List<Database>();
+        private List<Database> AllDatabases { get; set; } = new List<Database>();
+        private List<Alert> Database_Alerts_List { get; set; } = new List<Alert>();
 
         public ManageDatabasesForm() { }
 
@@ -131,6 +132,7 @@ namespace MyCMDBApp
         {
             DisplayContacts();
             Btn_Display.Enabled = false;
+            Btn_Select.Enabled = false;
         }
 
         private void Btn_Select_Click(object sender, EventArgs e)
@@ -258,7 +260,6 @@ namespace MyCMDBApp
             };
             contactDetail.Show(this);
             Hide();
-            
         }
 
         private void Btn_Add_New_Contact_Click(object sender, EventArgs e)
@@ -276,6 +277,7 @@ namespace MyCMDBApp
                     Tag = this //tag the next form with this form
                 };
                 newContactForm.Show(this);
+                Hide();
             }
             else
             {
@@ -295,11 +297,34 @@ namespace MyCMDBApp
                     Tag = this;
                 }
                 newAlert.Show(this);
+                Hide();
             }
             else
             {
                 MessageBox.Show("You must selcet a database first");
             }
+        }
+
+        private void Btn_View_All_Alerts_Click(object sender, EventArgs e)
+        {
+            if (!Btn_Select.Enabled || ComboBox_Databases.SelectedIndex >= 0)
+            {
+                int dbIndex = ComboBox_Databases.SelectedIndex;
+                string dbName = AllDatabases[dbIndex].Database_Name;
+
+                //Create instance of ccontactDetailform
+                ContactDetailForm detailForm = new ContactDetailForm();
+                detailForm.LoadAlertList(dbName, Database_Alerts_List);
+
+                //pass in loaded list
+                ViewAlertsForm viewAlerts = new ViewAlertsForm(Database_Alerts_List);
+                viewAlerts.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("You must selcet a database first");
+            }
+            
         }
     }
 }

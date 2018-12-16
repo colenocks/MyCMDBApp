@@ -36,7 +36,7 @@ namespace CMBLL
         public bool ValidatePhoneNumber(string number)
         {
             bool valid = false;
-            string pattern = "^(([0-9]{2,3})(-)([0-9]{5, 10}))$";
+            string pattern = "^([0-9]{2,3})(-)([0-9]{5,10})$";
 
             if (Regex.IsMatch(number, pattern) || string.IsNullOrEmpty(number))
             {

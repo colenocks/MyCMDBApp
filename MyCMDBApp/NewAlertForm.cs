@@ -74,8 +74,8 @@ namespace MyCMDBApp
         private void Btn_Add_Alert_Click(object sender, EventArgs e)
         {
             //re-enable fields for alerts
-            GrBox_AlertBox.Enabled = false;
-            Btn_Save_Alert.Enabled = false;
+            GrBox_AlertBox.Enabled = true;
+            Btn_Save_Alert.Enabled = true;
         }
     }
 }
